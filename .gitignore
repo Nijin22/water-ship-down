@@ -19,3 +19,9 @@ target
 tmp
 dist
 .cache
+/.target
+
+#Eclipse ignores
+.classpath
+.project
+.settings
