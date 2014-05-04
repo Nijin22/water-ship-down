@@ -1,0 +1,59 @@
+@main("Home"){
+
+  <section class="startGame jumbotron">
+    <div class="container">
+      <h1>Water Ship Down</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+
+      <div class="setUsername">
+        <p>First choose your username</p>
+        <p><input type="text" class="form-control" placeholder="Choose your username" required></p>
+        <!--<button type="button" class="btn btn-success btn-lg">start new game</button>-->
+        <a class="btn btn-success btn-lg sliding-link" href="/playing">start new game</a>
+        <a class="btn btn-success btn-lg sliding-link" href="#join">join a game</a>
+      </div>
+
+      <div class="goDownButton">
+        <a href="#join" class="sliding-link">OR</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="join" class="joinGame">
+    <div class="container">
+      <h2>Join a game</h2>
+      <h3>Click on an avaibalble player to join the match!</h3>
+      <div class="userlist">
+        <ul>
+          <li>username xyz</li>
+          <li>username xyz</li>
+          <li>username xyz</li>
+          <li>username xyz</li>
+          <li>username xyz</li>
+          <li>username xyz</li>
+          <li>username xyz</li>
+          <li>username xyz</li>
+          <li>username xyz</li>
+
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="instructions">
+
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 col-md-offset-4 text-center">
+          <img class="htwg_logo img-responsive" src='@routes.Assets.at("Images/HTWG_Logo_negativ.png")' alt="HTWG_Logo"/>
+               <p class="small">A Web-Technology-Project at Hochschule Konstanz Technik, Wirtschaft und Gestaltung - University of Applied Sciences</p>
+
+          <br><p class="small">&COPY; 2014 | Artur Bauer, Johannes Dangelmaier, Dennis Weber</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+}

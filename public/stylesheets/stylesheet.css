@@ -1,0 +1,340 @@
+/* 
+ * WATER SHIP DOWN - Webtechnolody - HTWG Konstanz
+ * (c)2014 - Artur Bauer, Johannes Dangelmaier, Dennis Weber
+ */
+
+
+/* GENERAL
+-------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', 'sans-serif';
+  background: url(/assets/images/water_edit.jpg) repeat-x #0081a0;
+}
+
+h1, h2, h3, h4 {
+  margin: 0;
+  padding: 0;
+}
+h1 {
+  margin-bottom: 15px;
+}
+h2 {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+h3 {
+  font-size: 24px;
+  color: #777;
+}
+
+/* CUSTOMIZE BOOTSTRAP
+-------------------------------------------------- */
+
+.btn-primary {
+  background-color: #0188a8;
+  border-color: #057893;
+}
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #057893;
+  border-color: #0e6f86;
+}
+.btn-primary:active,
+.btn-primary.active {
+  background-color: #057893;
+  border-color: #0e6f86;
+}
+.btn.disabled {
+  background-color: #057893;
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: .30;
+  filter: alpha(opacity=30);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+/* HEADER
+-------------------------------------------------- */
+.logo{
+
+}
+.navbar {
+  margin-bottom: 0;
+}
+
+/* FOOTER
+-------------------------------------------------- */
+footer {
+  background-color: #555;
+  color: #fff;
+  height: 320px;
+  padding: 90px 0;
+}
+.htwg_logo {
+  width: 200px;
+  margin: auto;
+  padding-bottom: 20px;
+}
+
+/* HOME :: StartGame
+-------------------------------------------------- */
+.startGame {
+  text-align: center;
+  background: none;
+  margin: 0 auto;
+  padding: 140px 0;
+}
+.jumbotron {
+  background: none;
+  color: #fff;
+  margin: auto;
+}
+.startGame .input-group {
+  max-width: 450px;
+} 
+.startGame input {
+  height: 40px;
+  max-width: 450px;
+  display: inline;
+}
+.setUsername {
+  margin: 60px 0 30px 0;
+}
+.goDownButton a {
+  padding: 15px;
+  font-size: 16px;
+  color: #fff;
+  border-radius: 30px;
+  border: 2px solid #fff;
+}
+.goDownButton a:hover {
+  text-decoration: none;
+  background-color: rgba(255,255,255,0.25);
+}
+
+
+/* HOME :: joinGame
+-------------------------------------------------- */
+.joinGame {
+  background: #fff;
+  min-height: 450px;
+  padding: 80px 0;
+  text-align: center;
+}
+.userlist {
+  max-width: 750px;
+  margin: auto;
+  margin-top: 50px;
+}
+.userlist > ul {
+  list-style: none;
+}
+.userlist > ul > li {
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+.userlist > ul > li:hover {
+  background-color: #f5f5f5;
+}
+.userlist > ul > li:last-child {
+  margin-bottom: 0;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+
+}
+.userlist > ul > li:first-child {
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+}
+
+/* HOME :: instructions
+-------------------------------------------------- */
+.instructions {
+  background-color: #e7e7e7;
+  height: 400px;
+}
+
+
+/* PLAY :: MAPS
+-------------------------------------------------- */
+.maps {
+  width: 100%;
+  position: relative;
+}
+.maps_inner {
+  margin-top: 15px;
+  position: relative;
+}
+.username {
+  min-width: 10px;
+  padding: 3px 15px;
+  margin-bottom: 10px;
+  color: #777;
+  line-height: 3;
+  vertical-align: baseline;
+  white-space: nowrap;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 10px;
+}
+.map {
+  margin: auto;
+  clear: both;
+  width: 400px;
+  height: 400px;
+}
+.maps .col-md-6 {
+  height: 100%;
+  position: relative;
+  text-align: center;
+}
+.map > ul {
+  list-style: none;
+  float: left;
+  width: 5.5%;
+  height: 5.5%
+}
+.map > ul > li {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #fff;
+}
+.map > ul > li:hover {
+  background: rgba(255,255,255,0.4);
+  cursor: pointer;
+}
+
+.ship, ship:hover {
+  background: rgba(255,255,255,0.8) !important;
+}
+.target, .target:hover {
+  background: #66A523 !important;
+}
+.hit, hit:hover {
+  background-color: #D9534F !important;
+}
+.missed, .missed:hover {
+  background-color: #0188a8 !important;
+}
+.disable {
+  cursor: not-allowed !important;
+}
+
+
+
+/* PLAY :: MESSAGES
+-------------------------------------------------- */
+.messages {
+  position: fixed;
+  width: 100%;
+  bottom: 150px;
+}
+.messages .alert {
+  width: 900px;
+  margin: auto;
+}
+
+/* PLAY :: CONTROL
+-------------------------------------------------- */
+.control {
+  background-color: #EFF2F3;
+  border-top: 1px solid;
+  border-color: #E7E7E7;
+  min-height: 120px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
+.control .col-md-3 {
+  padding: 5px 30px 10px 20px;
+  margin: 10px 0 20px 0;
+  height: 100px;
+  text-align: center;
+}
+
+/* HEALTH */
+.health_display {
+  width: 250px;
+  clear: both;
+}
+.health_display p {
+  float: left;
+  margin-bottom: 2px;
+  width: 95px;
+}
+.health_display .progress {
+  height: 16px;
+  margin: 0;
+  background-color: #fff;
+  box-shadow: none;
+}
+.health_display .progress-bar {
+  background-color: #0188a8;
+}
+
+/* MUNITION */
+.munition {
+  min-width: 10px;
+  padding: 3px 15px;
+  font-size: 40px;
+  font-weight: 700;
+  color: #FFF;
+  line-height: 1;
+  vertical-align: baseline;
+  white-space: nowrap;
+  text-align: center;
+  background-color: #999;
+  border-radius: 30px;
+}
+.margin-bottom-5px {
+  margin-bottom: 20px;
+}
+
+/* SPECIAL ACTIONS */
+.special_actions button {
+  height: 43px;
+  width: 43px;
+}
+.special_actions button .disabled {
+  cursor: not-allowed;
+  opacity: .10;
+  filter: alpha(opacity=10);
+}
+.special1 {
+  background: url(/assets/images/icons/2x.svg) #0188a8;
+}
+.special2 {
+  background: url(/assets/images/icons/controlledRocket.svg) #0188a8;
+}
+.special3 {
+  background: url(/assets/images/icons/protection.svg) #0188a8;
+}
+.special4 {
+  background: url(/assets/images/icons/radar.svg) #0188a8;
+}
+
+/* INFO BUTTONS */
+.info_button {
+  border: none;
+  background: none;
+}
+.glyphicon {
+  color: #888;
+}
+
