@@ -2,8 +2,13 @@ package model.java;
 
 public class Map {
 	private final int SIZE = 18; //Set in team meeting 2014-04-27 Probably better not to change...
+	private int id;
+	private String name;
+	
 	private MapField[][] map = new MapField[SIZE][SIZE];
-	public Map(){
+	public Map(int id, String name){
+		this.id = id;
+		this.name = name;
 		int counter_y = 0;
 		int counter_x = 0;
 		while (counter_y <= SIZE){

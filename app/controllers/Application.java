@@ -1,5 +1,6 @@
 package controllers;
 
+import model.java.Matches;
 import play.*;
 import play.mvc.*;
 
@@ -18,5 +19,12 @@ public class Application extends Controller {
     public static Result playing() {
        return ok(playing.render());
     }
+    
+    public static Result placeShips(String username) {
+    	//TODO: GET username auslesen + Uniquie ID erzeugen + session cookie setzen
+    	Matches matches = Matches.getInstance();
+    	
+        return ok(placeShips.render(username));
+     }
 
 }
