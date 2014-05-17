@@ -51,6 +51,9 @@ public class MapField {
 		return ship;
 	}
 	public void setShip(Ship ship) {
+		if (this.ship != null) {
+			throw new RuntimeException("ERROR/WARNING: Trying to set the ship on a map field where another ship is already present");
+		}
 		this.ship = ship;
 	}
 	public int getPosX() {

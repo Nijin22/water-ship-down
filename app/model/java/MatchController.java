@@ -2,7 +2,6 @@ package model.java;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class MatchController {
 	//BEGIN Singelton-Code, which makes sure this object exists only once while the server runs

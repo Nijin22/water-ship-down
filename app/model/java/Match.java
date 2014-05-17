@@ -17,6 +17,7 @@ public class Match {
 	public void addGuest(String username){
 		Map guest = new Map(false, username, this); //is guest
 		this.guest = guest;
+		//TODO: Inform the controller that a guest joined the game
 	}
 	
 	public boolean has2Players(){
