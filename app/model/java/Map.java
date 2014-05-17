@@ -1,5 +1,6 @@
 package model.java;
 
+import model.java.exceptions.ActionAlreadyUsedException;
 import model.java.exceptions.ShipAlreadyAddedException;
 import model.java.exceptions.ShipNotPlacableException;
 
@@ -9,12 +10,16 @@ public class Map {
 	private String name; //user name
 	private Match match; //the match this map belongs to
 	private ShipManager shipManager;
+	private ActionManager actionManager;
 	
 	private MapField[][] map = new MapField[SIZE][SIZE]; //First value is Y coordinates, second is X
 	public Map(boolean host, String name, Match match){
 		this.host = host;
 		this.name = name;
 		this.match = match;
+		actionManager = new ActionManager(this);
+		
+		//START creating map and setting the ships on it to "null"
 		int counter_y = 0;
 		int counter_x = 0;
 		while (counter_y < SIZE){
@@ -88,6 +93,8 @@ public class Map {
 	public MapField.Status getStatus(int x, int y){
 		return map[x][y].getStatus();
 	}
-	
+	public void useAction(ActionManager.Action action) throws ActionAlreadyUsedException{
+		actionManager.useAction(action);
+	}
 	
 }
