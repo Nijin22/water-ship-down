@@ -11,6 +11,7 @@ public class Map {
 	private Match match; //the match this map belongs to
 	private ShipManager shipManager;
 	private ActionManager actionManager;
+
 	
 	private MapField[][] map = new MapField[SIZE][SIZE]; //First value is Y coordinates, second is X
 	public Map(boolean host, String name, Match match){
@@ -93,8 +94,9 @@ public class Map {
 	public MapField.Status getStatus(int x, int y){
 		return map[x][y].getStatus();
 	}
-	public void useAction(ActionManager.Action action) throws ActionAlreadyUsedException{
-		actionManager.useAction(action);
+
+	public void executeChoices(RoundChoices choices){
+		//TODO: Implement actions + targets
 	}
 	
 }
