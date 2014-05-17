@@ -82,7 +82,12 @@ public class Map {
 			}
 			c_Y++;
 		}
-	}
 
+
+	}
+	public MapField.Status getStatus(int x, int y){
+		return map[x][y].getStatus();
+	}
+	
 	
 }

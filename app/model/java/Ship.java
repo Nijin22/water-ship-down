@@ -54,7 +54,7 @@ public class Ship {
 	}
 	
 	
-	private int PosX;
+	private int posX;
 	private int posY;
 	private Type type;
 	private Map map;
@@ -62,14 +62,14 @@ public class Ship {
 
 	
 	public Ship(int posX, int posY, Type type, Map map, Orientation orientation) {
-		PosX = posX;
+		this.posX = posX;
 		this.posY = posY;
 		this.type = type;
 		this.map = map;
 		this.orientation = orientation;
 	}
 	public int getPosX() {
-		return PosX;
+		return posX;
 	}
 	public int getPosY() {
 		return posY;
@@ -83,6 +83,21 @@ public class Ship {
 	public Orientation getOrientation() {
 		return orientation;
 	}
-	
-	//Healthpoints can be calculated by checking by checking which MapFields (with this ship) are still "Status.UNKNOWN"
+	public int getHealthpoints(){
+		//Iterates over the map and substracts 1 HP each time the MapField is marked as "HIT"
+		int healthPoints = getSizeX(type, orientation) * getSizeY(type, orientation);
+		int cX = posX;
+		int cY = posY;
+		while (cY < getSizeY(type, orientation)) {
+			while (cX < getSizeX(type, orientation)) {
+				if (map.getStatus(cX, cY) == MapField.Status.HIT) {
+					healthPoints--;
+				}
+				cX++;
+			}
+			cY++;
+		}
+		return healthPoints;
+		
+	}
 }

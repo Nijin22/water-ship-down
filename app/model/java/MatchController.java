@@ -30,8 +30,8 @@ public class MatchController {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Iterates over all IDs, checks if the corresponding match already has 2 players and if not adds it to the HashMap which is returned 
+	 * @return a HashMap consisting of MatchIDs and Matches which don't have 2 players.
 	 */
 	public HashMap<Integer, Match> getOpenMatches(){
 		HashMap<Integer, Match> openMatches = new HashMap<Integer, Match>();
