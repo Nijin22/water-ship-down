@@ -78,4 +78,32 @@ public class ShipManager {
 		return newShip;
 	}
 
+	
+	/**
+	 * 
+	 * @return the ammount of ships still alive (useful to display the amount of available shots)
+	 */
+	public int getAvailableShips(){
+		int availableShips = 0;
+		//Check if each ship has >0 HP and add 1 if it does.
+		if (carrier.getHealthpoints()>0) {
+			availableShips++;
+		}
+		if (battleShip.getHealthpoints()>0) {
+			availableShips++;
+		}
+		if (destroyer1.getHealthpoints()>0) {
+			availableShips++;
+		}
+		if (destroyer2.getHealthpoints()>0) {
+			availableShips++;
+		}
+		if (sub1.getHealthpoints()>0) {
+			availableShips++;
+		}
+		if (sub2.getHealthpoints()>0) {
+			availableShips++;
+		}
+		return availableShips;
+	}
 }

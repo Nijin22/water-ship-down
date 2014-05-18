@@ -32,6 +32,21 @@ public class ActionManager {
 	public boolean isGetHintAvailable() {
 		return getHintAvailable;
 	}
+	public boolean isActionAvailable(Action action){
+		switch (action) {
+		case ALL_SHOTS_HIT:
+			return isAllShotsHitAvailable();
+		case ENEMY_PASSES:
+			return isEnemyPassesAvailable();
+		case FIRE_TWICE:
+			return isFireTwiceAvailable();
+		case GET_HINT:
+			return isGetHintAvailable();
+		default:
+			//This should never happen (Unless the IDE of a developer is not set up correctly)
+			throw new RuntimeException("Attempting to check if Action is available on a action which does not exist.");
+		}
+	}
 	
 	/**
 	 * Sets the action as used or throws an ActionAlreadyUsedException if action was used already

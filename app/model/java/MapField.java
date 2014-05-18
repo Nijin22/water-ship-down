@@ -8,7 +8,7 @@ public class MapField {
 	 * Information the enemy has against the owner of this field.
 	 */
 	enum Status{
-		UNKNOWN, HIT, MISSED, POSSIBLE_SHIP_DETECTED //POSSIBLE_SHIP_DETECTED is used if the special action "GET_HINT" was used
+		UNKNOWN, HIT, MISSED
 	}
 	
 	private Status status;
