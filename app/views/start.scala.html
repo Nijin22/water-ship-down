@@ -1,3 +1,4 @@
+@(openMatches: Map[Integer, model.java.Match])
 @main("Home"){
 
   <section class="startGame jumbotron">
@@ -7,41 +8,24 @@
 
       <div class="setUsername">
         <p>First choose your username</p>
-        <p><input type="text" class="form-control" placeholder="Choose your username" required></p>
-        <!--<button type="button" class="btn btn-success btn-lg">start new game</button>-->
-        <a class="btn btn-success btn-lg sliding-link" href="/playing">start new game</a>
-        <a class="btn btn-success btn-lg sliding-link" href="#join">join a game</a>
+        <form action="createGame" method="get">
+  		<p><input id="usernameInput" type="text" class="form-control" placeholder="Choose your username" required name="username"></p>
+  		<input class="btn btn-success btn-lg" type="submit" value="create a game">
+  		<a class="btn btn-success btn-lg sliding-link" href="#join">join a game</a>
+  		</form>
       </div>
     </div>
-  </section>
-  
-  <section class="row">
-  	<div class="col-md-6">
-  		Create Game
-  		<form action="createGame" method="get">
-  		<input type="text" name="username">
-  		<input type="submit" value="Abschicken">
-  		</form>
-  	</div>
-  	<div class="col-md-6">bbb</div>
   </section>
 
   <section id="join" class="joinGame">
     <div class="container">
       <h2>Join a game</h2>
-      <h3>Click on an avaibalble player to join the match!</h3>
+      <h3>Click on an available player to join the match!</h3>
       <div class="userlist">
         <ul>
-          <li>username xyz</li>
-          <li>username xyz</li>
-          <li>username xyz</li>
-          <li>username xyz</li>
-          <li>username xyz</li>
-          <li>username xyz</li>
-          <li>username xyz</li>
-          <li>username xyz</li>
-          <li>username xyz</li>
-
+			@for(key <- openMatches.keySet()){
+			<li onclick="location.href='/joinGame?username=' + $('#usernameInput').val() + '&matchID=@key.toString()';">@openMatches.get(key).getHost().getName()</li>
+			}
         </ul>
       </div>
     </div>

@@ -20,6 +20,7 @@ public class Match {
 		this.id = id;
 		Map host = new Map(true, username, this); // is host
 		this.host = host;
+		
 	}
 
 	/**

@@ -1,5 +1,8 @@
 package controllers;
 
+import java.util.HashMap;
+import java.util.Iterator;
+
 import model.java.Map;
 import model.java.Match;
 import model.java.MatchController;
@@ -10,12 +13,19 @@ import views.html.*;
 
 public class Application extends Controller {
 
-    public static Result index() {
-       return ok(index.render("Your new application is ready."));
-    }
     
     public static Result start() {
-       return ok(start.render());
+    	MatchController matchController = MatchController.getInstance();
+    	HashMap<Integer, Match> openMatches = matchController.getOpenMatches();
+    	//System.out.println(openMatches.toString());
+    	return ok(start.render(openMatches));
+    }
+    
+    public static Result joinGame(String username, String matchID){
+    	MatchController matchController = MatchController.getInstance();
+    	Match match = matchController.getMatchByID(Integer.parseInt(matchID));
+    	match.addGuest(username);
+    	return redirect("/playing"); //TODO: Auf place ships schicken
     }
     
     public static Result playing() {

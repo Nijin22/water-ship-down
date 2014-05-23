@@ -2,15 +2,16 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-#GET     /                           controllers.Application.index()
-
-GET     /                           controllers.Application.start()
-GET     /playing                    controllers.Application.playing()
-
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
-GET		/createGame					controllers.Application.createGame(username)
+# Home page
+GET     /                           controllers.Application.start()
 
+# Create or join game
+GET		/createGame					controllers.Application.createGame(username)
+GET		/joinGame					controllers.Application.joinGame(username, matchID)
+
+# tests / mockups
+GET     /playing                    controllers.Application.playing()
 GET		/debug						controllers.Application.debug()

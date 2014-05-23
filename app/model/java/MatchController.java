@@ -23,7 +23,7 @@ public class MatchController {
 		return currentMatches.keySet();
 	}
 	
-	public static int addMatch(String userNameHost){
+	public int addMatch(String userNameHost){
 		lastAddedMatchID++;
 		Match match = new Match(userNameHost, lastAddedMatchID);
 		currentMatches.put(lastAddedMatchID, match);
@@ -46,4 +46,8 @@ public class MatchController {
 		return openMatches;
 	}
 	
+	public Match getMatchByID(int id){
+		Integer integer = new Integer(id);
+		return currentMatches.get(integer);
+	}
 }
