@@ -9,13 +9,15 @@ public class Match {
 	private Map guest;
 	private RoundChoices choiceHost = null;
 	private RoundChoices choiceGuest = null;
+	private int id;
 
 	/**
 	 * 
 	 * @param username
 	 *            Username of host
 	 */
-	public Match(String username) {
+	public Match(String username, int id) {
+		this.id = id;
 		Map host = new Map(true, username, this); // is host
 		this.host = host;
 	}
@@ -70,6 +72,10 @@ public class Match {
 
 	public Map getGuest() {
 		return guest;
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	/**

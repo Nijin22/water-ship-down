@@ -23,8 +23,9 @@ public class MatchController {
 		return currentMatches.keySet();
 	}
 	
-	public static int addMatch(Match match){
+	public static int addMatch(String userNameHost){
 		lastAddedMatchID++;
+		Match match = new Match(userNameHost, lastAddedMatchID);
 		currentMatches.put(lastAddedMatchID, match);
 		return lastAddedMatchID;
 	}

@@ -23,9 +23,8 @@ public class Application extends Controller {
     }
     
     public static Result createGame(String username){
-    	Match myMatch = new Match(username);
     	MatchController matchController = MatchController.getInstance();
-    	int matchID = matchController.addMatch(myMatch);
+    	int matchID = matchController.addMatch(username);
     	
     	
     	session("matchID", Integer.toString(matchID)); //Save the unique match ID to a session cookie.
