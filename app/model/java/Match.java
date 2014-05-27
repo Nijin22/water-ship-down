@@ -1,10 +1,16 @@
 package model.java;
 
+import java.util.Collection;
+import java.util.HashSet;
+
+import controllers.IObservable;
+import controllers.IObserver;
 import model.java.ActionManager.Action;
 import model.java.exceptions.ActionAlreadyUsedException;
 import model.java.exceptions.NoUnshotShipOnMapException;
 
-public class Match {
+public class Match implements IObservable {
+	private Collection<IObserver> observers = new HashSet<IObserver>();
 	private Map host;
 	private Map guest;
 	private RoundChoices choiceHost = null;
@@ -119,6 +125,24 @@ public class Match {
 			guest.setActionAsUsed(Action.GET_HINT);
 			host.doActionGetHint();
 		}
+	}
+
+	@Override
+	public void addObserver(IObserver o) {
+		observers.add(o);		
+	}
+
+	@Override
+	public void removeObserver(IObserver o) {
+		observers.remove(o);
+	}
+
+	@Override
+	public void notifyObservers() {
+		for (IObserver observer : observers) {
+			observer.update(IObserver.WHAT_TO_UPDATE.OTHER_PLAYER_JOINED);
+		}
+		
 	}
 
 }

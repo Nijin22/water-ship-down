@@ -3,6 +3,8 @@ package controllers;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import com.gargoylesoftware.htmlunit.javascript.host.WebSocket;
+
 import model.java.Map;
 import model.java.Match;
 import model.java.MatchController;
@@ -11,7 +13,7 @@ import play.mvc.*;
 
 import views.html.*;
 
-public class Application extends Controller {
+public class Application extends Controller implements IObserver{
 
     
     public static Result start() {
@@ -25,6 +27,10 @@ public class Application extends Controller {
     	MatchController matchController = MatchController.getInstance();
     	Match match = matchController.getMatchByID(Integer.parseInt(matchID));
     	match.addGuest(username);
+    	
+    	session("matchID", matchID); //Save the unique match ID to a session cookie.
+    	session("isHost", "false"); //To identify whether the user is host or guest, we set this session cookie.
+    	
     	return redirect("/playing"); //TODO: Auf place ships schicken
     }
     
@@ -47,13 +53,20 @@ public class Application extends Controller {
     public static Result debug(){
     	return ok(debug.render(session("matchID"), session("isHost")));
     }
+
+	@Override
+	public void update(WHAT_TO_UPDATE wtu) {
+		// TODO Implement this method
+		switch (wtu) {
+		case GAME_IS_FINISHED:
+			break;
+		case OTHER_PLAYER_JOINED:
+			
+			break;
+		case ROUND_IS_FINISHED:
+			break;
+		}		
+	}
     
-    
-//    public static Result placeShips(String username) {
-//    	//TODO: GET username auslesen + Uniquie ID erzeugen + session cookie setzen
-//    	MatchController matches = MatchController.getInstance();
-//    	
-//        return ok(placeShips.render(username));
-//     }
 
 }
