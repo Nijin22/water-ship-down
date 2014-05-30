@@ -3,8 +3,6 @@ package controllers;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import com.gargoylesoftware.htmlunit.javascript.host.WebSocket;
-
 import model.java.Map;
 import model.java.Match;
 import model.java.MatchController;
