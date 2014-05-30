@@ -104,7 +104,7 @@ footer {
 .startGame .input-group {
   max-width: 450px;
 } 
-.startGame input {
+#usernameInput {
   height: 40px;
   max-width: 450px;
   display: inline;
