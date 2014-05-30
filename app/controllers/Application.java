@@ -1,18 +1,13 @@
 package controllers;
 
 import java.util.HashMap;
-import java.util.Iterator;
-
-import model.java.Map;
 import model.java.Match;
 import model.java.MatchController;
-import play.*;
 import play.mvc.*;
-
 import views.html.*;
 
-public class Application extends Controller implements IObserver{
-
+public class Application extends Controller{
+	private static HashMap<Integer, WebSocket.Out<String>> hostsWaitingForGuest = new HashMap<Integer, WebSocket.Out<String>>();
     
     public static Result start() {
     	MatchController matchController = MatchController.getInstance();
@@ -26,10 +21,24 @@ public class Application extends Controller implements IObserver{
     	Match match = matchController.getMatchByID(Integer.parseInt(matchID));
     	match.addGuest(username);
     	
+    	//Inform the host player that a guest has joined
+    	WebSocket.Out<String> wsHost = hostsWaitingForGuest.get(new Integer(matchID));
+    	if (wsHost == null) {
+			//Game is not waiting for another player anymore
+    		return redirect("/"); //Tell him to get back to homepage
+		}
+    	wsHost.write("OTHER PLAYER JOINED");
+    	wsHost.close(); //Close WebSocket
+    	hostsWaitingForGuest.remove(new Integer(matchID)); //Remove host from list of webSockets
+    	
     	session("matchID", matchID); //Save the unique match ID to a session cookie.
     	session("isHost", "false"); //To identify whether the user is host or guest, we set this session cookie.
     	
-    	return redirect("/playing"); //TODO: Auf place ships schicken
+    	return redirect("/placeShips");
+    }
+    
+    public static Result placeShips(){
+    	return ok(placeShips.render());
     }
     
     public static Result playing() {
@@ -48,23 +57,23 @@ public class Application extends Controller implements IObserver{
     	
     }
     
+    // Websocket interface
+    public static WebSocket<String> wsToInformAboutSecondPlayer(){
+    	System.out.println("DEBUG: WebSocket wird erstellt");
+    	System.out.println("DEBUG: matchID: " + session("matchID"));
+        return new WebSocket<String>(){
+            private Integer matchID = new Integer(session("matchID")); //"cache" here so it's available within the onReady method.
+            // called when websocket handshake is done
+            public void onReady(WebSocket.In<String> in, WebSocket.Out<String> out){
+            		System.out.println("DEBUG: WebSocket wurde erstellt");
+            		
+            		//Add the user which created this websocket to the lists of hosts waiting
+                    hostsWaitingForGuest.put(matchID, out);
+            }
+        };   
+    } 
+    
     public static Result debug(){
     	return ok(debug.render(session("matchID"), session("isHost")));
     }
-
-	@Override
-	public void update(WHAT_TO_UPDATE wtu) {
-		// TODO Implement this method
-		switch (wtu) {
-		case GAME_IS_FINISHED:
-			break;
-		case OTHER_PLAYER_JOINED:
-			
-			break;
-		case ROUND_IS_FINISHED:
-			break;
-		}		
-	}
-    
-
 }

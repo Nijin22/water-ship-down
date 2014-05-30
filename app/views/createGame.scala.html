@@ -1,5 +1,27 @@
 @(username: String)
 @main("Waiting for other player"){
+	<script type="text/javascript">
+	$(function(){
+		//get websocket class, firefox has a different way to get it
+		var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
+		
+		//create the actual webSocket (get its URL via routes file from play framework)
+		var socket = new WS('@routes.Application.wsToInformAboutSecondPlayer().webSocketURL(request)');
+		
+		//define the function which handles messages send to this player.
+		var respondToWebSocket = function(event){
+			if (event.data == "OTHER PLAYER JOINED"){
+				alert("another player joined");
+				window.location.replace("./placeShips");
+			} else {
+				alert("unexpected message via websocket: " + event.data);
+			}
+		}
+		
+		//register previous function to the socket
+		socket.onmessage = respondToWebSocket;
+	});
+	</script>
 	<h1>You are currently waiting for another player.</h1>
 	<p>You are @username</p>
 }

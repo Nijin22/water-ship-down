@@ -10,7 +10,11 @@ GET     /                           controllers.Application.start()
 
 # Create or join game
 GET		/createGame					controllers.Application.createGame(username)
+GET		/createGameWebSocket		controllers.Application.wsToInformAboutSecondPlayer()
 GET		/joinGame					controllers.Application.joinGame(username, matchID)
+
+#Place ships
+GET		/placeShips					controllers.Application.placeShips()
 
 # tests / mockups
 GET     /playing                    controllers.Application.playing()
