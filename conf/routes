@@ -15,7 +15,10 @@ GET		/joinGame					controllers.Application.joinGame(username, matchID)
 
 #Place ships
 GET		/placeShips					controllers.Application.placeShips()
+GET		/placeShipsFailed			controllers.Application.placeShipsFailed()
+
+#Transmit coordinates to code which places the ship
+GET     /playing                    controllers.Application.playing(c_x,c_y,c_o,b_x,b_y,b_o,d1_x,d1_y,d1_o,d2_x,d2_y,d2_o,s1_x,s1_y,s1_o,s2_x,s2_y,s2_o)
 
 # tests / mockups
-GET     /playing                    controllers.Application.playing()
 GET		/debug						controllers.Application.debug()

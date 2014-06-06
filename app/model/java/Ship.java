@@ -2,10 +2,10 @@ package model.java;
 
 
 public class Ship {
-	enum Type {
+	public enum Type {
 		CARRIER, BATTLESHIP, DESTROYER, SUBMARINE
 	}
-	enum Orientation {
+	public enum Orientation {
 		HORIZONTAL, VERTICAL
 	}
 	/**

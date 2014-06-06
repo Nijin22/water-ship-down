@@ -3,6 +3,9 @@ package controllers;
 import java.util.HashMap;
 import model.java.Match;
 import model.java.MatchController;
+import model.java.Ship;
+import model.java.exceptions.ShipAlreadyAddedException;
+import model.java.exceptions.ShipNotPlacableException;
 import play.mvc.*;
 import views.html.*;
 
@@ -40,8 +43,46 @@ public class Application extends Controller{
     public static Result placeShips(){
     	return ok(placeShips.render());
     }
+    public static Result placeShipsFailed(){
+    	return ok(placeShipsFailed.render());
+    }
     
-    public static Result playing() {
+    public static Result playing(String c_x, String c_y, String c_o, String b_x, String b_y, String b_o, String d1_x, String d1_y, String d1_o, String d2_x, String d2_y, String d2_o, String s1_x, String s1_y, String s1_o, String s2_x, String s2_y, String s2_o) {
+    	//find map
+    	MatchController matchController = MatchController.getInstance();
+    	Match match = matchController.getMatchByID(Integer.parseInt(session("matchID")));
+    	model.java.Map map;
+    	if (session("isHost") == "true") {
+			map = match.getHost();
+		} else {
+			map = match.getGuest();
+		}    	
+    	
+    	//place the ships
+    	try {
+    		Ship.Orientation orientation = (c_o == "h" ? Ship.Orientation.HORIZONTAL : Ship.Orientation.VERTICAL);
+			map.addShip(Ship.Type.CARRIER, Integer.parseInt(c_x), Integer.parseInt(c_y), orientation);
+			
+			orientation = (b_o == "h" ? Ship.Orientation.HORIZONTAL : Ship.Orientation.VERTICAL);
+			map.addShip(Ship.Type.CARRIER, Integer.parseInt(b_x), Integer.parseInt(b_y), orientation);
+			
+			orientation = (d1_o == "h" ? Ship.Orientation.HORIZONTAL : Ship.Orientation.VERTICAL);
+			map.addShip(Ship.Type.CARRIER, Integer.parseInt(d1_x), Integer.parseInt(d1_y), orientation);
+			
+			orientation = (d2_o == "h" ? Ship.Orientation.HORIZONTAL : Ship.Orientation.VERTICAL);
+			map.addShip(Ship.Type.CARRIER, Integer.parseInt(d2_x), Integer.parseInt(d2_y), orientation);
+			
+			orientation = (s1_o == "h" ? Ship.Orientation.HORIZONTAL : Ship.Orientation.VERTICAL);
+			map.addShip(Ship.Type.CARRIER, Integer.parseInt(s1_x), Integer.parseInt(s1_y), orientation);
+			
+			orientation = (s2_o == "h" ? Ship.Orientation.HORIZONTAL : Ship.Orientation.VERTICAL);
+			map.addShip(Ship.Type.CARRIER, Integer.parseInt(s2_x), Integer.parseInt(s2_y), orientation);
+			
+		} catch (ShipAlreadyAddedException | ShipNotPlacableException e) {
+			return redirect("/placeShipsFailed");
+		}
+    	
+    	//TODO;;;;;
        return ok(playing.render());
     }
     

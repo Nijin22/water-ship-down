@@ -126,6 +126,12 @@ public class Map {
 		return host;
 	}
 	public void addShip(Ship.Type type, int posX, int posY, Ship.Orientation orientation) throws ShipAlreadyAddedException, ShipNotPlacableException{
+		
+		//TODO:
+		//Diese Methode verursacht Fehler und sollte wohl von Grund auf neu geschrieben werden.
+		
+		
+		System.out.println("DEBUG: X = " + posX);
 		if (posX < 0 || posY < 0 || Ship.getSizeX(type, orientation) > SIZE || Ship.getSizeY(type, orientation) > SIZE){
 			//Ship would be outside of map if it is placed here
 			throw new ShipNotPlacableException(ShipNotPlacableException.Reason.INDEXOUTOFBOUNDS);
@@ -142,9 +148,10 @@ public class Map {
 		int counter_X = posX-1;
 		if (counter_X > 0){counter_X--;}
 		//END Reading boundaries
-		
+		System.out.println("DEBUG: X = " + posX);
 		while (counter_Y < checkUntilY) { //Iterating over map fields to check if a ship is already placed within boundaries
 			while (counter_X < checkUntilX) {
+				System.out.println("DEBUG: Y: " + counter_Y + " X: " + counter_X);
 				if (map[counter_Y][counter_X].getShip() != null) {
 					//another ship is already placed in this location
 					throw new ShipNotPlacableException(ShipNotPlacableException.Reason.COLIDINGWITHOTHERSHIP);
