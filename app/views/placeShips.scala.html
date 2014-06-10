@@ -1,61 +1,460 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<h1>Place ship</h1>
-	<form action="playing" method="GET">
-		<div>
-			<h2>Carrier</h2>
-			X:<input name="c_x" type="number"><br> Y:<input
-				name="c_y" type="number"><br>
-			
-			Orientation:<input name="c_o" type="text"><br>
-		</div>
+@(user1: String)(user2: String)
+@mainPlaying("Place your Ships"){
 
-		<div>
-			<h2>Battleship</h2>
-			X:<input name="b_x" type="number"><br> Y:<input
-				name="b_y" type="number"><br>
-			
-			Orientation:<input name="b_o" type="text"><br>
-		</div>
-		
-		<div>
-			<h2>Destroyer</h2>
-			X:<input name="d1_x" type="number"><br> Y:<input
-				name="d1_y" type="number"><br>
-			
-			Orientation:<input name="d1_o" type="text"><br>
-		</div>
-		
-		<div>
-			<h2>Destroyer</h2>
-			X:<input name="d2_x" type="number"><br> Y:<input
-				name="d2_y" type="number"><br>
-			
-			Orientation:<input name="d2_o" type="text"><br>
-		</div>
-		
-		<div>
-			<h2>Submarine</h2>
-			X:<input name="s1_x" type="number"><br> Y:<input
-				name="s1_y" type="number"><br>
-			
-			Orientation:<input name="s1_o" type="text"><br>
-		</div>
-		
-		<div>
-			<h2>Submarine</h2>
-			X:<input name="s2_x" type="number"><br> Y:<input
-				name="s2_y" type="number"><br>
-			
-			Orientation:<input name="s2_o" type="text"><br>
-		</div>
-		
-		<input type="submit" value="Place ships">
-	</form>
-</body>
-</html>
+<script type="text/javascript">
+    // toggle orientation of ships
+    $(function(){
+        $('#toogleOrientationCarrier').click(function() {
+            $('#carrier_h').toggleClass('hidden');
+            $('#carrier_v').toggleClass('hidden');
+            getNumberOfPlacedShips()
+        });
+        $('#toogleOrientationBattleship').click(function() {
+            $('#battleship_h').toggleClass('hidden');
+            $('#battleship_v').toggleClass('hidden');
+            getNumberOfPlacedShips()
+        });
+        $('#toogleOrientationDestroyer1').click(function() {
+            $('#destroyer1_h').toggleClass('hidden');
+            $('#destroyer1_v').toggleClass('hidden');
+            getNumberOfPlacedShips()
+        });
+        $('#toogleOrientationDestroyer2').click(function() {
+            $('#destroyer2_h').toggleClass('hidden');
+            $('#destroyer2_v').toggleClass('hidden');
+            getNumberOfPlacedShips()
+        });
+        $('#toogleOrientationSubmarine1').click(function() {
+            $('#submarine1_h').toggleClass('hidden');
+            $('#submarine1_v').toggleClass('hidden');
+            getNumberOfPlacedShips()
+        });
+        $('#toogleOrientationSubmarine2').click(function() {
+            $('#submarine2_h').toggleClass('hidden');
+            $('#submarine2_v').toggleClass('hidden');
+            getNumberOfPlacedShips()
+        });
+
+    });
+
+
+    // drag n drop
+    function allowDrop(ev) {
+        // check if there is already a ship
+        if (!$(ev.target).hasClass('disallowDrop')) {
+            ev.preventDefault();
+        }
+    }
+    function drag(ev) {
+        ev.dataTransfer.setData("Text", ev.target.id);
+    }
+    function drop(ev) {
+        // check if dropzone accept and place ship 
+        if (!$(ev.target).hasClass('disallowDrop')) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("Text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+        getNumberOfPlacedShips();
+    }
+
+    function getNumberOfPlacedShips() {
+        var numberOfPlacedShips = 0;
+        var col = 1;
+        while (col <= 18) {
+            var row = 1;
+            while (row <= 18) {
+                var shipType = $('.map > ul:nth-child(' + col + ') > li:nth-child(' + row + ') > div').attr('id');
+                var choosenOrientaion = $('.map > ul:nth-child(' + col + ') > li:nth-child(' + row + ') > div').attr('class');
+                if (shipType == "carrier_h" || shipType == "carrier_v" || shipType == "battleship_h" || shipType == "battleship_v" || shipType == "destroyer1_h" || shipType == "destroyer1_v" || shipType == "destroyer2_h" || shipType == "destroyer2_v" || shipType == "submarine1_h" || shipType == "submarine1_v" || shipType == "submarine2_h" || shipType == "submarine2_v") {
+                    // filter ships placed in two orientations 
+                    if (choosenOrientaion == "shipToPlace") {
+                        numberOfPlacedShips++;
+                    }
+                }
+                row++;
+            }
+            col++;
+        }
+        // set number of ships to place
+        $('#numberOfShipsToPlace').text(numberOfPlacedShips + ' / 6');
+
+        // if all ships placed
+        if (numberOfPlacedShips >= 6) {
+            $('#go').removeClass('disable');
+            $('#go').removeClass('btn-danger');
+            $('#go').addClass('btn-success');
+        } else {
+            $('#go').addClass('disable');
+            $('#go').addClass('btn-danger');
+            $('#go').removeClass('btn-success');
+        }
+
+        return numberOfPlacedShips;
+
+    }
+
+    function getPositions() {
+        var positions = 'Positions: \n';
+        var col = 1;
+        while (col <= 18) {
+            var row = 1;
+            while (row <= 18) {
+                var shipType = $('.map > ul:nth-child(' + col + ') > li:nth-child(' + row + ') > div').attr('id');
+                var choosenOrientaion = $('.map > ul:nth-child(' + col + ') > li:nth-child(' + row + ') > div').attr('class');
+                if (shipType == "carrier_h" || shipType == "carrier_v" || shipType == "battleship_h" || shipType == "battleship_v" || shipType == "destroyer1_h" || shipType == "destroyer1_v" || shipType == "destroyer2_h" || shipType == "destroyer2_v" || shipType == "submarine1_h" || shipType == "submarine1_v" || shipType == "submarine2_h" || shipType == "submarine2_v") {
+                    // filter ships placed in two orientations 
+                    if (choosenOrientaion == "shipToPlace") {
+                        positions = positions + "Typ: " + shipType + " x:" + col + " y:" + row + " \n";
+                    }
+                }
+                row++;
+            }
+            col++;
+        }
+        return positions;
+    }
+
+    function sendPositions() {
+        if (getNumberOfPlacedShips() === 6) {
+            alert(getPositions());
+        }
+    }
+</script>
+
+<header>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><span class="logo">&nbsp;</span>Water Ship Down</a>
+            </div>
+            <div class="collapse navbar-collapse text-center">
+                <div class=usernames>
+                    <div class="avatar blue"><span class="glyphicon glyphicon-user blue"></span></div>
+                    <span>@user1</span>
+                </div>
+                <div class=usernames>
+                    <span>@user2</span>
+                    <div class="avatar red"><span class="glyphicon glyphicon-user red"></span></div>
+                </div>
+
+
+                <div class="navbar-right">
+                    <button type="button" class="btn btn-default navbar-btn">Help</button>
+                    <button type="button" class="btn btn-danger navbar-btn">Exit</button>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+<section class="maps maps_placeShips">
+    <div class="container maps_inner">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="map" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)">
+                    <ul><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+                    <ul><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+                    <ul><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+                    <ul><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+                    <ul><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+                    <ul><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+                    <ul><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+                    <ul><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+                    <ul><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+                    <ul><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+                    <ul><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+                    <ul><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+                    <ul><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+                    <ul><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+                    <ul><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+                    <ul><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+                    <ul><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+                    <ul><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+                </div>
+            </div>
+            <div class="col-md-6 sm-margin-top">
+                <div class="shipsBox">
+                    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                <div class="shipContainer">
+                                    <h3>Carrier 
+                                        <span class="label label-primary">
+                                            <img class="htwg_logo img-responsive" src='@routes.Assets.at("images/icons/healthPoints_white.svg")' alt="HealthPoints"/> 20
+                                        </span>
+                                    </h3>
+                                    <div class="shipInnerContainer">
+                                        <!-- Carrier horizontal -->
+                                        <div id="carrier_h" class="shipToPlace" draggable="true" ondragstart="drag(event)" >
+                                            <ul><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship2v"><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul> 
+                                        </div>
+                                        <!-- Carrier vertical -->
+                                        <div id="carrier_v" class="shipToPlace hidden" draggable="true" ondragstart="drag(event)" >
+                                            <ul class="ship1v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship2v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship3v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship4v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship5v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship6v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship7v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship8v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship9v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship10v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                        </div>
+                                    </div>
+                                    <!-- change orientation -->
+                                    <button id="toogleOrientationCarrier" type="button" class="btn btn-default toogleOrientation">
+                                        <span class="glyphicon glyphicon-refresh"></span> change orientation
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="shipContainer">
+                                    <h3>Battleship 
+                                        <span class="label label-primary">
+                                            <img class="htwg_logo img-responsive" src='@routes.Assets.at("images/icons/healthPoints_white.svg")' alt="HealthPoints"/> 10
+                                        </span>
+                                    </h3>
+                                    <div class="shipInnerContainer">
+                                        <!-- Battleship horizontal -->
+                                        <div id="battleship_h" class="shipToPlace" draggable="true" ondragstart="drag(event)" >
+                                            <ul><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship2v"><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul> 
+                                        </div>
+                                        <!-- Battleship vertical -->
+                                        <div id="battleship_v" class="shipToPlace hidden" draggable="true" ondragstart="drag(event)" >
+                                            <ul class="ship1v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship2v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship3v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship4v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship5v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                        </div>
+                                    </div>
+                                    <!-- change orientation -->
+                                    <button id="toogleOrientationBattleship" type="button" class="btn btn-default toogleOrientation">
+                                        <span class="glyphicon glyphicon-refresh"></span> change orientation
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="shipContainer">
+                                    <h3>Destroyer #1 
+                                        <span class="label label-primary">
+                                            <img class="htwg_logo img-responsive" src='@routes.Assets.at("images/icons/healthPoints_white.svg")' alt="HealthPoints"/> 5
+                                        </span>
+                                    </h3>
+                                    <div class="shipInnerContainer">
+                                        <!-- Destroyer1 horizontal -->
+                                        <div id="destroyer1_h" class="shipToPlace" draggable="true" ondragstart="drag(event)" >
+                                            <ul><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>             
+                                        </div>
+                                        <!-- Destroyer1 vertical -->
+                                        <div id="destroyer1_v" class="shipToPlace hidden" draggable="true" ondragstart="drag(event)" >
+                                            <ul class="ship1v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship2v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship3v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship4v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship5v"><li class="disallowDrop"></li></ul>
+                                        </div>
+                                    </div>
+                                    <!-- change orientation -->
+                                    <button id="toogleOrientationDestroyer1" type="button" class="btn btn-default toogleOrientation">
+                                        <span class="glyphicon glyphicon-refresh"></span> change orientation
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="shipContainer">
+                                    <h3>Destroyer #2 
+                                        <span class="label label-primary">
+                                            <img class="htwg_logo img-responsive" src='@routes.Assets.at("images/icons/healthPoints_white.svg")' alt="HealthPoints"/> 5
+                                        </span>
+                                    </h3>
+                                    <div class="shipInnerContainer">
+                                        <!-- Destroyer1 horizontal -->
+                                        <div id="destroyer2_h" class="shipToPlace" draggable="true" ondragstart="drag(event)" >
+                                            <ul><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>             
+                                        </div>
+                                        <!-- Destroyer1 vertical -->
+                                        <div id="destroyer2_v" class="shipToPlace hidden" draggable="true" ondragstart="drag(event)" >
+                                            <ul class="ship1v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship2v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship3v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship4v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship5v"><li class="disallowDrop"></li></ul>
+                                        </div>
+                                    </div>
+                                    <!-- change orientation -->
+                                    <button id="toogleOrientationDestroyer2" type="button" class="btn btn-default toogleOrientation">
+                                        <span class="glyphicon glyphicon-refresh"></span> change orientation
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="shipContainer">
+                                    <h3>Submarine #1 
+                                        <span class="label label-primary">
+                                            <img class="htwg_logo img-responsive" src='@routes.Assets.at("images/icons/healthPoints_white.svg")' alt="HealthPoints"/> 3
+                                        </span>
+                                    </h3>
+                                    <div class="shipInnerContainer">
+                                        <!-- Destroyer1 horizontal -->
+                                        <div id="submarine1_h" class="shipToPlace" draggable="true" ondragstart="drag(event)" >
+                                            <ul><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>             
+                                        </div>
+                                        <!-- Destroyer1 vertical -->
+                                        <div id="submarine1_v" class="shipToPlace hidden" draggable="true" ondragstart="drag(event)" >
+                                            <ul class="ship1v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship2v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship3v"><li class="disallowDrop"></li></ul>
+                                        </div>
+                                    </div>
+                                    <!-- change orientation -->
+                                    <button id="toogleOrientationSubmarine1" type="button" class="btn btn-default toogleOrientation">
+                                        <span class="glyphicon glyphicon-refresh"></span> change orientation
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="shipContainer">
+                                    <h3>Submarine #2 
+                                        <span class="label label-primary">
+                                            <img class="htwg_logo img-responsive" src='@routes.Assets.at("images/icons/healthPoints_white.svg")' alt="HealthPoints"/> 3
+                                        </span>
+                                    </h3>
+                                    <div class="shipInnerContainer">
+                                        <!-- Destroyer1 horizontal -->
+                                        <div id="submarine2_h" class="shipToPlace" draggable="true" ondragstart="drag(event)" >
+                                            <ul><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>             
+                                        </div>
+                                        <!-- Destroyer1 vertical -->
+                                        <div id="submarine2_v" class="shipToPlace hidden" draggable="true" ondragstart="drag(event)" >
+                                            <ul class="ship1v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship2v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship3v"><li class="disallowDrop"></li></ul>
+                                        </div>
+                                    </div>
+                                    <!-- change orientation -->
+                                    <button id="toogleOrientationSubmarine2" type="button" class="btn btn-default toogleOrientation">
+                                        <span class="glyphicon glyphicon-refresh"></span> change orientation
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+                        <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+                    </div><!-- /.carousel -->
+                </div>
+            </div>
+        </div>
+</section>
+
+<section class="control">
+    <div class="toggleControl">click to hide control bar</div>
+    <div class="controlToggleContainer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <p>ships to place</p>
+                    <span id="numberOfShipsToPlace">0 / 6</span>
+                </div>
+                <div class="col-md-4">
+                    <p>Are you ready?</p>
+                    <input id="go" class="btn btn-danger btn-lg disable" type="button" onclick="sendPositions()" value="start the match">
+                </div>
+                <div class="col-md-4 hidden">   
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="display:none">
+    <h1>Place ship</h1>
+    <form action="playing" method="GET">
+        <div>
+            <h2>Carrier</h2>
+            X:<input name="c_x" type="number"><br> Y:<input
+                name="c_y" type="number"><br>
+
+            Orientation:<input name="c_o" type="text"><br>
+        </div>
+
+        <div>
+            <h2>Battleship</h2>
+            X:<input name="b_x" type="number"><br> Y:<input
+                name="b_y" type="number"><br>
+
+            Orientation:<input name="b_o" type="text"><br>
+        </div>
+
+        <div>
+            <h2>Destroyer</h2>
+            X:<input name="d1_x" type="number"><br> Y:<input
+                name="d1_y" type="number"><br>
+
+            Orientation:<input name="d1_o" type="text"><br>
+        </div>
+
+        <div>
+            <h2>Destroyer</h2>
+            X:<input name="d2_x" type="number"><br> Y:<input
+                name="d2_y" type="number"><br>
+
+            Orientation:<input name="d2_o" type="text"><br>
+        </div>
+
+        <div>
+            <h2>Submarine</h2>
+            X:<input name="s1_x" type="number"><br> Y:<input
+                name="s1_y" type="number"><br>
+
+            Orientation:<input name="s1_o" type="text"><br>
+        </div>
+
+        <div>
+            <h2>Submarine</h2>
+            X:<input name="s2_x" type="number"><br> Y:<input
+                name="s2_y" type="number"><br>
+
+            Orientation:<input name="s2_o" type="text"><br>
+        </div>
+
+        <input type="submit" value="Place ships">
+    </form>
+</div>
+
+
+
+
+}
