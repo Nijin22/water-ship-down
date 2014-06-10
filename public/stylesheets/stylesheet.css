@@ -19,7 +19,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Open Sans', 'sans-serif';
-  background: url(/assets/images/water_edit.jpg) repeat-x #0081a0;
+  background: #0081a0 url(/assets/images/water_edit.jpg) no-repeat center top !important;
+  min-height: 450px;
 }
 
 h1, h2, h3, h4 {
@@ -64,6 +65,26 @@ h3 {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+.label-primary {
+  background-color: #0188a8;
+}
+.jumbotron {
+  background: none;
+  color: #fff;
+  margin: auto;
+}
+.blue, .blue a {
+  color: #0188a8 !important;
+  border-color: #0188a8;
+}
+.red, .red a {
+  color: #d9534f !important;
+  border-color: #d9534f;
+}
+.white, .white a {
+  color: #fff !important;
+  border-color: #fff;
+}
 
 /* HEADER
 -------------------------------------------------- */
@@ -72,6 +93,21 @@ h3 {
 }
 .navbar {
   margin-bottom: 0;
+}
+
+.usernames {
+  position: relative;
+  top: 15px;
+  display: inline;
+  margin: 0 35px;
+}
+
+.avatar {
+  background: #fff;
+  padding: 8px 9px;
+  display: inline;
+  border: 3px solid;
+  border-radius: 25px;
 }
 
 /* FOOTER
@@ -95,11 +131,6 @@ footer {
   background: none;
   margin: 0 auto;
   padding: 140px 0;
-}
-.jumbotron {
-  background: none;
-  color: #fff;
-  margin: auto;
 }
 .startGame .input-group {
   max-width: 450px;
@@ -133,6 +164,10 @@ footer {
   padding: 80px 0;
   text-align: center;
 }
+#refreshAvailableGames {
+  margin: 15px 0 0 0;
+}
+
 .userlist {
   max-width: 750px;
   margin: auto;
@@ -171,27 +206,70 @@ footer {
 }
 
 
-/* PLAY :: MAPS
+/* ALL :: CONTROL
+-------------------------------------------------- */
+.control {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
+
+.controlToggleContainer {
+  background-color: #EFF2F3;
+  border-top: 1px solid;
+  border-color: #E7E7E7;
+  min-height: 120px;
+}
+
+.toggleControl {
+  height: 15px;
+  background: #555;
+  cursor: pointer;
+  color: #999;
+  font-size: 11px;
+  text-align: center;
+}
+
+.toggleControl:hover {
+  color: #fff;
+}
+
+.toggleControlHidden:hover {
+  height: 25px;
+  color: #fff;
+}
+
+.control .col-md-4, .control .col-md-12 {
+  padding: 5px 30px 10px 20px;
+  margin: 10px 0 20px 0;
+  height: 100px;
+  text-align: center;
+}
+
+
+/* ALL :: MESSAGES
+-------------------------------------------------- */
+.messages {
+  position: fixed;
+  width: 100%;
+  bottom: 150px;
+}
+.messages .alert {
+  width: 900px;
+  margin: auto;
+}
+
+/* ALL :: MAPS
 -------------------------------------------------- */
 .maps {
   width: 100%;
   position: relative;
+  top: 10%;
 }
+
 .maps_inner {
   margin-top: 15px;
   position: relative;
-}
-.username {
-  min-width: 10px;
-  padding: 3px 15px;
-  margin-bottom: 10px;
-  color: #777;
-  line-height: 3;
-  vertical-align: baseline;
-  white-space: nowrap;
-  text-align: center;
-  background-color: #fff;
-  border-radius: 10px;
 }
 .map {
   margin: auto;
@@ -204,6 +282,16 @@ footer {
   position: relative;
   text-align: center;
 }
+.sm-margin-top {
+  margin-top: 35px;
+}
+
+@media (min-width: 992px) {
+  .sm-margin-top {
+    margin-top: 0;
+  }
+}
+
 .map > ul {
   list-style: none;
   float: left;
@@ -215,11 +303,191 @@ footer {
   height: 100%;
   border: 1px solid #fff;
 }
-.map > ul > li:hover {
+
+/* CREATEGAME :: Tic Tac Toe
+-------------------------------------------------- */
+
+.waiting {
+  min-height: 750px;
+}
+
+.waiting .jumbotron {
+  padding-top: 30px;
+}
+
+.ticTacToe {
+  margin-top: 50px;
+}
+
+.ticTacToe .btn {
+  font-size: 48px;
+}
+
+.ticTacToe  input {
+  width: 80px;
+  height: 80px;
+  margin: 5px;
+}
+
+
+/* PLACESHIPS :: Map + Container
+-------------------------------------------------- */
+
+.maps_placeShips {
+  min-height: 1135px;  
+}
+@media (min-width: 992px) {
+  .maps_placeShips {
+    min-height: 600px;
+  }
+}
+
+.shipsBox{
+  margin: auto;
+  clear: both;
+  width: 400px;
+  height: 400px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 10px;
+}
+.shipContainer {
+  padding-top: 30px;
+}
+.shipInnerContainer {
+  padding: 30px 90px;
+}
+.carousel {
+  height: 400px;
+  margin-bottom: 60px;
+  border: none;
+}
+.carousel-caption {
+  z-index: 10;
+}
+.carousel .item {
+  height: 400px;
+}
+.carousel-control.right, .carousel-control.left {
+  background: none;
+}
+.carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right, .carousel-control .icon-prev, .carousel-control .icon-next {
+  color: #fff; 
+}
+
+/* PLACESHIPS :: Ships
+-------------------------------------------------- */
+.shipToPlace{
+  position: absolute;
+}
+.shipToPlace > ul {
+  list-style: none;
+  float: left;
+  width: 22px;
+  height: 22px;
+}
+.shipToPlace > ul > li {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #fff;
+  background: rgba(255,255,255,0.8);
+}
+[draggable=true] {
+  cursor: move;
+}
+.ship2v {
+  position: absolute;
+  left: 22px;
+}
+.ship3v {
+  position: absolute;
+  left: 44px;
+}
+.ship4v {
+  position: absolute;
+  left: 66px;
+}
+.ship5v {
+  position: absolute;
+  left: 88px;
+}
+.ship6v {
+  position: absolute;
+  left: 110px;
+}
+.ship7v {
+  position: absolute;
+  left: 132px;
+}
+.ship8v {
+  position: absolute;
+  left: 154px;
+}
+.ship9v {
+  position: absolute;
+  left: 176px;
+}
+.ship10v {
+  position: absolute;
+  left: 198px;
+}
+.toogleOrientation {
+  position: relative;
+  top: 220px;
+}
+.shipsBox h3 {
+  color: #777;
+  background: #fff;
+  padding: 5px 0 8px 0;
+  font-weight: 400;
+}
+.shipsBox h3 img {
+  width: 18px;
+  display: inline;
+  padding: 0;
+}
+/* PLACESHIPS :: Control
+-------------------------------------------------- */
+#numberOfShipsToPlace {
+  min-width: 10px;
+  padding: 3px 15px;
+  font-size: 40px;
+  font-weight: 700;
+  color: #FFF;
+  line-height: 1;
+  vertical-align: baseline;
+  white-space: nowrap;
+  text-align: center;
+  background-color: #999;
+  border-radius: 30px;
+}
+
+/* PLAY :: MAPS
+-------------------------------------------------- */
+.maps_playing {
+  min-height: 1135px;  
+}
+@media (min-width: 992px) {
+  .maps_playing {
+    min-height: 600px;
+  }
+}
+
+.username {
+  min-width: 10px;
+  padding: 3px 15px;
+  margin-bottom: 10px;
+  color: #777;
+  line-height: 3;
+  vertical-align: baseline;
+  white-space: nowrap;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 10px;
+}
+.clickable > ul > li:hover {
   background: rgba(255,255,255,0.4);
   cursor: pointer;
 }
-
 .ship, ship:hover {
   background: rgba(255,255,255,0.8) !important;
 }
@@ -236,40 +504,11 @@ footer {
   cursor: not-allowed !important;
 }
 
-
-
-/* PLAY :: MESSAGES
--------------------------------------------------- */
-.messages {
-  position: fixed;
-  width: 100%;
-  bottom: 150px;
-}
-.messages .alert {
-  width: 900px;
-  margin: auto;
-}
-
 /* PLAY :: CONTROL
 -------------------------------------------------- */
-.control {
-  background-color: #EFF2F3;
-  border-top: 1px solid;
-  border-color: #E7E7E7;
-  min-height: 120px;
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-}
-.control .col-md-3 {
-  padding: 5px 30px 10px 20px;
-  margin: 10px 0 20px 0;
-  height: 100px;
-  text-align: center;
-}
 
 /* HEALTH */
-.health_display {
+/*.health_display {
   width: 250px;
   clear: both;
 }
@@ -286,7 +525,7 @@ footer {
 }
 .health_display .progress-bar {
   background-color: #0188a8;
-}
+}*/
 
 /* MUNITION */
 .munition {
