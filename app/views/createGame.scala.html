@@ -1,27 +1,264 @@
 @(username: String)
-@main("Waiting for other player"){
-	<script type="text/javascript">
-	$(function(){
-		//get websocket class, firefox has a different way to get it
-		var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
-		
-		//create the actual webSocket (get its URL via routes file from play framework)
-		var socket = new WS('@routes.Application.wsToInformAboutSecondPlayer().webSocketURL(request)');
-		
-		//define the function which handles messages send to this player.
-		var respondToWebSocket = function(event){
-			if (event.data == "OTHER PLAYER JOINED"){
-				alert("another player joined");
-				window.location.replace("./placeShips");
-			} else {
-				alert("unexpected message via websocket: " + event.data);
-			}
-		}
-		
-		//register previous function to the socket
-		socket.onmessage = respondToWebSocket;
-	});
-	</script>
-	<h1>You are currently waiting for another player.</h1>
-	<p>You are @username</p>
+@mainPlaying("Waiting for other player"){
+<script type="text/javascript">
+    $(function() {
+        //get websocket class, firefox has a different way to get it
+        var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
+
+        //create the actual webSocket (get its URL via routes file from play framework)
+        var socket = new WS('@routes.Application.wsToInformAboutSecondPlayer().webSocketURL(request)');
+
+        //define the function which handles messages send to this player.
+        var respondToWebSocket = function(event) {
+            var player = event.data;
+            alert("Player " + player + " joined");
+            window.location.replace("./placeShips?user1=" + "@username" + "&user2=" + player);
+        };
+
+        //register previous function to the socket
+        socket.onmessage = respondToWebSocket;
+    });
+</script>
+
+<header>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><span class="logo">&nbsp;</span>Water Ship Down</a>
+            </div>
+            <div class="collapse navbar-collapse text-center">
+                <div class=usernames>
+                    <div class="avatar blue"><span class="glyphicon glyphicon-user blue"></span></div>
+                    <span>@username</span>
+                </div>
+                <div class="navbar-right">
+                    <button type="button" class="btn btn-default navbar-btn">Help</button>
+                    <button type="button" class="btn btn-danger navbar-btn">Exit</button>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+
+
+<section class="waiting container jumbotron text-center">
+    <h1>Hey, @username!</h1>
+    <p>You are currently waiting for another player. Maybe you want to test your tactical skills?</p>
+   
+
+<script src="@routes.Assets.at("javascripts/TicTacToe.js")" type="text/javascript"></script>
+<div class="container ticTacToe">
+    <form name="tic">
+        <input class="btn btn-default" type="button" name="sqr1" class="tictac" value="     " onClick="if (document.tic.sqr1.value == '     ' && turn == 0 && mode == 1) {
+            document.tic.sqr1.value = ' X ';
+            sqr1T = 1;
+            turn = 1;
+            vari();
+            check();
+        } else if (document.tic.sqr1.value == '     ' && turn == 1 && mode == 2) {
+            document.tic.sqr1.value = ' X ';
+            sqr1T = 1;
+            turn = 0;
+            vari();
+            player1Check()
+        } else if (document.tic.sqr1.value == '     ' && turn == 0 && mode == 2) {
+            document.tic.sqr1.value = ' O ';
+            sqr1T = 1;
+            turn = 1;
+            vari();
+            player1Check()
+        }
+        drawCheck()">
+        <input class="btn btn-default" type="button" name="sqr2" class="tictac" value="     " onClick="if (document.tic.sqr2.value == '     ' && turn == 0 && mode == 1) {
+            document.tic.sqr2.value = ' X ';
+            sqr2T = 1;
+            turn = 1;
+            vari();
+            check();
+        } else if (document.tic.sqr2.value == '     ' && turn == 1 && mode == 2) {
+            document.tic.sqr2.value = ' X ';
+            sqr2T = 1;
+            turn = 0;
+            vari();
+            player1Check()
+        } else if (document.tic.sqr2.value == '     ' && turn == 0 && mode == 2) {
+            document.tic.sqr2.value = ' O ';
+            sqr2T = 1;
+            turn = 1;
+            vari();
+            player1Check()
+        }
+        drawCheck()">
+        <input class="btn btn-default" type="button" name="sqr3" class="tictac" value="     " onClick="if (document.tic.sqr3.value == '     ' && turn == 0 && mode == 1) {
+            document.tic.sqr3.value = ' X ';
+            sqr3T = 1;
+            turn = 1;
+            vari();
+            check();
+        } else if (document.tic.sqr3.value == '     ' && turn == 1 && mode == 2) {
+            document.tic.sqr3.value = ' X ';
+            sqr3T = 1;
+            turn = 0;
+            vari();
+            player1Check()
+        } else if (document.tic.sqr3.value == '     ' && turn == 0 && mode == 2) {
+            document.tic.sqr3.value = ' O ';
+            sqr3T = 1;
+            turn = 1;
+            vari();
+            player1Check()
+        }
+        drawCheck()"><br />
+        <input class="btn btn-default" type="button" name="sqr4" class="tictac" value="     " onClick="if (document.tic.sqr4.value == '     ' && turn == 0 && mode == 1) {
+            document.tic.sqr4.value = ' X ';
+            sqr4T = 1;
+            turn = 1;
+            vari();
+            check();
+        } else if (document.tic.sqr4.value == '     ' && turn == 1 && mode == 2) {
+            document.tic.sqr4.value = ' X ';
+            sqr4T = 1;
+            turn = 0;
+            vari();
+            player1Check()
+        } else if (document.tic.sqr4.value == '     ' && turn == 0 && mode == 2) {
+            document.tic.sqr4.value = ' O ';
+            sqr4T = 1;
+            turn = 1;
+            vari();
+            player1Check()
+        }
+        drawCheck()">
+        <input class="btn btn-default" type="button" name="sqr5" class="tictac" value="     " onClick="if (document.tic.sqr5.value == '     ' && turn == 0 && mode == 1) {
+            document.tic.sqr5.value = ' X ';
+            sqr5T = 1;
+            turn = 1;
+            vari();
+            check();
+        } else if (document.tic.sqr5.value == '     ' && turn == 1 && mode == 2) {
+            document.tic.sqr5.value = ' X ';
+            sqr5T = 1;
+            turn = 0;
+            vari();
+            player1Check()
+        } else if (document.tic.sqr5.value == '     ' && turn == 0 && mode == 2) {
+            document.tic.sqr5.value = ' O ';
+            sqr5T = 1;
+            turn = 1;
+            vari();
+            player1Check()
+        }
+        drawCheck()">
+        <input class="btn btn-default" type="button" name="sqr6" class="tictac" value="     " onClick="if (document.tic.sqr6.value == '     ' && turn == 0 && mode == 1) {
+            document.tic.sqr6.value = ' X ';
+            sqr6T = 1;
+            turn = 1;
+            vari();
+            check();
+        } else if (document.tic.sqr6.value == '     ' && turn == 1 && mode == 2) {
+            document.tic.sqr6.value = ' X ';
+            sqr6T = 1;
+            turn = 0;
+            vari();
+            player1Check()
+        } else if (document.tic.sqr6.value == '     ' && turn == 0 && mode == 2) {
+            document.tic.sqr6.value = ' O ';
+            sqr6T = 1;
+            turn = 1;
+            vari();
+            player1Check()
+        }
+        drawCheck()"><br />
+        <input class="btn btn-default" type="button" name="sqr7" class="tictac" value="     " onClick="if (document.tic.sqr7.value == '     ' && turn == 0 && mode == 1) {
+            document.tic.sqr7.value = ' X ';
+            sqr7T = 1;
+            turn = 1;
+            vari();
+            check();
+        } else if (document.tic.sqr7.value == '     ' && turn == 1 && mode == 2) {
+            document.tic.sqr7.value = ' X ';
+            sqr7T = 1;
+            turn = 0;
+            vari();
+            player1Check()
+        } else if (document.tic.sqr7.value == '     ' && turn == 0 && mode == 2) {
+            document.tic.sqr7.value = ' O ';
+            sqr7T = 1;
+            turn = 1;
+            vari();
+            player1Check()
+        }
+        drawCheck()">
+        <input class="btn btn-default" type="button" name="sqr8" class="tictac" value="     " onClick="if (document.tic.sqr8.value == '     ' && turn == 0 && mode == 1) {
+            document.tic.sqr8.value = ' X ';
+            sqr8T = 1;
+            turn = 1;
+            vari();
+            check();
+        } else if (document.tic.sqr8.value == '     ' && turn == 1 && mode == 2) {
+            document.tic.sqr8.value = ' X ';
+            sqr8T = 1;
+            turn = 0;
+            vari();
+            player1Check()
+        } else if (document.tic.sqr8.value == '     ' && turn == 0 && mode == 2) {
+            document.tic.sqr8.value = ' O ';
+            sqr8T = 1;
+            turn = 1;
+            vari();
+            player1Check()
+        }
+        drawCheck()">
+        <input class="btn btn-default" type="button" name="sqr9" class="tictac" value="     " onClick="if (document.tic.sqr9.value == '     ' && turn == 0 && mode == 1) {
+            document.tic.sqr9.value = ' X ';
+            sqr9T = 1;
+            turn = 1;
+            vari();
+            check();
+        } else if (document.tic.sqr9.value == '     ' && turn == 1 && mode == 2) {
+            document.tic.sqr9.value = ' X ';
+            sqr9T = 1;
+            turn = 0;
+            vari();
+            player1Check()
+        } else if (document.tic.sqr9.value == '     ' && turn == 0 && mode == 2) {
+            document.tic.sqr9.value = ' O ';
+            sqr9T = 1;
+            turn = 1;
+            vari();
+            player1Check()
+        }
+        drawCheck()">
+    </form>
+</div>
+<span>Source: <a href="http://www.javascriptkit.com/script/script2/tactoe.shtml" target="blank"><span class="glyphicon glyphicon-info-sign white"></span></a></span>
+</section>
+
+<section class="control">
+    <div class="toggleControl">click to hide control bar</div>
+    <div class="controlToggleContainer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>Sorry, but you have to wait!</p>
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 }
