@@ -6,7 +6,7 @@
 $('document').ready(function() {
 
   /* JSON
-  -------------------------------------------------- */
+   -------------------------------------------------- */
   var object = {
     "ships": {
       "coordinates": [
@@ -43,7 +43,7 @@ $('document').ready(function() {
 
 
   /* SET CSS-CLASSES IN MAPS
-  -------------------------------------------------- */
+   -------------------------------------------------- */
   var shipsCoord = object.ships.coordinates;
   for (coordinate in shipsCoord) {
     showShips(1, shipsCoord[coordinate].x, shipsCoord[coordinate].y);
@@ -72,12 +72,12 @@ $('document').ready(function() {
   }
   ;
   function showShips(map, row, col) {
-    $('#map' + map + ' > ul:nth-child(' + row + ') > li:nth-child(' + col + ')').addClass('ship disable');
+    $('#map' + map + ' > ul:nth-child(' + row + ') > li:nth-child(' + col + ')').addClass('ship');
   }
   ;
 
   /* toogle selected targets */
-  $('.map > ul > li').click(function() {
+  $('.clickable > ul > li').click(function() {
     if (!$(this).hasClass('disable')) {
       $(this).toggleClass('target');
     }
@@ -85,7 +85,7 @@ $('document').ready(function() {
 
 
   /* better GUI
-  -------------------------------------------------- */
+   -------------------------------------------------- */
 
   //bootstrap tooltip & popover
   $('.special_actions button').tooltip();
@@ -100,6 +100,21 @@ $('document').ready(function() {
     }, 500);
     return false;
   });
+
+  // toggle control
+  var controlHidden = false;
+  $(".toggleControl").click(function() {
+    $(".controlToggleContainer").toggle();
+    if (controlHidden) {
+      $(".toggleControl").text("click to hide control bar");
+      controlHidden = false;
+    } else {
+      $(".toggleControl").text("click to show control bar");
+      controlHidden = true;
+    }
+
+  });
+
 
 
 });
