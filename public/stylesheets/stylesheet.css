@@ -94,20 +94,31 @@ h3 {
 .navbar {
   margin-bottom: 0;
 }
-
 .usernames {
   position: relative;
   top: 15px;
   display: inline;
   margin: 0 35px;
 }
-
 .avatar {
   background: #fff;
   padding: 8px 9px;
   display: inline;
   border: 3px solid;
   border-radius: 25px;
+}
+.navbar-nav {
+  text-align: center;
+}
+.navbar-right {
+  text-align: center;
+  margin: 35px 0 10px 0;
+}
+@media (min-width: 768px) {
+  .navbar-right {
+    text-align: center;
+    margin: 0;
+  }
 }
 
 /* FOOTER
