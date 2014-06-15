@@ -16,6 +16,7 @@ GET		/joinGame					controllers.Application.joinGame(username, matchID)
 
 #Place ships
 GET		/placeShips					controllers.Application.placeShips(user1, user2)
+GET     /validateShipPosition       controllers.Application.validateShipPosition(shipType, x, y, orientation)
 GET		/placeShipsFailed			controllers.Application.placeShipsFailed()
 
 #Transmit coordinates to code which places the ship

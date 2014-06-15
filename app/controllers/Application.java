@@ -14,7 +14,7 @@ public class Application extends Controller{
 	private static HashMap<Integer, WebSocket.Out<String>> hostsWaitingForGuest = new HashMap<Integer, WebSocket.Out<String>>();
     
     
-    // TODO: ---> loadling list replaced by ajax
+    // TODO: ---> loadling list - replaced by ajax (überflüssig?)
     public static Result start() {
     	MatchController matchController = MatchController.getInstance();
     	HashMap<Integer, Match> openMatches = matchController.getOpenMatches();
@@ -22,7 +22,6 @@ public class Application extends Controller{
     	return ok(start.render(openMatches));
     }
     
-    // TODO: ---> replaced by ajax
     public static Result refreshAvailableGames() {
     	MatchController matchController = MatchController.getInstance();
     	HashMap<Integer, Match> openMatches = matchController.getOpenMatches();
@@ -42,8 +41,6 @@ public class Application extends Controller{
         
     	return ok(result);
     }
-    
-    
     
     public static Result joinGame(String username, String matchID){
     	MatchController matchController = MatchController.getInstance();
@@ -73,6 +70,19 @@ public class Application extends Controller{
     public static Result placeShips(String user1, String user2){
     	return ok(placeShips.render(user1,user2));
     }
+    
+    // TODO!!! validate positions!
+    public static Result validateShipPosition(String shipType, String x, String y, String orientation){
+      String valid = "true";
+      
+      if(Integer.parseInt(y) >= 10) {
+          valid = "false";
+      }
+     
+      return ok(valid);
+    }
+    
+    
     public static Result placeShipsFailed(){
     	return ok(placeShipsFailed.render());
     }

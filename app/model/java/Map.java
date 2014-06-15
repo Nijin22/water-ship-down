@@ -125,6 +125,23 @@ public class Map {
 	public boolean isHost(){
 		return host;
 	}
+    
+    
+    // TODO: soll korrekte Plazierung des Schiffs überpürfen!
+    public boolean validateShipPosition(Ship.Type type, int posX, int posY, Ship.Orientation orientation){
+      
+        return true;
+      
+      
+    }
+    
+    
+    
+    
+    
+    
+    
+    
 	public void addShip(Ship.Type type, int posX, int posY, Ship.Orientation orientation) throws ShipAlreadyAddedException, ShipNotPlacableException{
 		
 		//TODO:

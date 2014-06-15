@@ -261,12 +261,13 @@ footer {
 /* ALL :: MESSAGES
 -------------------------------------------------- */
 .messages {
-  position: fixed;
   width: 100%;
-  bottom: 150px;
+  position: relative;
+  bottom: 15px;
+  display: none;
 }
 .messages .alert {
-  width: 900px;
+  width: 60%;
   margin: auto;
 }
 
@@ -352,7 +353,6 @@ footer {
     min-height: 600px;
   }
 }
-
 .shipsBox{
   margin: auto;
   clear: both;
@@ -366,6 +366,17 @@ footer {
 }
 .shipInnerContainer {
   padding: 30px 90px;
+}
+.shipsBox h3 {
+  color: #777;
+  background: #fff;
+  padding: 5px 0 8px 0;
+  font-weight: 400;
+}
+.shipsBox h3 img {
+  width: 18px;
+  display: inline;
+  padding: 0;
 }
 .carousel {
   height: 400px;
@@ -383,6 +394,10 @@ footer {
 }
 .carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right, .carousel-control .icon-prev, .carousel-control .icon-next {
   color: #fff; 
+}
+.toogleOrientation {
+  position: relative;
+  top: 220px;
 }
 
 /* PLACESHIPS :: Ships
@@ -441,20 +456,14 @@ footer {
   position: absolute;
   left: 198px;
 }
-.toogleOrientation {
-  position: relative;
-  top: 220px;
+.validPosition > ul > li {
+  border: none;
 }
-.shipsBox h3 {
-  color: #777;
-  background: #fff;
-  padding: 5px 0 8px 0;
-  font-weight: 400;
+.invalidPosition > ul > li {
+  background-color: #D9534F !important;
 }
-.shipsBox h3 img {
-  width: 18px;
-  display: inline;
-  padding: 0;
+.invalidPosition > ul{
+  margin: -1px 0 0 -1px;
 }
 /* PLACESHIPS :: Control
 -------------------------------------------------- */
