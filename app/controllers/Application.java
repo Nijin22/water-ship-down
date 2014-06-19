@@ -135,6 +135,73 @@ public class Application extends Controller{
       return ok(playing.render());
     }
     
+    public static Result loadMaps(){
+    	MatchController matchController = MatchController.getInstance();
+  		Match match = matchController.getMatchByID(Integer.parseInt(session("matchID")));
+  		Map myMap;
+  		Map enemyMap;
+  		if (session("isHost").equals("true")) {
+  			myMap = match.getHost();
+  			enemyMap = match.getGuest();
+		} else {
+			enemyMap = match.getHost();
+			myMap = match.getGuest();
+		}
+  		int myShotsBase = myMap.getNumberShipsAlive();
+  		
+  		//Iterate over friendly fields
+  		String jsonFields = "";
+  		int y = 0;
+  		while (y < myMap.getSize()) {
+			int x = 0;
+			while (x < myMap.getSize()) {
+				//Now we have a single map field.
+				MapField field = myMap.getMapField(y, x);
+				String hasShip;
+				if (field.getShip()==null) {
+					hasShip = "false";
+				} else {
+					hasShip = "true";
+				}
+				jsonFields += "{"+
+						"\"y\":"+y+","+
+						"\"x\":"+x+","+
+						"\"status\":\""+field.getStatus().toString()+"\","+
+						"\"ship\":"+hasShip+""+
+						"},";
+				x++;
+			}
+			y++;
+		}
+  		jsonFields = jsonFields.substring(0, jsonFields.length() - 1);
+  		String jsonMyMap = "\"myMap\":{\"fields\":["+jsonFields+"]}";
+  		
+  		//Iterate over enemy fields
+  		jsonFields = "";
+  		y = 0;
+  		while (y < myMap.getSize()) {
+			int x = 0;
+			while (x < myMap.getSize()) {
+				//Now we have a single map field.
+				MapField field = myMap.getMapField(y, x);
+				jsonFields += "{"+
+						"\"y\":"+y+","+
+						"\"x\":"+x+","+
+						"\"status\":\""+field.getStatus().toString()+"\""+
+						"},";
+				x++;
+			}
+			y++;
+		}
+  		jsonFields = jsonFields.substring(0, jsonFields.length() - 1);
+  		String jsonEnemyMap = "\"enemyMap\":{\"fields\":["+jsonFields+"]}";  		
+  		
+  		//TODO: jsonSpecialActions füllen - ist momentan noch Platzhalter
+  		String jsonSpecialActions = "\"mySpecialActions\":{\"FIRE_TWICE\":"+myMap.sa_fire_twice+",\"THREE_BONUS_SHOTS\":"+myMap.sa_three_bonus_shots+",\"AUTO_ROCKET\":"+myMap.sa_auto_rocket+",\"ENEMY_PASSES\":"+myMap.sa_enemy_passes+"}";
+  		
+  		String json = "{"+jsonMyMap+","+jsonEnemyMap+","+jsonSpecialActions+","+"\"myShotsBase\":"+Integer.toString(myShotsBase)+"}";
+  		return ok(json);
+    }
     
     public static Result createGame(String username){
     	MatchController matchController = MatchController.getInstance();

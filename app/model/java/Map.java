@@ -1,6 +1,7 @@
 package model.java;
 
 
+import model.java.MapField.Status;
 import model.java.Ship.type;
 import model.java.exceptions.ShipNotPlacableException;
 import model.java.exceptions.ShipNotPlacableException.Reason;
@@ -19,6 +20,14 @@ public class Map {
 	private Ship sub1 = null;
 	private Ship sub2 = null;
 	
+	public boolean sa_fire_twice = true;
+	public boolean sa_three_bonus_shots = true;
+	public boolean sa_auto_rocket = true;
+	public boolean sa_enemy_passes = true;
+	
+	public int getSize(){
+		return SIZE;
+	}
 	public Ship getShipByType(type type){
 		switch (type) {
 		case CARRIER:
@@ -73,6 +82,24 @@ public class Map {
 	public MapField.Status getStatus(int x, int y){
 		return map[x][y].getStatus();
 	}
+	public String drawMap(){
+		String r = "";
+		int y = 0;
+		while (y < SIZE) {
+			int x = 0;
+			while (x < SIZE) {
+				if (getMapField(y, x).getShip() == null) {
+					r += "X";
+				} else {
+					r += " ";
+				}
+				x++;
+			}
+			r += "\n";
+			y++;
+		}
+		return r;
+	}
 	/**
 	 * Tries to place a new ship or replaces the old ship if it has been placed already
 	 * @param type
@@ -89,12 +116,37 @@ public class Map {
 		int bottomRightY = posY + Ship.getSizeY(type, orientation)-1; //-1 because our index starts with 0
 		int bottomRightX = posX + Ship.getSizeX(type, orientation)-1; //-1 because our index starts with 0
 		if (bottomRightX > SIZE-1 || bottomRightY > SIZE-1){
-			System.out.println("Placing @ (Y|X)" + posY + "|" + posX + " -------- bottomRightY: " + bottomRightY + " bottomRightX " + bottomRightX);
-			System.out.println("Orientation: " + orientation);
 			throw new ShipNotPlacableException(Reason.INDEXOUTOFBOUNDS);
 		}
 		
-		//TODO: Test for collission
+		//In case the ship was already place before, we need to reset the "old" MapFields
+		int c_y = 0;
+		while (c_y < SIZE-1) {
+			int c_x = 0;
+			while (c_x < SIZE-1) {
+				if (getMapField(c_y, c_x).getShip() != null) {
+					if (getMapField(c_y, c_x).getShip().getType() == type) {
+						getMapField(c_y, c_x).setShip(null);
+					}
+				}
+				c_x++;
+			}
+			c_y++;
+		}
+		
+		//Test for collision
+		c_y = posY;
+		while (c_y <= bottomRightY) {
+			int c_x = posX;
+			while (c_x <= bottomRightX) {
+				if (getMapField(c_y, c_x).getShip() != null) {
+					//ship already present on this location
+					throw new ShipNotPlacableException(Reason.COLIDINGWITHOTHERSHIP);
+				}
+				c_x++;
+			}
+			c_y++;
+		}
 		
 		
 		//Place the ship
@@ -123,19 +175,57 @@ public class Map {
 		}
 		
 		//set the appropriate MapFields
-		System.out.println();
-		System.out.println();
-		int c_y = posY;
+		c_y = posY;
 		while (c_y <= bottomRightY) {
 			int c_x = posX;
 			while (c_x <= bottomRightX) {
 				getMapField(c_y, c_x).setShip(getShipByType(type));
-				System.out.print((c_y+"|"+c_x+"- -"));
 				c_x++;
 			}
-			System.out.println();
 			c_y++;
 		}
-		
+		System.out.println(drawMap());
+	}
+	/**
+	 * Iterates over the map and adds 1 for every type which has one field not fired upon. Returns the sum
+	 * @return
+	 */
+	public int getNumberShipsAlive(){
+		int aCarrier = 0, aBattleship = 0, aDestroyer1 = 0, aDestroyer2 = 0, aSub1 = 0, aSub2 = 0; //1 if the ship hast at least one UNKNOWN mapfield
+		int y = 0;
+		while (y < SIZE-1) {
+			int x = 0;
+			while (x < SIZE-1) {
+				Ship ship = getMapField(y, x).getShip();
+				if (ship != null && getMapField(y, x).getStatus() == Status.UNKNOWN) {
+					//ship present on this field & field hasn't been hit
+					switch (ship.getType()) {
+					case BATTLESHIP:
+						aBattleship = 1;
+						break;
+					case CARRIER:
+						aCarrier = 1;
+						break;
+					case DESTROYER1:
+						aDestroyer1 = 1;
+						break;
+					case DESTROYER2:
+						aDestroyer2 = 1;
+						break;
+					case SUB1:
+						aSub1 = 1;
+						break;
+					case SUB2:
+						aSub2 = 1;
+						break;
+					default:
+						throw new RuntimeException("trying to use a non-existent ship type");
+					}
+				}
+				x++;
+			}
+			y++;
+		}
+		return aCarrier + aBattleship + aDestroyer1 + aDestroyer2 + aSub1 + aSub2;
 	}
 }

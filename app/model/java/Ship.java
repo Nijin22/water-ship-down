@@ -65,6 +65,12 @@ public class Ship {
 	private MapField topLeft;
 	private orientation orientation;
 	
+	public type getType(){
+		return type;
+	}
+	public orientation getOrientation() {
+		return orientation;
+	}
 	public Ship(type type, MapField topLeft, orientation o){
 		this.type = type;
 		this.topLeft = topLeft;

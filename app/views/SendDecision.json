@@ -1,0 +1,16 @@
+Beispiel für das json das ein client am ende der Runde schickt
+
+
+
+{
+	"action": "FIRE_TWICE", |||||||||||oder auch THREE_BONUS_SHOTS, AUTO_ROCKET, ENEMY_PASSES
+	"targets": [
+	{
+	"x":0, |||||||||| fangen bei 0 an (links oben)
+	"y":0,
+	},
+	{
+	... eventuell so viele wie es halt ziele gab
+	}
+	]
+}

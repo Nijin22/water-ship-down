@@ -18,7 +18,9 @@ GET		/joinGame					controllers.Application.joinGame(username, matchID)
 GET		/placeShips					controllers.Application.placeShips()
 GET     /validateShipPosition       controllers.Application.validateShipPosition(shipType, x, y, orientation)
 
+#Playing the actual game
 GET     /playing                    controllers.Application.playing()
+GET		/loadMaps					controllers.Application.loadMaps()
 
 # tests / mockups
 GET		/debug						controllers.Application.debug()

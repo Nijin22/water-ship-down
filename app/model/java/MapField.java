@@ -5,7 +5,7 @@ public class MapField {
 	/**
 	 * Information the enemy has against the owner of this field.
 	 */
-	enum Status{
+	public enum Status{
 		UNKNOWN, HIT, MISSED
 	}
 	
