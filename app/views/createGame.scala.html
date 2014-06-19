@@ -12,7 +12,7 @@
         var respondToWebSocket = function(event) {
             var player = event.data;
             alert("Player " + player + " joined");
-            window.location.replace("./placeShips?user1=" + "@username" + "&user2=" + player);
+            window.location.replace("./placeShips");
         };
 
         //register previous function to the socket
@@ -244,6 +244,9 @@
 </section>
 
 <section class="control">
+	
+	<div class="messages"></div>
+
     <div class="toggleControl">click to hide control bar</div>
     <div class="controlToggleContainer">
         <div class="container">

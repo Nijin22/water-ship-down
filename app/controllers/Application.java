@@ -1,12 +1,9 @@
 package controllers;
 
-import java.util.HashMap;
-import model.java.Match;
-import model.java.MatchController;
-import model.java.Ship;
-import model.java.Map;
-import model.java.exceptions.ShipAlreadyAddedException;
+import model.java.*;
 import model.java.exceptions.ShipNotPlacableException;
+
+import java.util.HashMap;
 import play.mvc.*;
 import views.html.*;
 
@@ -60,27 +57,78 @@ public class Application extends Controller{
         String hostname = host.getName();
         
         
-    	return redirect("/placeShips?user1=" + username + "&user2=" + hostname);
+    	return redirect("/placeShips");
     }
     
-    public static Result placeShips(String user1, String user2){
+    public static Result placeShips(){
+    	MatchController matchController = MatchController.getInstance();
+  		Match match = matchController.getMatchByID(Integer.parseInt(session("matchID")));
+  		String user1;
+  		String user2;
+  		if (session("isHost").equals("true")) {
+			user1 = match.getHost().getName();
+			user2 = match.getGuest().getName();
+		} else {
+			user2 = match.getHost().getName();
+			user1 = match.getGuest().getName();
+		}
     	return ok(placeShips.render(user1,user2));
     }
     
     // TODO!!! validate positions!
-    public static Result validateShipPosition(String shipType, String x, String y, String orientation){
-      String valid = "true";
-      
-      if(Integer.parseInt(y) >= 10) {
-          valid = "false";
-      }
+    public static Result validateShipPosition(String shipType, String x, String y, String string_orientation){
+    	MatchController matchController = MatchController.getInstance();
+  		Match match = matchController.getMatchByID(Integer.parseInt(session("matchID")));
+  		Map map;
+  		if (session("isHost").equals("true")) {
+			map = match.getHost();
+		} else {
+			map = match.getGuest();
+		}
+  		
+  		//parse type
+  		Ship.type type = null;
+  		switch (shipType) {
+  			case "carrier":
+  				type = type.CARRIER;
+  				break;
+  			case "battleship":
+  				type = type.BATTLESHIP;
+  				break;
+  			case "destroyer1":
+  				type = type.DESTROYER1;
+  				break;
+  			case "destroyer2":
+  				type = type.DESTROYER2;
+  				break;
+  			case "submarine1":
+  				type = type.SUB1;
+  				break;
+  			default:
+  				type = type.SUB2;
+  				break;
+  				
+  		}
+  		
+  		//parse orientation
+  		Ship.orientation orientation = null;
+  		switch (string_orientation) {
+		case "h":
+			orientation = orientation.HORIZONTAL;
+			System.out.println("HORIZONTAL!!!!");
+			break;
+		default:
+			orientation = orientation.VERTICAL;
+			break;
+		}
+  		
+  		try {
+			map.placeShips(type, Integer.parseInt(y)-1, Integer.parseInt(x)-1, orientation); //"-1" because the client starts counting at 1|1, the map at 0|0
+		} catch (ShipNotPlacableException e) {
+			return ok("false");
+		}
      
-      return ok(valid);
-    }
-    
-    
-    public static Result placeShipsFailed(){
-    	return ok(placeShipsFailed.render());
+      return ok("true");
     }
     
     public static Result playing(){

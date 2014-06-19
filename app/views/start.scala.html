@@ -23,7 +23,11 @@
 
     function joinGame(key) {
         if ($('#usernameInput').val() == '') {
-            alert('You have to fill in a username!');
+        	var username = "";
+            while (username == ""){
+            	username = prompt("What is your username?","John Doe");
+            }
+            window.location.href = '/joinGame?username=' + username + '&matchID=' + key.toString();
         } else {
             window.location.href = '/joinGame?username=' + $('#usernameInput').val() + '&matchID=' + key.toString();
         }
