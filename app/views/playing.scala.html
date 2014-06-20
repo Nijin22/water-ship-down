@@ -12,9 +12,7 @@
         var ENEMY_PASSES = false;
 
         // INITIAL: set number of max shots in control bar
-        var maxShots = 6;
-
-        $('#availableShots').text(getNumberOfSelectedTargets());
+        var maxShots = 55555;
 
         // select targets
         $('.clickable > ul > li').click(function() {
@@ -46,6 +44,9 @@
             $(this).siblings().toggleClass('disabled');
             
         });
+        
+        //load the maps for the first time
+        loadMaps();
     });
 
     function getNumberOfSelectedTargets() {
@@ -64,6 +65,68 @@
         return numberOfSelectedTargets;
     }
 
+    function loadMaps(){
+    	$.ajax({
+            url: "/loadMaps",
+            dataType: "json",
+            success: function(result) {
+            	//fill the map1
+            	$.each(result.myMap.fields, function(key, value){
+            		//we now iterate over each mapfield.
+            		switch (value.status){
+            		case "UNKNOWN":
+            			if(value.ship == true){
+            				//Ship there, but enemy doesn't know
+            				//color it white
+            				$('#map' + 1 + ' > ul:nth-child(' + (value.x+1) + ') > li:nth-child(' + (value.y+1) + ')').addClass('ship');
+            			}
+            			break;
+            		case "HIT":
+            			$('#map' + 1 + ' > ul:nth-child(' + (value.x+1) + ') > li:nth-child(' + (value.y+1) + ')').addClass('hit');
+            			break;
+            		case "MISSED":
+            			$('#map' + 1 + ' > ul:nth-child(' + (value.x+1) + ') > li:nth-child(' + (value.y+1) + ')').addClass('missed');
+            			break;
+            		}
+            	})
+            	
+            	//fill the map2
+            	$.each(result.myMap.fields, function(key, value){
+            		//we now iterate over each mapfield.
+            		switch (value.status){
+            		case "UNKNOWN":
+            			break;
+            		case "HIT":
+            			$('#map' + 2 + ' > ul:nth-child(' + (value.x+1) + ') > li:nth-child(' + (value.y+1) + ')').addClass('hit');
+            			break;
+            		case "MISSED":
+            			$('#map' + 2 + ' > ul:nth-child(' + (value.x+1) + ') > li:nth-child(' + (value.y+1) + ')').addClass('missed');
+            			break;
+            		}
+            	})
+            	
+            	//Disable special actions which are no longer userable.
+            	
+            	if(result.mySpecialActions.FIRE_TWICE == false){
+            		$('#special1').attr("disabled","disabled");
+            	}
+            	if(result.mySpecialActions.THREE_BONUS_SHOTS == false){
+            		$('#special2').attr("disabled","disabled");
+            	}
+            	if(result.mySpecialActions.AUTO_ROCKET == false){
+            		$('#special3').attr("disabled","disabled");
+            	}
+            	if(result.mySpecialActions.ENEMY_PASSES == false){
+            		$('#special4').attr("disabled","disabled");
+            	}
+            	
+            	//Set maxShots
+            	maxShots = result.myShotsBase;
+            	//Reprint it
+            	$("#maxShots").text(maxShots);
+            }
+        });
+    }
 
 
 </script>
@@ -171,7 +234,7 @@
                     <p>Available Missile
                         <button type="button" class="glyphicon glyphicon-info-sign info_button" data-container="body" data-toggle="popover" data-placement="top" data-original-title="Available Missile" data-content="You can shoot with each of your remaining ships."></button>
                     </p>
-                    <span class="munition"><span id="availableShots">0</span> / <span id="maxShots">6</span></span>
+                    <span class="munition"><span id="availableShots">0</span> / <span id="maxShots">777777</span></span>
                 </div>
 
 
