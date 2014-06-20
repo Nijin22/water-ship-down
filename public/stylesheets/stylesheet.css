@@ -92,6 +92,7 @@ h3 {
 .logo {
   margin-right: 10px;
   position: relative;
+  top: -3px;
 }
 
 .logo img{
@@ -99,7 +100,7 @@ h3 {
 }
 .navbar-brand {
   position: relative;
-  top: -9px;
+  top: -6px;
 }
 
 .navbar {
@@ -152,7 +153,14 @@ footer {
   text-align: center;
   background: none;
   margin: 0 auto;
-  padding: 140px 0;
+  padding: 90px 0;
+}
+.logo_start {
+  margin-bottom: 25px;
+}
+
+.logo_start img {
+  width: 200px;
 }
 .startGame .input-group {
   max-width: 450px;
