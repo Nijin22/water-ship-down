@@ -153,14 +153,14 @@ footer {
   text-align: center;
   background: none;
   margin: 0 auto;
-  padding: 90px 0;
+  padding: 100px 0;
 }
 .logo_start {
   margin-bottom: 25px;
 }
 
 .logo_start img {
-  width: 200px;
+  width: 225px;
 }
 .startGame .input-group {
   max-width: 450px;
@@ -190,7 +190,7 @@ footer {
 -------------------------------------------------- */
 .joinGame {
   background: #fff;
-  min-height: 450px;
+  min-height: 600px;
   padding: 80px 0;
   text-align: center;
 }
