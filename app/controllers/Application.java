@@ -145,7 +145,7 @@ public class Application extends Controller{
 		}
     	return ok(playing.render(user1,user2));
     }
-    
+   
     public static Result loadMaps(){
     	MatchController matchController = MatchController.getInstance();
   		Match match = matchController.getMatchByID(Integer.parseInt(session("matchID")));

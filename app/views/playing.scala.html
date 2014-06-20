@@ -2,15 +2,69 @@
 @mainPlaying("Playing game"){
 
 <script type="text/javascript">
+
     $(function() {
-        /* toogle selected targets */
+
+        // special actions
+        var FIRE_TWICE = false;
+        var THREE_BONUS_SHOTS = false;
+        var AUTO_ROCKET = false;
+        var ENEMY_PASSES = false;
+
+        // INITIAL: set number of max shots in control bar
+        var maxShots = 6;
+
+        $('#availableShots').text(getNumberOfSelectedTargets());
+
+        // select targets
         $('.clickable > ul > li').click(function() {
+            // clean up messages
+            $('.messages').fadeOut(150);
+            $('.messageText').empty();
+            // toggle selected targets
             if (!$(this).hasClass('disable')) {
-                $(this).toggleClass('target');
+                if (!$(this).hasClass('target')) {
+                    if (getNumberOfSelectedTargets() < maxShots) {
+                        $(this).addClass('target');
+                    } else {
+                        // display warning message
+                        $('.messages').fadeIn(150);
+                        $('.messages > div').addClass('alert-warning');
+                        $('.messageText').append("<strong>Warning!</strong> The maximum number of targets has been reached!! To select a different target, an existing target must be deselected.")
+                    }
+                } else {
+                    $(this).removeClass('target');
+                }
             }
+            // set number of available Shots in control bar
+            $('#availableShots').text(getNumberOfSelectedTargets());
         });
 
+        // handle special actions
+        $('.special_actions > button').click(function() {
+            $(this).toggleClass('active');
+            $(this).siblings().toggleClass('disabled');
+            
+        });
     });
+
+    function getNumberOfSelectedTargets() {
+        var numberOfSelectedTargets = 0;
+        var col = 1;
+        while (col <= 18) {
+            var row = 1;
+            while (row <= 18) {
+                if ($('#map2 > ul:nth-child(' + col + ') > li:nth-child(' + row + ')').hasClass('target')) {
+                    numberOfSelectedTargets++;
+                }
+                row++;
+            }
+            col++;
+        }
+        return numberOfSelectedTargets;
+    }
+
+
 
 </script>
 
@@ -99,16 +153,15 @@
     </div>
 </section>
 
-
-<section class="messages hidden">
-    <div class="alert alert-warning alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <strong>Warning!</strong> Better check yourself, you're not looking too good.
-    </div>
-</section>
-
-
 <section class="control">
+
+    <div class="messages">
+        <div class="alert alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <span class="messageText"></span>
+        </div>
+    </div>
+
     <div class="toggleControl">click to hide control bar</div>
     <div class="controlToggleContainer">
         <div class="container">
@@ -118,7 +171,7 @@
                     <p>Available Missile
                         <button type="button" class="glyphicon glyphicon-info-sign info_button" data-container="body" data-toggle="popover" data-placement="top" data-original-title="Available Missile" data-content="You can shoot with each of your remaining ships."></button>
                     </p>
-                    <span class="munition">4 / 4</span>
+                    <span class="munition"><span id="availableShots">0</span> / <span id="maxShots">6</span></span>
                 </div>
 
 
@@ -127,10 +180,10 @@
                         <button type="button" class="glyphicon glyphicon-info-sign info_button" data-container="body" data-toggle="popover" data-placement="top" data-original-title="Special Actions" data-content="These are your jokers. You can only use them once in a match."></button>
                     </p>
                     <div class="special_actions">
-                        <button type="button" class="btn btn-primary special1" data-toggle="tooltip" data-placement="bottom" title="doubling number of missiles"></button>
-                        <button type="button" class="btn btn-primary special2" data-toggle="tooltip" data-placement="bottom" title="all your missiles hit the target"></button>
-                        <button type="button" class="btn btn-primary special3" data-toggle="tooltip" data-placement="bottom" title="enemy missiles miss targets"></button>
-                        <button type="button" class="btn btn-primary special4" data-toggle="tooltip" data-placement="bottom" title="get a hint"></button>
+                        <button id="special1" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="doubling number of missiles"><img src="/assets/images/icons/FIRE_TWICE.svg"></button>
+                        <button id="special2" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="3 bonus missiles"><img src="/assets/images/icons/THREE_BONUS_SHOTS.svg"></button>
+                        <button id="special3" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="extra smart missile hits a target"><img src="/assets/images/icons/AUTO_ROCKET.svg"></button>
+                        <button id="special4" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="enemy missiles miss targets"><img src="/assets/images/icons/ENEMY_PASSES.svg"></button>
                     </div>
                 </div>
 

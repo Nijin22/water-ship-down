@@ -569,24 +569,14 @@ footer {
 .special_actions button {
   height: 43px;
   width: 43px;
+  padding: 0;
 }
-.special_actions button .disabled {
-  cursor: not-allowed;
-  opacity: .10;
-  filter: alpha(opacity=10);
+
+.special_actions > .btn-primary:active, .special_actions > .btn-primary.active {
+  background-color: #47a447;
+  border-color: #47a447;
 }
-.special1 {
-  background: url(/assets/images/icons/2x.svg) #0188a8;
-}
-.special2 {
-  background: url(/assets/images/icons/controlledRocket.svg) #0188a8;
-}
-.special3 {
-  background: url(/assets/images/icons/protection.svg) #0188a8;
-}
-.special4 {
-  background: url(/assets/images/icons/radar.svg) #0188a8;
-}
+
 
 /* INFO BUTTONS */
 .info_button {

@@ -46,8 +46,6 @@
         ev.dataTransfer.setData("Type", ev.target.id);
     }
     function drop(ev) {
-
-
         $(".messages").fadeOut(150);
 
         ev.preventDefault();
@@ -81,8 +79,7 @@
         });
     }
 
-
-    function getNumberOfPlacedShips() {
+     function getNumberOfPlacedShips() {
         var numberOfPlacedShips = 0
         var col = 1;
         while (col <= 18) {
@@ -118,8 +115,6 @@
     }
 
 
-
-
     function getPositon(coord, type) {
         var x;
         var y;
@@ -143,28 +138,6 @@
         if (coord == "Y") {
             return y;
         }
-    }
-
-
-    function getPositions() {
-        var positions = 'Positions: \n';
-        var col = 1;
-        while (col <= 18) {
-            var row = 1;
-            while (row <= 18) {
-                var shipType = $('.map > ul:nth-child(' + col + ') > li:nth-child(' + row + ') > div').attr('id');
-                var choosenOrientaion = $('.map > ul:nth-child(' + col + ') > li:nth-child(' + row + ') > div').attr('class');
-                if (shipType == "carrier_h" || shipType == "carrier_v" || shipType == "battleship_h" || shipType == "battleship_v" || shipType == "destroyer1_h" || shipType == "destroyer1_v" || shipType == "destroyer2_h" || shipType == "destroyer2_v" || shipType == "submarine1_h" || shipType == "submarine1_v" || shipType == "submarine2_h" || shipType == "submarine2_v") {
-                    // filter ships placed in two orientations 
-                    if (choosenOrientaion == "shipToPlace validPosition") {
-                        positions = positions + "Typ: " + shipType + " x:" + col + " y:" + row + " \n";
-                    }
-                }
-                row++;
-            }
-            col++;
-        }
-        return positions;
     }
 
     function sendPositions() {

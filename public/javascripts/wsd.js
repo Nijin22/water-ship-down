@@ -57,12 +57,6 @@ $('document').ready(function() {
   }
   ;
 
-  /* toogle selected targets */
-  $('.clickable > ul > li').click(function() {
-    if (!$(this).hasClass('disable')) {
-      $(this).toggleClass('target');
-    }
-  });
 
 
   /* better GUI
