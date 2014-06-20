@@ -88,9 +88,20 @@ h3 {
 
 /* HEADER
 -------------------------------------------------- */
-.logo{
-  width: 100%;
+
+.logo {
+  margin-right: 10px;
+  position: relative;
 }
+
+.logo img{
+  width: 40px;;
+}
+.navbar-brand {
+  position: relative;
+  top: -9px;
+}
+
 .navbar {
   margin-bottom: 0;
 }
