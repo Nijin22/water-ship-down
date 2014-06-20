@@ -40,18 +40,23 @@
 
     // drag n drop
     function allowDrop(ev) {
-        ev.preventDefault();
+
+        if (!$(ev.target).hasClass('disallowDrop')) {
+            ev.preventDefault();
+        }
+
     }
     function drag(ev) {
         ev.dataTransfer.setData("Type", ev.target.id);
     }
     function drop(ev) {
         $(".messages").fadeOut(150);
-
-        ev.preventDefault();
-        var type = ev.dataTransfer.getData("Type");
-        ev.target.appendChild(document.getElementById(type));
-        validateShipPosition(type);
+        if (!$(ev.target).hasClass('disallowDrop')) {
+            ev.preventDefault();
+            var type = ev.dataTransfer.getData("Type");
+            ev.target.appendChild(document.getElementById(type));
+            validateShipPosition(type);
+        }
     }
 
     function validateShipPosition(type) {
@@ -79,7 +84,7 @@
         });
     }
 
-     function getNumberOfPlacedShips() {
+    function getNumberOfPlacedShips() {
         var numberOfPlacedShips = 0
         var col = 1;
         while (col <= 18) {
@@ -221,21 +226,21 @@
                                     <div class="shipInnerContainer">
                                         <!-- Carrier vertical -->
                                         <div id="carrier_v" class="shipToPlace" draggable="true" ondragstart="drag(event)" >
-                                            <ul><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
-                                            <ul class="ship2v"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul> 
+                                            <ul><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship2v"><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul> 
                                         </div>
                                         <!-- Carrier horizontal -->
                                         <div id="carrier_h" class="shipToPlace hidden" draggable="true" ondragstart="drag(event)" >
-                                            <ul class="ship1v"><li></li><li></li></ul>
-                                            <ul class="ship2v"><li></li><li></li></ul>
-                                            <ul class="ship3v"><li></li><li></li></ul>
-                                            <ul class="ship4v"><li></li><li></li></ul>
-                                            <ul class="ship5v"><li></li><li></li></ul>
-                                            <ul class="ship6v"><li></li><li></li></ul>
-                                            <ul class="ship7v"><li></li><li></li></ul>
-                                            <ul class="ship8v"><li></li><li></li></ul>
-                                            <ul class="ship9v"><li></li><li></li></ul>
-                                            <ul class="ship10v"><li></li><li></li></ul>
+                                            <ul class="ship1v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship2v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship3v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship4v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship5v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship6v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship7v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship8v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship9v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship10v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
                                         </div>
                                     </div>
                                     <!-- change orientation -->
@@ -254,16 +259,17 @@
                                     <div class="shipInnerContainer">
                                         <!-- Battleship vertical -->
                                         <div id="battleship_v" class="shipToPlace" draggable="true" ondragstart="drag(event)" >
-                                            <ul><li></li><li></li><li></li><li></li><li></li></ul>
-                                            <ul class="ship2v"><li></li><li></li><li></li><li></li><li></li></ul> 
+                                            <ul><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship2v"><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul> 
+
                                         </div>
                                         <!-- Battleship horizontal -->
                                         <div id="battleship_h" class="shipToPlace hidden" draggable="true" ondragstart="drag(event)" >
-                                            <ul class="ship1v"><li></li><li></li></ul>
-                                            <ul class="ship2v"><li></li><li></li></ul>
-                                            <ul class="ship3v"><li></li><li></li></ul>
-                                            <ul class="ship4v"><li></li><li></li></ul>
-                                            <ul class="ship5v"><li></li><li></li></ul>
+                                            <ul class="ship1v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship2v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship3v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship4v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship5v"><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
                                         </div>
                                     </div>
                                     <!-- change orientation -->
@@ -282,15 +288,15 @@
                                     <div class="shipInnerContainer">
                                         <!-- Destroyer1 vertical -->
                                         <div id="destroyer1_v" class="shipToPlace" draggable="true" ondragstart="drag(event)" >
-                                            <ul><li></li><li></li><li></li><li></li><li></li></ul>             
+                                            <ul><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>            
                                         </div>
                                         <!-- Destroyer1 horizontal -->
                                         <div id="destroyer1_h" class="shipToPlace hidden" draggable="true" ondragstart="drag(event)" >
-                                            <ul class="ship1v"><li></li></ul>
-                                            <ul class="ship2v"><li></li></ul>
-                                            <ul class="ship3v"><li></li></ul>
-                                            <ul class="ship4v"><li></li></ul>
-                                            <ul class="ship5v"><li></li></ul>
+                                            <ul class="ship1v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship2v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship3v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship4v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship5v"><li class="disallowDrop"></li></ul>
                                         </div>
                                     </div>
                                     <!-- change orientation -->
@@ -309,15 +315,15 @@
                                     <div class="shipInnerContainer">
                                         <!-- Destroyer1 vertical -->
                                         <div id="destroyer2_v" class="shipToPlace" draggable="true" ondragstart="drag(event)" >
-                                            <ul><li></li><li></li><li></li><li></li><li></li></ul>             
+                                            <ul><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>            
                                         </div>
                                         <!-- Destroyer1 horizontal -->
                                         <div id="destroyer2_h" class="shipToPlace hidden" draggable="true" ondragstart="drag(event)" >
-                                            <ul class="ship1v"><li></li></ul>
-                                            <ul class="ship2v"><li></li></ul>
-                                            <ul class="ship3v"><li></li></ul>
-                                            <ul class="ship4v"><li></li></ul>
-                                            <ul class="ship5v"><li></li></ul>
+                                            <ul class="ship1v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship2v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship3v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship4v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship5v"><li class="disallowDrop"></li></ul>
                                         </div>
                                     </div>
                                     <!-- change orientation -->
@@ -336,13 +342,13 @@
                                     <div class="shipInnerContainer">
                                         <!-- Destroyer1 vertical -->
                                         <div id="submarine1_v" class="shipToPlace" draggable="true" ondragstart="drag(event)" >
-                                            <ul><li></li><li></li><li></li></ul>             
+                                            <ul><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li>            
                                         </div>
                                         <!-- Destroyer1 horizontal -->
                                         <div id="submarine1_h" class="shipToPlace hidden" draggable="true" ondragstart="drag(event)" >
-                                            <ul class="ship1v"><li></li></ul>
-                                            <ul class="ship2v"><li></li></ul>
-                                            <ul class="ship3v"><li></li></ul>
+                                            <ul class="ship1v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship2v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship3v"><li class="disallowDrop"></li></ul>
                                         </div>
                                     </div>
                                     <!-- change orientation -->
@@ -361,13 +367,13 @@
                                     <div class="shipInnerContainer">
                                         <!-- Destroyer1 vertical -->
                                         <div id="submarine2_v" class="shipToPlace" draggable="true" ondragstart="drag(event)" >
-                                            <ul><li></li><li></li><li></li></ul>             
+                                            <ul><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li>            
                                         </div>
                                         <!-- Destroyer1 horizontal -->
                                         <div id="submarine2_h" class="shipToPlace hidden" draggable="true" ondragstart="drag(event)" >
-                                            <ul class="ship1v"><li></li></ul>
-                                            <ul class="ship2v"><li></li></ul>
-                                            <ul class="ship3v"><li></li></ul>
+                                            <ul class="ship1v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship2v"><li class="disallowDrop"></li></ul>
+                                            <ul class="ship3v"><li class="disallowDrop"></li></ul>
                                         </div>
                                     </div>
                                     <!-- change orientation -->
