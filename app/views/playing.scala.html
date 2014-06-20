@@ -2,18 +2,11 @@
 @mainPlaying("Playing game"){
 
 <script type="text/javascript">
-
+	var selectedSpecialAction = "NONE";
+	var numberSelectedTargets = 0;
+	var maxShots = 55555;
+	
     $(function() {
-
-        // special actions
-        var FIRE_TWICE = false;
-        var THREE_BONUS_SHOTS = false;
-        var AUTO_ROCKET = false;
-        var ENEMY_PASSES = false;
-
-        // INITIAL: set number of max shots in control bar
-        var maxShots = 55555;
-
         // select targets
         $('.clickable > ul > li').click(function() {
             // clean up messages
@@ -22,8 +15,9 @@
             // toggle selected targets
             if (!$(this).hasClass('disable')) {
                 if (!$(this).hasClass('target')) {
-                    if (getNumberOfSelectedTargets() < maxShots) {
+                    if (numberSelectedTargets < maxShots) {
                         $(this).addClass('target');
+                        numberSelectedTargets++;
                     } else {
                         // display warning message
                         $('.messages').fadeIn(150);
@@ -32,14 +26,31 @@
                     }
                 } else {
                     $(this).removeClass('target');
+                    numberSelectedTargets--;
                 }
             }
             // set number of available Shots in control bar
-            $('#availableShots').text(getNumberOfSelectedTargets());
+            $('#availableShots').text(numberSelectedTargets);
         });
 
         // handle special actions
         $('.special_actions > button').click(function() {
+        	
+        	//set the selected to true
+        	switch ($(this).attr('id')){
+        	case 'special1':
+        		selectedSpecialAction = "FIRE_TWICE";
+        		break;
+        	case 'special2':
+        		selectedSpecialAction = "THREE_BONUS_SHOTS";
+        		break;
+        	case 'special3':
+        		selectedSpecialAction = "AUTO_ROCKET";
+        		break;
+        	case 'special4':
+        		selectedSpecialAction = "ENEMY_PASSES";
+        		break;
+        	}
             $(this).toggleClass('active');
             $(this).siblings().toggleClass('disabled');
             
@@ -48,21 +59,29 @@
         //load the maps for the first time
         loadMaps();
     });
-
-    function getNumberOfSelectedTargets() {
-        var numberOfSelectedTargets = 0;
-        var col = 1;
-        while (col <= 18) {
+    
+    function sendDecisions(){
+    	var json = new Object();
+    	json.action = selectedSpecialAction;
+    	json.targets = new Array();
+    	
+    	//Iterate over map and find the selected targets
+    	var col = 1;
+    	while (col <= 18) {
             var row = 1;
             while (row <= 18) {
-                if ($('#map2 > ul:nth-child(' + col + ') > li:nth-child(' + row + ')').hasClass('target')) {
-                    numberOfSelectedTargets++;
+                if($('#map2 > ul:nth-child(' + col + ') > li:nth-child(' + row + ')').hasClass('target')){
+                	var coordinate = {"x":(col-1),"y":(row-1)};
+                	json.targets.push(coordinate);
                 }
                 row++;
             }
             col++;
         }
-        return numberOfSelectedTargets;
+    	
+    	//TODO: Send away as ajax
+    	alert(JSON.stringify(json));
+    	
     }
 
     function loadMaps(){
@@ -254,7 +273,7 @@
                     <p>Are you ready?
                         <button type="button" class="glyphicon glyphicon-info-sign info_button" data-container="body" data-toggle="popover" data-placement="top" data-original-title="Are you ready?" data-content="By pressing 'Start Attack!' you confirm your turn."></button>
                     </p>
-                    <button type="button" class="btn btn-primary">Start Attack!</button>
+                    <button type="button" class="btn btn-primary" onclick="sendDecisions();">Start Attack!</button>
                 </div>
             </div>
         </div>
