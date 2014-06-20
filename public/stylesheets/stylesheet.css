@@ -596,6 +596,12 @@ footer {
   border-color: #47a447;
 }
 
+.special_actions > button:disabled {
+  background-color: #555 !important;
+  border-color: #555;
+  opacity: .30;
+}
+
 
 /* INFO BUTTONS */
 .info_button {
