@@ -1,7 +1,23 @@
 @(user1: String)(user2: String)
-@mainPlaying("Place your Ships"){
 
+@header = {
+    <div class=usernames>
+        <div class="avatar blue"><span class="glyphicon glyphicon-user blue"></span></div>
+        <span>@user1</span>
+    </div>
+    <div class=usernames>
+        <span>@user2</span>
+        <div class="avatar red"><span class="glyphicon glyphicon-user red"></span></div>
+    </div>
+    <div class="navbar-right">
+        <button id="help" type="button" class="btn btn-default navbar-btn">Help</button>
+        <button id="exit" type="button" class="btn btn-danger navbar-btn">Exit</button>
+    </div>
+}
+
+@main("Place your Ships")(header){
 <script type="text/javascript">
+    
     // toggle orientation of ships
     $(function() {
         $('#toogleOrientationCarrier').click(function() {
@@ -52,7 +68,6 @@
     
     // drag n drop
     function allowDrop(ev) {
-
         if (!$(ev.target).hasClass('disallowDrop')) {
             ev.preventDefault();
         }
@@ -118,14 +133,10 @@
         $('#numberOfShipsToPlace').text(numberOfPlacedShips + ' / 6');
 
         // if all ships placed
-        if (numberOfPlacedShips >= 6) {
-            $('#go').removeClass('disable');
-            $('#go').removeClass('btn-danger');
-            $('#go').addClass('btn-success');
+        if (numberOfPlacedShips >= 0) {
+            $('#go').removeClass('disabled');
         } else {
-            $('#go').addClass('disable');
-            $('#go').addClass('btn-danger');
-            $('#go').removeClass('btn-success');
+            $('#go').addClass('disabled');
         }
 
         return numberOfPlacedShips;
@@ -156,48 +167,37 @@
             return y;
         }
     }
+    
+    
+    // DEBUG
+    function getPositions() {
+         var positions = 'Positions: \n';
+         var col = 1;
+         while (col <= 18) {
+             var row = 1;
+             while (row <= 18) {
+                 var shipType = $('.map > ul:nth-child(' + col + ') > li:nth-child(' + row + ') > div').attr('id');
+                 var choosenOrientaion = $('.map > ul:nth-child(' + col + ') > li:nth-child(' + row + ') > div').attr('class');
+                 if (shipType == "carrier_h" || shipType == "carrier_v" || shipType == "battleship_h" || shipType == "battleship_v" || shipType == "destroyer1_h" || shipType == "destroyer1_v" || shipType == "destroyer2_h" || shipType == "destroyer2_v" || shipType == "submarine1_h" || shipType == "submarine1_v" || shipType == "submarine2_h" || shipType == "submarine2_v") {
+                     // filter ships placed in two orientations 
+                     if (choosenOrientaion == "shipToPlace validPosition") {
+                         positions = positions + "Typ: " + shipType + " x:" + col + " y:" + row + " \n";
+                     }
+                 }
+                 row++;
+             }
+             col++;
+         }
+         return positions;
+     }
 
-    function sendPositions() {
-        if (getNumberOfPlacedShips() === 6) {
+    function go() {
             alert(getPositions());
-        }
+            // window.location.href = 'playing';
     }
+    
 
 </script>
-
-<header>
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                 <a class="navbar-brand" href="#"><span class="logo"><img src='@routes.Assets.at("images/logo_svg.svg")' alt="WSD-Logo"/></span>Water Ship Down</a>
-            </div>
-            <div class="collapse navbar-collapse text-center">
-                <div class=usernames>
-                    <div class="avatar blue"><span class="glyphicon glyphicon-user blue"></span></div>
-                    <span>@user1</span>
-                </div>
-                <div class=usernames>
-                    <span>@user2</span>
-                    <div class="avatar red"><span class="glyphicon glyphicon-user red"></span></div>
-                </div>
-
-
-                <div class="navbar-right">
-                    <button type="button" class="btn btn-default navbar-btn">Help</button>
-                    <button type="button" class="btn btn-danger navbar-btn">Exit</button>
-                </div>
-
-            </div>
-        </div>
-    </nav>
-</header>
-
 
 <section class="maps maps_placeShips">
     <div class="container maps_inner">
@@ -422,7 +422,7 @@
                 </div>
                 <div class="col-md-4">
                     <p>Are you ready?</p>
-                    <input id="go" class="btn btn-danger btn-lg disable" type="button" onclick="window.location.href = 'playing';" value="start the match">
+                    <input id="go" class="btn btn-success btn-lg" type="button" onclick="go();" value="start the match">
                 </div>
                 <div class="col-md-4">
                   <p>Load debug-default positions</p>

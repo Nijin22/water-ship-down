@@ -1,6 +1,21 @@
 @(user1: String)(user2: String)
-@mainPlaying("Playing game"){
 
+@header = {
+    <div class=usernames>
+        <div class="avatar blue"><span class="glyphicon glyphicon-user blue"></span></div>
+        <span>@user1</span>
+    </div>
+    <div class=usernames>
+        <span>@user2</span>
+        <div class="avatar red"><span class="glyphicon glyphicon-user red"></span></div>
+    </div>
+    <div class="navbar-right">
+        <button id="help" type="button" class="btn btn-default navbar-btn">Help</button>
+        <button id="exit" type="button" class="btn btn-danger navbar-btn">Exit</button>
+    </div>
+}
+
+@main("Playing game")(header){
 <script type="text/javascript">
 	var selectedSpecialAction = "NONE";
 	var numberSelectedTargets = 0;
@@ -149,40 +164,6 @@
 
 
 </script>
-
-<header>
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#"><span class="logo"><img src='@routes.Assets.at("images/logo_svg.svg")' alt="WSD-Logo"/></span>Water Ship Down</a>
-            </div>
-            <div class="collapse navbar-collapse text-center">
-                <div class=usernames>
-                    <div class="avatar blue"><span class="glyphicon glyphicon-user blue"></span></div>
-                    <span>@user1</span>
-                </div>
-                <div class=usernames>
-                    <span>@user2</span>
-                    <div class="avatar red"><span class="glyphicon glyphicon-user red"></span></div>
-                </div>
-
-
-                <div class="navbar-right">
-                    <button type="button" class="btn btn-default navbar-btn">Help</button>
-                    <button type="button" class="btn btn-danger navbar-btn">Exit</button>
-                </div>
-
-            </div>
-        </div>
-    </nav>
-</header>
-
 
 <section class="maps maps_playing">
     <div class="container maps_inner">

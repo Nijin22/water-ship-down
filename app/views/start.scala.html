@@ -1,4 +1,15 @@
-@main("Home"){
+@header = {
+    <ul class="nav navbar-nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="#">Instructions</a></li>
+        <li><a href="#">About</a></li>
+    </ul>
+    <div class="navbar-right">
+        <button id="help" type="button" class="btn btn-default navbar-btn">Help</button>
+    </div>
+}
+
+@main("Home")(header){
 
 <script type="text/javascript">
 
@@ -7,15 +18,13 @@
     });
 
     function refresh() {
-        $('.userlist > ul').empty();     
+        $('.userlist > ul').empty();
         $.ajax({
             url: "refreshAvailableGames",
             dataType: "json",
             success: function(result) {
                 $(result).each(function(index, obj) {
-                    if(obj.key > 0){
-                        $('.userlist > ul').append('<li onclick="joinGame(' + obj.key + ')">' + obj.hostname + '</li>');
-                    }
+                    $('.userlist > ul').append('<li onclick="joinGame(' + obj.key + ')">' + obj.hostname + '</li>');
                 });
             }
         });
@@ -23,9 +32,9 @@
 
     function joinGame(key) {
         if ($('#usernameInput').val() == '') {
-        	var username = "";
-            while (username == ""){
-            	username = prompt("What is your username?","John Doe");
+            var username = "";
+            while (username == "") {
+                username = prompt("What is your username?", "John Doe");
             }
             window.location.href = '/joinGame?username=' + username + '&matchID=' + key.toString();
         } else {
@@ -38,10 +47,10 @@
 
 <section class="startGame jumbotron">
     <div class="container">
-        
+
         <div class="logo_start"><img src='@routes.Assets.at("images/logo_white_png.png")' alt="WSD-Logo"/></div>
         <h2>Water Ship Down</h2>
-        
+
         <div class="setUsername">
             <p>First choose your username</p>
             <form action="createGame" method="get">
@@ -67,14 +76,6 @@
             </ul>
         </div>
 
-        <div id="debug"></div>
-
-    </div>
-</section>
-
-<section class="instructions">
-    <div >
-        
     </div>
 </section>
 
