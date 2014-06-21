@@ -98,7 +98,7 @@
     	alert(JSON.stringify(json));
         
         $.ajax({
-            url: "sendDecisions?json=" + JSON.stringify(json),
+            url: "sendDecisions?jsonString=" + JSON.stringify(json),
             dataType: "text",
             success: function(result) {
                 alert("succes");

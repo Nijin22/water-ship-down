@@ -2,9 +2,15 @@ package controllers;
 
 import model.java.*;
 import model.java.exceptions.ShipNotPlacableException;
+import org.json.simple.*;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+
 import play.mvc.*;
 import views.html.*;
 
@@ -76,7 +82,6 @@ public class Application extends Controller{
     	return ok(placeShips.render(user1,user2));
     }
   
-    // TODO!!! validate positions!
     public static Result validateShipPosition(String shipType, String x, String y, String string_orientation){
     	MatchController matchController = MatchController.getInstance();
   		Match match = matchController.getMatchByID(Integer.parseInt(session("matchID")));
@@ -217,15 +222,41 @@ public class Application extends Controller{
     
     public static Result sendDecisions(String jsonString){
     	MatchController matchController = MatchController.getInstance();
-        
-        org.json.JSONObject json = new org.json.JSONObject(jsonString);
-        
-        System.out.print(json.get("action"));
-        
-        
-        
-        
-    	return ok(createGame.render());
+    	Match match = matchController.getMatchByID(Integer.parseInt(session("matchID")));
+    	
+    	JSONParser parser=new JSONParser();
+    	try {
+			Object obj=parser.parse(jsonString);
+			JSONObject jsonObject = (JSONObject) obj;
+			
+			//Determine Action
+			String action = (String) jsonObject.get("action");
+	    	System.out.println("Chosen action: " + action);
+	    	
+	    	//Determine Targets
+	    	Collection<Coordinate> targets = new HashSet();
+	    	JSONArray json_targets = (JSONArray) jsonObject.get("targets");
+	    	Iterator<JSONObject> iterator = json_targets.iterator();
+	    	while (iterator.hasNext()) {
+				JSONObject target = (JSONObject) iterator.next();
+				int y = Integer.parseInt(target.get("y").toString()); //Much parsing required because JSON supplies a long, while we need a int
+				int x = Integer.parseInt(target.get("x").toString()); 
+				model.java.Coordinate coordinate = new model.java.Coordinate(y,x);
+				targets.add(coordinate);
+			}
+	    	
+	    	//Send to model
+	    	if (session("isHost").equals("true")) {
+	    		match.collectDecisions(true, action, targets);
+	    	} else {
+	    		match.collectDecisions(false, action, targets);
+	    	}
+	    	
+		} catch (ParseException e) {
+			e.printStackTrace();
+			throw new RuntimeException("RECEIVED INVALID JSON IN sendDecisions METHOD! JSON was: \n\n" + jsonString);
+		}
+    	return ok(jsonString);
     }
     
     

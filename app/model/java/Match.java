@@ -60,6 +60,7 @@ public class Match {
 		if (decisionGuestAction != null && decisionGuestCoordinates != null && decisionHostAction != null && decisionHostCoordinates != null) {
 			//Both players made their decisions.
 			//TODO: Complete the round
+			System.out.println("DEBUG: Both players made their choices!");
 		}
 	}
 
