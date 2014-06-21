@@ -1,5 +1,7 @@
 package model.java;
 
+import model.java.exceptions.FieldAlreadyFiredUponException;
+
 public class MapField {
 	
 	/**
@@ -49,5 +51,15 @@ public class MapField {
 		this.status = status;
 	}
 	
+	public void fireUpon() throws FieldAlreadyFiredUponException{
+		if (status != Status.UNKNOWN) {
+			throw new FieldAlreadyFiredUponException();
+		}
+		if (ship == null) {
+			status = Status.MISSED;
+		} else {
+			status = Status.HIT;
+		}
+	}
 	
 }

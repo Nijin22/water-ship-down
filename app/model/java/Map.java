@@ -252,4 +252,25 @@ public class Map {
 		}
 		return aCarrier + aBattleship + aDestroyer1 + aDestroyer2 + aSub1 + aSub2;
 	}
+	/**
+	 * Finds a ship on this map. Useful for auto-rocket special action
+	 * @return The MapField of the first found ship, or null if there is no living ship on the map anymore.
+	 */
+	public MapField findFirstShipPosition(){
+		int y = 0;
+		while (y < SIZE) {
+			int x = 0;
+			while (x < SIZE) {
+				if (getMapField(y, x).getStatus() == Status.UNKNOWN && getMapField(y, x).getShip() != null) {
+					//Ship on a unknown field
+					return getMapField(y, x);
+				}
+				x++;
+			}
+			y++;
+		}
+		
+		//No ship found
+		return null;
+	}
 }
