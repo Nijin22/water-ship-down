@@ -56,7 +56,7 @@ h3 {
   background-color: #057893;
   border-color: #0e6f86;
 }
-.btn.disabled {
+.btn.disabled, btn:disabled, button:disabled {
   background-color: #057893;
   cursor: not-allowed;
   pointer-events: none;
@@ -73,6 +73,9 @@ h3 {
   color: #fff;
   margin: auto;
 }
+
+/* COLOR CLASSES
+-------------------------------------------------- */
 .blue, .blue a {
   color: #0188a8 !important;
   border-color: #0188a8;
@@ -94,7 +97,6 @@ h3 {
   position: relative;
   top: -3px;
 }
-
 .logo img{
   width: 40px;;
 }
@@ -102,7 +104,6 @@ h3 {
   position: relative;
   top: -6px;
 }
-
 .navbar {
   margin-bottom: 0;
 }
@@ -158,7 +159,6 @@ footer {
 .logo_start {
   margin-bottom: 25px;
 }
-
 .logo_start img {
   width: 225px;
 }
@@ -197,7 +197,6 @@ footer {
 #refreshAvailableGames {
   margin: 15px 0 0 0;
 }
-
 .userlist {
   max-width: 750px;
   margin: auto;
@@ -228,14 +227,6 @@ footer {
   border-top-left-radius: 4px;
 }
 
-/* HOME :: instructions
--------------------------------------------------- */
-.instructions {
-  background-color: #e7e7e7;
-  height: 400px;
-}
-
-
 /* ALL :: CONTROL
 -------------------------------------------------- */
 .control {
@@ -243,14 +234,12 @@ footer {
   position: fixed;
   bottom: 0;
 }
-
 .controlToggleContainer {
   background-color: #EFF2F3;
   border-top: 1px solid;
   border-color: #E7E7E7;
   min-height: 120px;
 }
-
 .toggleControl {
   height: 15px;
   background: #555;
@@ -259,23 +248,19 @@ footer {
   font-size: 11px;
   text-align: center;
 }
-
 .toggleControl:hover {
   color: #fff;
 }
-
 .toggleControlHidden:hover {
   height: 25px;
   color: #fff;
 }
-
 .control .col-md-4, .control .col-md-12 {
   padding: 5px 30px 10px 20px;
   margin: 10px 0 20px 0;
   height: 100px;
   text-align: center;
 }
-
 
 /* ALL :: MESSAGES
 -------------------------------------------------- */
@@ -316,13 +301,11 @@ footer {
 .sm-margin-top {
   margin-top: 35px;
 }
-
 @media (min-width: 992px) {
   .sm-margin-top {
     margin-top: 0;
   }
 }
-
 .map > ul {
   list-style: none;
   float: left;
@@ -337,33 +320,26 @@ footer {
 
 /* CREATEGAME :: Tic Tac Toe
 -------------------------------------------------- */
-
 .waiting {
   min-height: 750px;
 }
-
 .waiting .jumbotron {
   padding-top: 30px;
 }
-
 .ticTacToe {
   margin-top: 50px;
 }
-
 .ticTacToe .btn {
   font-size: 48px;
 }
-
 .ticTacToe  input {
   width: 80px;
   height: 80px;
   margin: 5px;
 }
 
-
 /* PLACESHIPS :: Map + Container
 -------------------------------------------------- */
-
 .maps_placeShips {
   min-height: 1135px;  
 }
@@ -484,6 +460,7 @@ footer {
 .invalidPosition > ul{
   margin: -1px 0 0 -1px;
 }
+
 /* PLACESHIPS :: Control
 -------------------------------------------------- */
 #numberOfShipsToPlace {
@@ -499,6 +476,13 @@ footer {
   background-color: #999;
   border-radius: 30px;
 }
+/* overwrite btn.disabled */
+#go.btn.disabled {
+  background-color: #d9534f;
+  border-color: #d43f3a;
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
 
 /* PLAY :: MAPS
 -------------------------------------------------- */
@@ -510,7 +494,6 @@ footer {
     min-height: 600px;
   }
 }
-
 .username {
   min-width: 10px;
   padding: 3px 15px;
@@ -545,27 +528,6 @@ footer {
 
 /* PLAY :: CONTROL
 -------------------------------------------------- */
-
-/* HEALTH */
-/*.health_display {
-  width: 250px;
-  clear: both;
-}
-.health_display p {
-  float: left;
-  margin-bottom: 2px;
-  width: 95px;
-}
-.health_display .progress {
-  height: 16px;
-  margin: 0;
-  background-color: #fff;
-  box-shadow: none;
-}
-.health_display .progress-bar {
-  background-color: #0188a8;
-}*/
-
 /* MUNITION */
 .munition {
   min-width: 10px;
@@ -583,25 +545,16 @@ footer {
 .margin-bottom-5px {
   margin-bottom: 20px;
 }
-
 /* SPECIAL ACTIONS */
 .special_actions button {
   height: 43px;
   width: 43px;
   padding: 0;
 }
-
 .special_actions > .btn-primary:active, .special_actions > .btn-primary.active {
   background-color: #47a447;
   border-color: #47a447;
 }
-
-.special_actions > button:disabled {
-  background-color: #555 !important;
-  border-color: #555;
-  opacity: .30;
-}
-
 
 /* INFO BUTTONS */
 .info_button {
