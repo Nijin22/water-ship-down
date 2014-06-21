@@ -10,13 +10,16 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Observable;
+import java.util.Observer;
 
 import play.mvc.*;
 import views.html.*;
 
-public class Application extends Controller{
-	private static HashMap<Integer, WebSocket.Out<String>> hostsWaitingForGuest = new HashMap<Integer, WebSocket.Out<String>>();
-    
+public class Application extends Controller {
+	private static HashMap<Integer, WebSocket.Out<String>> hostsWaitingForGuest = new HashMap<Integer, WebSocket.Out<String>>(); //On the "createGame site"
+    private static HashMap<Integer, MatchObserver> matchObservers = new HashMap<Integer, MatchObserver>();
+	
     public static Result start() {
     	return ok(start.render());
     }
@@ -265,6 +268,9 @@ public class Application extends Controller{
     	return ok(jsonString);
     }
     
+    public static Result result(){
+    	return ok("TODO: Result page");
+    }
     
     public static Result createGame(String username){
     	username = username.replaceAll("[^a-zA-Z0-9äöüßÄÖÜ_ ]", "");
@@ -283,20 +289,47 @@ public class Application extends Controller{
     	
     }
     
-    // Websocket interface
+    /**
+     * Creates WebSocket used for storing waiting hosts
+     * @return
+     */
     public static WebSocket<String> wsToInformAboutSecondPlayer(){
-    	System.out.println("DEBUG: WebSocket wird erstellt");
-    	System.out.println("DEBUG: matchID: " + session("matchID"));
         return new WebSocket<String>(){
             private Integer matchID = new Integer(session("matchID")); //"cache" here so it's available within the onReady method.
             // called when websocket handshake is done
             public void onReady(WebSocket.In<String> in, WebSocket.Out<String> out){
-            		System.out.println("DEBUG: WebSocket wurde erstellt");
-            		
             		//Add the user which created this websocket to the lists of hosts waiting
                     hostsWaitingForGuest.put(matchID, out);
             }
         };   
-    } 
-    
+    }
+    /**
+     * Creates WebSocket used for storing the active players
+     * @return
+     */
+    public static WebSocket<String> wsInformAboutTurnEnd(){
+    	final Integer matchID = new Integer(session("matchID"));
+    	final MatchController matchController = MatchController.getInstance();
+  		final Match match = matchController.getMatchByID(Integer.parseInt(session("matchID")));
+    	final boolean isHost = new Boolean(session("isHost"));
+    	return new WebSocket<String>(){
+    		public void onReady(WebSocket.In<String> in, WebSocket.Out<String> out){
+    			if (matchObservers.containsKey(matchID)){
+    				//MatchObserver already there
+    			} else {
+    				//MatchObserver not created
+    				matchObservers.put(matchID, new MatchObserver(match));
+    			}
+				if (isHost) {
+					matchObservers.get(matchID).wsHost = out;
+				} else {
+					matchObservers.get(matchID).wsGuest = out;
+				}
+    		}
+    	};
+    }
+
+
+	
+
 }

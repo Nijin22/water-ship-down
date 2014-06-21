@@ -73,6 +73,28 @@
 
         //load the maps for the first time
         loadMaps();
+        
+        //Create WebSockets which tells us to refresh the page or go to the results page
+      	//get websocket class, firefox has a different way to get it
+        var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
+
+        //create the actual webSocket (get its URL via routes file from play framework)
+        var socket = new WS('@routes.Application.wsInformAboutTurnEnd().webSocketURL(request)');
+      	//define the function which handles messages send to this player.
+        var respondToWebSocket = function(event) {
+      		alert("Received answer from web socket" + event.data);
+        	var response = event.data;
+        	if (response == "refresh"){
+        		$("#refreshMapButton").removeClass("disabled");
+        		$("#blockingBox").modal('hide');
+        	}
+        	if (response == "result"){
+        		window.location.href = "/result";
+        	}
+        };
+
+        //register previous function to the socket
+        socket.onmessage = respondToWebSocket;
     });
 
     function sendDecisions() {
@@ -94,14 +116,10 @@
             col++;
         }
 
-        //TODO: Send away as ajax
-        alert(JSON.stringify(json));
-
         $.ajax({
             url: "sendDecisions?jsonString=" + JSON.stringify(json),
             dataType: "text",
             success: function(result) {
-                alert("succes");
             }
         })
         blocked();
@@ -309,7 +327,7 @@
                 </div>
             </div>
             <!-- dialog buttons -->
-            <div class="modal-footer"><button type="button" class="btn btn-primary disabled">OK</button></div>
+            <div class="modal-footer"><button id="refreshMapButton" type="button" onclick="loadMaps();" class="btn btn-success disabled">Next turn!</button></div>
         </div>
     </div>
 </div>

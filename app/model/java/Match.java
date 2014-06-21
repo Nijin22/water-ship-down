@@ -4,7 +4,7 @@ import java.util.Collection;
 import model.java.exceptions.FieldAlreadyFiredUponException;
 import model.java.exceptions.MoreCoordinatesThanAllowedException;
 
-public class Match {
+public class Match extends java.util.Observable {
 	public enum WinnerOptions{
 		NONE, HOST, GUEST
 	}
@@ -85,6 +85,9 @@ public class Match {
 				winner = WinnerOptions.HOST;
 				System.out.println("Guest lost all of his ships. Host wins!");
 			}
+			
+			setChanged();
+			notifyObservers(id); //Tell the Application that the turn is finished. (And tell it the turns id)
 			
 			//Set choices to null because round was calculated successful.
 			decisionGuestAction = null;
