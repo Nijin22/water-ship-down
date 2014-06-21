@@ -56,6 +56,7 @@ public class Match {
 	}
 	public void collectDecisions(boolean isHost, String action, Collection<Coordinate> coordinates){
 		//Save decisions
+		System.out.println("DEBUG: Data from host?" + isHost);
 		if (isHost) {
 			decisionHostAction = action;
 			decisionHostCoordinates = coordinates;
@@ -64,7 +65,7 @@ public class Match {
 			decisionGuestCoordinates = coordinates;
 		}
 		
-		//Check if both decusions were made
+		//Check if both decisions were made
 		if (decisionGuestAction != null && decisionGuestCoordinates != null && decisionHostAction != null && decisionHostCoordinates != null) {
 			//Both players made their decisions.
 			System.out.println("DEBUG: Both players made their choices!");

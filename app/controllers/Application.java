@@ -202,11 +202,11 @@ public class Application extends Controller{
   		//Iterate over enemy fields
   		jsonFields = "";
   		y = 0;
-  		while (y < myMap.getSize()) {
+  		while (y < enemyMap.getSize()) {
 			int x = 0;
-			while (x < myMap.getSize()) {
+			while (x < enemyMap.getSize()) {
 				//Now we have a single map field.
-				MapField field = myMap.getMapField(y, x);
+				MapField field = enemyMap.getMapField(y, x);
 				jsonFields += "{"+
 						"\"y\":"+y+","+
 						"\"x\":"+x+","+
