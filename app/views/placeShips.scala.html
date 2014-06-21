@@ -133,7 +133,7 @@
         $('#numberOfShipsToPlace').text(numberOfPlacedShips + ' / 6');
 
         // if all ships placed
-        if (numberOfPlacedShips >= 0) {
+        if (numberOfPlacedShips >= 6) {
             $('#go').removeClass('disabled');
         } else {
             $('#go').addClass('disabled');
@@ -169,31 +169,8 @@
     }
     
     
-    // DEBUG
-    function getPositions() {
-         var positions = 'Positions: \n';
-         var col = 1;
-         while (col <= 18) {
-             var row = 1;
-             while (row <= 18) {
-                 var shipType = $('.map > ul:nth-child(' + col + ') > li:nth-child(' + row + ') > div').attr('id');
-                 var choosenOrientaion = $('.map > ul:nth-child(' + col + ') > li:nth-child(' + row + ') > div').attr('class');
-                 if (shipType == "carrier_h" || shipType == "carrier_v" || shipType == "battleship_h" || shipType == "battleship_v" || shipType == "destroyer1_h" || shipType == "destroyer1_v" || shipType == "destroyer2_h" || shipType == "destroyer2_v" || shipType == "submarine1_h" || shipType == "submarine1_v" || shipType == "submarine2_h" || shipType == "submarine2_v") {
-                     // filter ships placed in two orientations 
-                     if (choosenOrientaion == "shipToPlace validPosition") {
-                         positions = positions + "Typ: " + shipType + " x:" + col + " y:" + row + " \n";
-                     }
-                 }
-                 row++;
-             }
-             col++;
-         }
-         return positions;
-     }
-
     function go() {
-            alert(getPositions());
-            // window.location.href = 'playing';
+    	window.location.href = 'playing';
     }
     
 
@@ -423,7 +400,7 @@
                 </div>
                 <div class="col-md-4">
                     <p>Are you ready?</p>
-                    <input id="go" class="btn btn-success btn-lg" type="button" onclick="go();" value="start the match">
+                    <input id="go" class="btn btn-success btn-lg disabled" type="button" onclick="go();" value="start the match">
                 </div>
                 <div class="col-md-4">
                   <p>Load debug-default positions</p>
