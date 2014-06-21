@@ -44,6 +44,11 @@ public class Application extends Controller{
     }
     
     public static Result joinGame(String username, String matchID){
+        
+        if(username.length() > 25){
+          username = username.substring(0,25);
+        } 
+      
     	MatchController matchController = MatchController.getInstance();
     	Match match = matchController.getMatchByID(Integer.parseInt(matchID));
     	match.addGuest(username);
@@ -261,7 +266,12 @@ public class Application extends Controller{
     
     
     public static Result createGame(String username){
-    	MatchController matchController = MatchController.getInstance();
+    	
+        if(username.length() > 25){
+          username = username.substring(0,25);
+        } 
+      
+        MatchController matchController = MatchController.getInstance();
     	int matchID = matchController.addMatch(username);
     	
     	
