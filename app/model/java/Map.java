@@ -89,9 +89,32 @@ public class Map {
 			int x = 0;
 			while (x < SIZE) {
 				if (getMapField(y, x).getShip() == null) {
-					r += "X";
+					r += ".";
 				} else {
-					r += " ";
+					switch (getMapField(y,x).getShip().getType()) {
+					case BATTLESHIP:
+						r += "B";
+						break;
+					case CARRIER:
+						r += "C";
+						break;
+					case DESTROYER1:
+						r += "D";
+						break;
+					case DESTROYER2:
+						r += "d";
+						break;
+					case SUB1:
+						r += "S";
+						break;
+					case SUB2:
+						r += "s";
+						break;
+					default:
+						//should never happen unless we only recompile the enums without this class
+						throw new RuntimeException("Error within drawMap - you requested a type which does not exist");
+					
+					}
 				}
 				x++;
 			}
@@ -109,21 +132,11 @@ public class Map {
 	 * @throws ShipNotPlacableException If the new/replaced ship would collide with map borders or the borders of an already placed ship
 	 */
 	public void placeShips(type type, int posY, int posX, Ship.orientation orientation) throws ShipNotPlacableException{
-		//check if posY & posX within map borders
-		if (posY < 0 || posX < 0) {
-			throw new ShipNotPlacableException(Reason.INDEXOUTOFBOUNDS);
-		}
-		int bottomRightY = posY + Ship.getSizeY(type, orientation)-1; //-1 because our index starts with 0
-		int bottomRightX = posX + Ship.getSizeX(type, orientation)-1; //-1 because our index starts with 0
-		if (bottomRightX > SIZE-1 || bottomRightY > SIZE-1){
-			throw new ShipNotPlacableException(Reason.INDEXOUTOFBOUNDS);
-		}
-		
 		//In case the ship was already place before, we need to reset the "old" MapFields
 		int c_y = 0;
-		while (c_y < SIZE-1) {
+		while (c_y < SIZE) {
 			int c_x = 0;
-			while (c_x < SIZE-1) {
+			while (c_x < SIZE) {
 				if (getMapField(c_y, c_x).getShip() != null) {
 					if (getMapField(c_y, c_x).getShip().getType() == type) {
 						getMapField(c_y, c_x).setShip(null);
@@ -132,6 +145,17 @@ public class Map {
 				c_x++;
 			}
 			c_y++;
+		}
+		
+		
+		//check if posY & posX within map borders
+		if (posY < 0 || posX < 0) {
+			throw new ShipNotPlacableException(Reason.INDEXOUTOFBOUNDS);
+		}
+		int bottomRightY = posY + Ship.getSizeY(type, orientation)-1; //-1 because our index starts with 0
+		int bottomRightX = posX + Ship.getSizeX(type, orientation)-1; //-1 because our index starts with 0
+		if (bottomRightX > SIZE-1 || bottomRightY > SIZE-1){
+			throw new ShipNotPlacableException(Reason.INDEXOUTOFBOUNDS);
 		}
 		
 		//Test for collision
