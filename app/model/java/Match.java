@@ -1,7 +1,6 @@
 package model.java;
 
-import model.java.exceptions.ActionAlreadyUsedException;
-import model.java.exceptions.NoUnshotShipOnMapException;
+import java.util.Collection;
 
 public class Match {
 	private Map host;
@@ -42,6 +41,9 @@ public class Match {
 
 	public int getId() {
 		return id;
+	}
+	public void collectDecisions(boolean isHost, String action, Collection<Coordinate> coordinates){
+		
 	}
 
 }

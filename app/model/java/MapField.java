@@ -16,8 +16,8 @@ public class MapField {
 
 	/**
 	 * A MapField is single field on the map. (e.g. the one in the top left corner, called "A1" in the classic game)
-	 * @param posX X-Coordinates of field. (Topleft is "0")
-	 * @param posY Y-Coordinates of field. (Topleft is "0")
+	 * @param posX X-Coordinate of field. (Topleft is "0")
+	 * @param posY Y-Coordinate of field. (Topleft is "0")
 	 * @param ship If ship is present on this field, a ship object - otherwise "null"
 	 */
 	public MapField(int posY, int posX) {
