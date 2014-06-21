@@ -6,7 +6,11 @@ public class Match {
 	private Map host;
 	private Map guest;
 	private int id;
-
+	private String decisionHostAction = null;
+	private Collection<Coordinate> decisionHostCoordinates = null;
+	private String decisionGuestAction = null;
+	private Collection<Coordinate> decisionGuestCoordinates = null;	
+	
 	/**
 	 * 
 	 * @param username
@@ -43,7 +47,20 @@ public class Match {
 		return id;
 	}
 	public void collectDecisions(boolean isHost, String action, Collection<Coordinate> coordinates){
+		//Save decisions
+		if (isHost) {
+			decisionHostAction = action;
+			decisionHostCoordinates = coordinates;
+		} else {
+			decisionGuestAction = action;
+			decisionGuestCoordinates = coordinates;
+		}
 		
+		//Check if both decusions were made
+		if (decisionGuestAction != null && decisionGuestCoordinates != null && decisionHostAction != null && decisionHostCoordinates != null) {
+			//Both players made their decisions.
+			//TODO: Complete the round
+		}
 	}
 
 }
