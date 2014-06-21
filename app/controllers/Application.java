@@ -3,6 +3,7 @@ package controllers;
 import model.java.*;
 import model.java.exceptions.ShipNotPlacableException;
 
+
 import java.util.HashMap;
 import play.mvc.*;
 import views.html.*;
@@ -213,6 +214,20 @@ public class Application extends Controller{
   		String json = "{"+jsonMyMap+","+jsonEnemyMap+","+jsonSpecialActions+","+"\"myShotsBase\":"+Integer.toString(myShotsBase)+"}";
   		return ok(json);
     }
+    
+    public static Result sendDecisions(String jsonString){
+    	MatchController matchController = MatchController.getInstance();
+        
+        org.json.JSONObject json = new org.json.JSONObject(jsonString);
+        
+        System.out.print(json.get("action"));
+        
+        
+        
+        
+    	return ok(createGame.render());
+    }
+    
     
     public static Result createGame(String username){
     	MatchController matchController = MatchController.getInstance();

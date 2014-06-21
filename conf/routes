@@ -21,6 +21,7 @@ GET     /validateShipPosition       controllers.Application.validateShipPosition
 #Playing the actual game
 GET     /playing                    controllers.Application.playing()
 GET		/loadMaps					controllers.Application.loadMaps()
+GET     /sendDecisions               controllers.Application.sendDecisions(jsonString)
 
 #Exit
 GET     /reset                      controllers.Application.reset()

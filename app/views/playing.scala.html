@@ -96,6 +96,14 @@
     	
     	//TODO: Send away as ajax
     	alert(JSON.stringify(json));
+        
+        $.ajax({
+            url: "sendDecisions?json=" + JSON.stringify(json),
+            dataType: "text",
+            success: function(result) {
+                alert("succes");
+            }
+        })
     	
     }
 
