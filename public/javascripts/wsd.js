@@ -4,61 +4,7 @@
  */
 
 $('document').ready(function() {
-
-  /* JSON
-   -------------------------------------------------- */
-  var object = {
-    "ships": {
-      "coordinates": [
-        ]
-    },
-    "hits": {
-      "coordinates": [
-      ]
-    },
-    "missed": {
-      "coordinates": [
-      ]
-    }
-  };
-
-
-  /* SET CSS-CLASSES IN MAPS
-   -------------------------------------------------- */
-  var shipsCoord = object.ships.coordinates;
-  for (coordinate in shipsCoord) {
-    showShips(1, shipsCoord[coordinate].x, shipsCoord[coordinate].y);
-  }
-  ;
-  var hitsCoord = object.hits.coordinates;
-  for (coordinate in hitsCoord) {
-    showHits(2, hitsCoord[coordinate].x, hitsCoord[coordinate].y);
-  }
-  ;
-  var missedCoord = object.missed.coordinates;
-  for (coordinate in missedCoord) {
-    showMissed(2, missedCoord[coordinate].x, missedCoord[coordinate].y);
-  }
-  ;
-  function showHits(map, row, col) {
-    $('#map' + map + ' > ul:nth-child(' + row + ') > li:nth-child(' + col + ')').addClass('hit disable');
-  }
-  ;
-  function showMissed(map, row, col) {
-    $('#map' + map + ' > ul:nth-child(' + row + ') > li:nth-child(' + col + ')').addClass('missed disable');
-  }
-  ;
-  function showTargets(map, row, col) {
-    $('#map' + map + ' > ul:nth-child(' + row + ') > li:nth-child(' + col + ')').addClass('target disable');
-  }
-  ;
-  function showShips(map, row, col) {
-    $('#map' + map + ' > ul:nth-child(' + row + ') > li:nth-child(' + col + ')').addClass('ship');
-  }
-  ;
-
-
-
+  
   /* better GUI
    -------------------------------------------------- */
 
@@ -76,7 +22,7 @@ $('document').ready(function() {
     return false;
   });
 
-  // toggle control
+  //toggle control
   var controlHidden = false;
   $(".toggleControl").click(function() {
     $(".controlToggleContainer").toggle();
@@ -87,10 +33,19 @@ $('document').ready(function() {
       $(".toggleControl").text("click to show control bar");
       controlHidden = true;
     }
-
   });
-
-
-
+  
+  //exit button
+  $('#exit').click(function(){
+    window.location.href = 'reset';
+  });
+  
+  //help button
+  $('#help').click(function(){
+    bootbox.alert("<h1>Do you need some help?</h1>");
+  });
+  
+  
+  
 });
 

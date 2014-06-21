@@ -10,27 +10,28 @@ import views.html.*;
 public class Application extends Controller{
 	private static HashMap<Integer, WebSocket.Out<String>> hostsWaitingForGuest = new HashMap<Integer, WebSocket.Out<String>>();
     
-    
     public static Result start() {
     	return ok(start.render());
+    }
+    
+    // TODO: reset
+    public static Result reset() {
+    	return redirect("/");
     }
     
     public static Result refreshAvailableGames() {
     	MatchController matchController = MatchController.getInstance();
     	HashMap<Integer, Match> openMatches = matchController.getOpenMatches();
-    	//System.out.println(openMatches.toString());
         
         String result = "[";
         
+        //iterate over openMatches and write key and name in result string
         boolean firstTime = true;
         for(Integer key : openMatches.keySet()){
           result += "{\"key\" : " + key + ", \"hostname\" : " + "\"" + openMatches.get(key).getHost().getName() + "\""+ "},";
         }
-        
-        // TODO: specify last element - "," Problem
-        result += "{\"key\" : 0 , \"hostname\" : 0}]";
-        
-        System.out.print(result);
+     
+        result = result.substring(0, result.length() - 1) + "]";
         
     	return ok(result);
     }
@@ -56,7 +57,6 @@ public class Application extends Controller{
         Map host = match.getHost();
         String hostname = host.getName();
         
-        
     	return redirect("/placeShips");
     }
     
@@ -74,7 +74,7 @@ public class Application extends Controller{
 		}
     	return ok(placeShips.render(user1,user2));
     }
-    
+  
     // TODO!!! validate positions!
     public static Result validateShipPosition(String shipType, String x, String y, String string_orientation){
     	MatchController matchController = MatchController.getInstance();
@@ -145,7 +145,7 @@ public class Application extends Controller{
 		}
     	return ok(playing.render(user1,user2));
     }
-   
+    
     public static Result loadMaps(){
     	MatchController matchController = MatchController.getInstance();
   		Match match = matchController.getMatchByID(Integer.parseInt(session("matchID")));
@@ -242,7 +242,4 @@ public class Application extends Controller{
         };   
     } 
     
-    public static Result debug(){
-    	return ok(debug.render(session("matchID"), session("isHost")));
-    }
 }

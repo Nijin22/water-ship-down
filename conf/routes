@@ -22,5 +22,5 @@ GET     /validateShipPosition       controllers.Application.validateShipPosition
 GET     /playing                    controllers.Application.playing()
 GET		/loadMaps					controllers.Application.loadMaps()
 
-# tests / mockups
-GET		/debug						controllers.Application.debug()
+#Exit
+GET     /reset                      controllers.Application.reset()
