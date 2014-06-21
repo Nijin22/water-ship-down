@@ -217,9 +217,9 @@ public class Map {
 	public int getNumberShipsAlive(){
 		int aCarrier = 0, aBattleship = 0, aDestroyer1 = 0, aDestroyer2 = 0, aSub1 = 0, aSub2 = 0; //1 if the ship hast at least one UNKNOWN mapfield
 		int y = 0;
-		while (y < SIZE-1) {
+		while (y < SIZE) {
 			int x = 0;
-			while (x < SIZE-1) {
+			while (x < SIZE) {
 				Ship ship = getMapField(y, x).getShip();
 				if (ship != null && getMapField(y, x).getStatus() == Status.UNKNOWN) {
 					//ship present on this field & field hasn't been hit
