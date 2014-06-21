@@ -1,26 +1,26 @@
 @(user1: String)(user2: String)
 
 @header = {
-    <div class=usernames>
-        <div class="avatar blue"><span class="glyphicon glyphicon-user blue"></span></div>
-        <span>@user1</span>
-    </div>
-    <div class=usernames>
-        <span>@user2</span>
-        <div class="avatar red"><span class="glyphicon glyphicon-user red"></span></div>
-    </div>
-    <div class="navbar-right">
-        <button id="help" type="button" class="btn btn-default navbar-btn">Help</button>
-        <button id="exit" type="button" class="btn btn-danger navbar-btn">Exit</button>
-    </div>
+<div class=usernames>
+    <div class="avatar blue"><span class="glyphicon glyphicon-user blue"></span></div>
+    <span>@user1</span>
+</div>
+<div class=usernames>
+    <span>@user2</span>
+    <div class="avatar red"><span class="glyphicon glyphicon-user red"></span></div>
+</div>
+<div class="navbar-right">
+    <button id="help" type="button" class="btn btn-default navbar-btn">Help</button>
+    <button id="exit" type="button" class="btn btn-danger navbar-btn">Exit</button>
+</div>
 }
 
 @main("Playing game")(header){
 <script type="text/javascript">
-	var selectedSpecialAction = "NONE";
-	var numberSelectedTargets = 0;
-	var maxShots = 55555;
-	
+    var selectedSpecialAction = "NONE";
+    var numberSelectedTargets = 0;
+    var maxShots = 55555;
+
     $(function() {
         // select targets
         $('.clickable > ul > li').click(function() {
@@ -50,53 +50,53 @@
 
         // handle special actions
         $('.special_actions > button').click(function() {
-        	
-        	//set the selected to true
-        	switch ($(this).attr('id')){
-        	case 'special1':
-        		selectedSpecialAction = "FIRE_TWICE";
-        		break;
-        	case 'special2':
-        		selectedSpecialAction = "THREE_BONUS_SHOTS";
-        		break;
-        	case 'special3':
-        		selectedSpecialAction = "AUTO_ROCKET";
-        		break;
-        	case 'special4':
-        		selectedSpecialAction = "ENEMY_PASSES";
-        		break;
-        	}
+
+            //set the selected to true
+            switch ($(this).attr('id')) {
+                case 'special1':
+                    selectedSpecialAction = "FIRE_TWICE";
+                    break;
+                case 'special2':
+                    selectedSpecialAction = "THREE_BONUS_SHOTS";
+                    break;
+                case 'special3':
+                    selectedSpecialAction = "AUTO_ROCKET";
+                    break;
+                case 'special4':
+                    selectedSpecialAction = "ENEMY_PASSES";
+                    break;
+            }
             $(this).toggleClass('active');
             $(this).siblings().toggleClass('disabled');
-            
+
         });
-        
+
         //load the maps for the first time
         loadMaps();
     });
-    
-    function sendDecisions(){
-    	var json = new Object();
-    	json.action = selectedSpecialAction;
-    	json.targets = new Array();
-    	
-    	//Iterate over map and find the selected targets
-    	var col = 1;
-    	while (col <= 18) {
+
+    function sendDecisions() {
+        var json = new Object();
+        json.action = selectedSpecialAction;
+        json.targets = new Array();
+
+        //Iterate over map and find the selected targets
+        var col = 1;
+        while (col <= 18) {
             var row = 1;
             while (row <= 18) {
-                if($('#map2 > ul:nth-child(' + col + ') > li:nth-child(' + row + ')').hasClass('target')){
-                	var coordinate = {"x":(col-1),"y":(row-1)};
-                	json.targets.push(coordinate);
+                if ($('#map2 > ul:nth-child(' + col + ') > li:nth-child(' + row + ')').hasClass('target')) {
+                    var coordinate = {"x": (col - 1), "y": (row - 1)};
+                    json.targets.push(coordinate);
                 }
                 row++;
             }
             col++;
         }
-    	
-    	//TODO: Send away as ajax
-    	alert(JSON.stringify(json));
-        
+
+        //TODO: Send away as ajax
+        alert(JSON.stringify(json));
+
         $.ajax({
             url: "sendDecisions?jsonString=" + JSON.stringify(json),
             dataType: "text",
@@ -104,68 +104,91 @@
                 alert("succes");
             }
         })
-        
+        blocked();
     }
 
-    function loadMaps(){
-    	$.ajax({
+    function blocked() {
+        $("#blockingBox").on("show", function() {    // wire up the OK button to dismiss the modal when shown
+            $("#blockingBox a.btn").on("click", function(e) {
+                console.log("button pressed");   // just as an example...
+                $("#blockingBox").modal('hide');     // dismiss the dialog
+            });
+        });
+
+        $("#blockingBox").on("hide", function() {    // remove the event listeners when the dialog is dismissed
+            $("#blockingBox a.btn").off("click");
+        });
+
+        $("#blockingBox").on("hidden", function() {  // remove the actual elements from the DOM when fully hidden
+            $("#blockingBox").remove();
+        });
+
+        $("#blockingBox").modal({// wire up the actual modal functionality and show the dialog
+            "backdrop": "static",
+            "keyboard": true,
+            "show": true                     // ensure the modal is shown immediately
+        });
+    }
+
+    function loadMaps() {
+        $.ajax({
             url: "/loadMaps",
             dataType: "json",
             success: function(result) {
-            	//fill the map1
-            	$.each(result.myMap.fields, function(key, value){
-            		//we now iterate over each mapfield.
-            		switch (value.status){
-            		case "UNKNOWN":
-            			if(value.ship == true){
-            				//Ship there, but enemy doesn't know
-            				//color it white
-            				$('#map' + 1 + ' > ul:nth-child(' + (value.x+1) + ') > li:nth-child(' + (value.y+1) + ')').addClass('ship');
-            			}
-            			break;
-            		case "HIT":
-            			$('#map' + 1 + ' > ul:nth-child(' + (value.x+1) + ') > li:nth-child(' + (value.y+1) + ')').addClass('hit');
-            			break;
-            		case "MISSED":
-            			$('#map' + 1 + ' > ul:nth-child(' + (value.x+1) + ') > li:nth-child(' + (value.y+1) + ')').addClass('missed');
-            			break;
-            		}
-            	})
-            	
-            	//fill the map2
-            	$.each(result.myMap.fields, function(key, value){
-            		//we now iterate over each mapfield.
-            		switch (value.status){
-            		case "UNKNOWN":
-            			break;
-            		case "HIT":
-            			$('#map' + 2 + ' > ul:nth-child(' + (value.x+1) + ') > li:nth-child(' + (value.y+1) + ')').addClass('hit');
-            			break;
-            		case "MISSED":
-            			$('#map' + 2 + ' > ul:nth-child(' + (value.x+1) + ') > li:nth-child(' + (value.y+1) + ')').addClass('missed');
-            			break;
-            		}
-            	})
-            	
-            	//Disable special actions which are no longer userable.
-            	
-            	if(result.mySpecialActions.FIRE_TWICE == false){
-            		$('#special1').attr("disabled","disabled");
-            	}
-            	if(result.mySpecialActions.THREE_BONUS_SHOTS == false){
-            		$('#special2').attr("disabled","disabled");
-            	}
-            	if(result.mySpecialActions.AUTO_ROCKET == false){
-            		$('#special3').attr("disabled","disabled");
-            	}
-            	if(result.mySpecialActions.ENEMY_PASSES == false){
-            		$('#special4').attr("disabled","disabled");
-            	}
-            	
-            	//Set maxShots
-            	maxShots = result.myShotsBase;
-            	//Reprint it
-            	$("#maxShots").text(maxShots);
+                //fill the map1
+                $.each(result.myMap.fields, function(key, value) {
+                    //we now iterate over each mapfield.
+                    switch (value.status) {
+                        case "UNKNOWN":
+                            if (value.ship == true) {
+                                //Ship there, but enemy doesn't know
+                                //color it white
+                                $('#map' + 1 + ' > ul:nth-child(' + (value.x + 1) + ') > li:nth-child(' + (value.y + 1) + ')').addClass('ship');
+                            }
+                            break;
+                        case "HIT":
+                            $('#map' + 1 + ' > ul:nth-child(' + (value.x + 1) + ') > li:nth-child(' + (value.y + 1) + ')').addClass('hit');
+                            break;
+                        case "MISSED":
+                            $('#map' + 1 + ' > ul:nth-child(' + (value.x + 1) + ') > li:nth-child(' + (value.y + 1) + ')').addClass('missed');
+                            break;
+                    }
+                })
+
+                //fill the map2
+                $.each(result.myMap.fields, function(key, value) {
+                    //we now iterate over each mapfield.
+                    switch (value.status) {
+                        case "UNKNOWN":
+                            break;
+                        case "HIT":
+                            $('#map' + 2 + ' > ul:nth-child(' + (value.x + 1) + ') > li:nth-child(' + (value.y + 1) + ')').addClass('hit');
+                            break;
+                        case "MISSED":
+                            $('#map' + 2 + ' > ul:nth-child(' + (value.x + 1) + ') > li:nth-child(' + (value.y + 1) + ')').addClass('missed');
+                            break;
+                    }
+                })
+
+                //Disable special actions which are no longer userable.
+
+                if (result.mySpecialActions.FIRE_TWICE == false) {
+                    $('#special1').attr("disabled", "disabled");
+                }
+                if (result.mySpecialActions.THREE_BONUS_SHOTS == false) {
+                    $('#special2').attr("disabled", "disabled");
+                }
+                if (result.mySpecialActions.AUTO_ROCKET == false) {
+                    $('#special3').attr("disabled", "disabled");
+                }
+                if (result.mySpecialActions.ENEMY_PASSES == false) {
+                    $('#special4').attr("disabled", "disabled");
+                }
+
+                //Set maxShots
+                maxShots = result.myShotsBase;
+                //Reprint it
+                $("#maxShots").text(maxShots);
             }
         });
     }
@@ -268,4 +291,29 @@
         </div>
     </div>
 </section>
+
+
+<!-- set up the modal to start hidden and fade in and out -->
+<div id="blockingBox" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- dialog body -->
+            <div class="modal-body text-center">
+                <h2>Hey, wait!</h2>
+                <br>
+                <p>You are thinking faster than your opponent! @user2 has not finished his turn!</p>
+                <br>
+                <div class="progress progress-striped active">
+                    <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                    </div>
+                </div>
+            </div>
+            <!-- dialog buttons -->
+            <div class="modal-footer"><button type="button" class="btn btn-primary disabled">OK</button></div>
+        </div>
+    </div>
+</div>
+
+
+
 }
