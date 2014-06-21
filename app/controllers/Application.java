@@ -45,6 +45,7 @@ public class Application extends Controller{
     
     public static Result joinGame(String username, String matchID){
         
+        username = username.replaceAll("[^a-zA-Z0-9äöüßÄÖÜ_ ]", "");
         if(username.length() > 25){
           username = username.substring(0,25);
         } 
@@ -266,7 +267,7 @@ public class Application extends Controller{
     
     
     public static Result createGame(String username){
-    	
+    	username = username.replaceAll("[^a-zA-Z0-9äöüßÄÖÜ_ ]", "");
         if(username.length() > 25){
           username = username.substring(0,25);
         } 
