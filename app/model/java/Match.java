@@ -11,6 +11,7 @@ public class Match extends java.util.Observable {
 		NONE, HOST, GUEST
 	}
 	private boolean gameCheated = false;
+	private boolean gameForfeited = false;
 	private WinnerOptions winner = WinnerOptions.NONE;
 	private int numberOfRounds = 0;
 	private Map host;
@@ -37,7 +38,6 @@ public class Match extends java.util.Observable {
 		Map guest = new Map(false, username, this); // is guest
 		this.guest = guest;
 	}
-
 	public boolean has2Players() {
 		if (guest == null) {
 			return false;
@@ -45,19 +45,21 @@ public class Match extends java.util.Observable {
 			return true;
 		}
 	}
-
+	public boolean isGameForfeited() {
+		return gameForfeited;
+	}
+	public void setGameForfeited(boolean gameForfeited) {
+		this.gameForfeited = gameForfeited;
+	}
 	public Map getHost() {
 		return host;
 	}
-	
 	public boolean isGameCheated() {
 		return gameCheated;
 	}
-
 	public Map getGuest() {
 		return guest;
 	}
-
 	public int getId() {
 		return id;
 	}

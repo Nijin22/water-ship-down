@@ -1,6 +1,7 @@
 package controllers;
 
 import model.java.*;
+import model.java.Match.WinnerOptions;
 import model.java.exceptions.ShipNotPlacableException;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
@@ -24,7 +25,7 @@ public class Application extends Controller {
     	return ok(start.render());
     }
     
-    // TODO: reset
+    // TODO: Implement - set the game to victory!
     public static Result reset() {
     	return redirect("/");
     }
@@ -36,7 +37,6 @@ public class Application extends Controller {
         String result = "[";
         
         //iterate over openMatches and write key and name in result string
-        boolean firstTime = true;
         for(Integer key : openMatches.keySet()){
           result += "{\"key\" : " + key + ", \"hostname\" : " + "\"" + openMatches.get(key).getHost().getName() + "\""+ "},";
         }
@@ -269,7 +269,25 @@ public class Application extends Controller {
     }
     
     public static Result result(){
-    	return ok("TODO: Result page");
+    	MatchController matchController = MatchController.getInstance();
+  		Match match = matchController.getMatchByID(Integer.parseInt(session("matchID")));
+  		boolean isHost = session("isHost").equals("true");
+  		boolean thisUserWins;
+  		if (match.getWinner()==WinnerOptions.HOST) {
+  			if (isHost) {
+  				thisUserWins = true;
+			} else {
+				thisUserWins = false;
+			}
+		} else {
+			if (isHost) {
+				thisUserWins = false;
+			} else {
+				thisUserWins = true;
+			}
+		}
+  		
+    	return ok(result.render(match.getHost().getName(), match.getGuest().getName()), thisUserWins, match.isGameCheated(), match.isGameForfeited());
     }
     
     public static Result createGame(String username){
