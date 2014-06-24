@@ -48,8 +48,16 @@ public class Match extends java.util.Observable {
 	public boolean isGameForfeited() {
 		return gameForfeited;
 	}
-	public void setGameForfeited(boolean gameForfeited) {
-		this.gameForfeited = gameForfeited;
+	public void markGameForfeited(boolean forfeitedByHost) {
+		this.gameForfeited = true;
+		if (forfeitedByHost) {
+			winner=WinnerOptions.GUEST;
+		} else {
+			winner=WinnerOptions.HOST;
+		}
+		//Tell the Application that the turn is finished. (And tell it the matches id)
+		setChanged();
+		notifyObservers(id);
 	}
 	public Map getHost() {
 		return host;
@@ -91,16 +99,16 @@ public class Match extends java.util.Observable {
 			//Both players made their decisions.
 			
 			//DEBUG
-			System.out.println("---Actions Host");
-			System.out.println("-----TWICE: "+getHost().sa_fire_twice);
-			System.out.println("-----3BONUS: "+getHost().sa_three_bonus_shots);
-			System.out.println("-----AUTO: "+getHost().sa_auto_rocket);
-			System.out.println("-----SHIELD: "+getHost().sa_enemy_passes);
-			System.out.println("---Actions Guest");
-			System.out.println("-----TWICE: "+getGuest().sa_fire_twice);
-			System.out.println("-----3BONUS: "+getGuest().sa_three_bonus_shots);
-			System.out.println("-----AUTO: "+getGuest().sa_auto_rocket);
-			System.out.println("-----SHIELD: "+getGuest().sa_enemy_passes);
+//			System.out.println("---Actions Host");
+//			System.out.println("-----TWICE: "+getHost().sa_fire_twice);
+//			System.out.println("-----3BONUS: "+getHost().sa_three_bonus_shots);
+//			System.out.println("-----AUTO: "+getHost().sa_auto_rocket);
+//			System.out.println("-----SHIELD: "+getHost().sa_enemy_passes);
+//			System.out.println("---Actions Guest");
+//			System.out.println("-----TWICE: "+getGuest().sa_fire_twice);
+//			System.out.println("-----3BONUS: "+getGuest().sa_three_bonus_shots);
+//			System.out.println("-----AUTO: "+getGuest().sa_auto_rocket);
+//			System.out.println("-----SHIELD: "+getGuest().sa_enemy_passes);
 			try {
 				calculateRound();
 			} catch (MoreCoordinatesThanAllowedException e) {
@@ -123,7 +131,6 @@ public class Match extends java.util.Observable {
 				gameCheated = true;
 			}
 			
-			System.out.println("  Turn calculation finished.");
 			if (getHost().getNumberShipsAlive() < 1) {
 				winner = WinnerOptions.GUEST;
 			}

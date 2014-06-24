@@ -25,8 +25,19 @@ public class Application extends Controller {
     	return ok(start.render());
     }
     
-    // TODO: Implement - set the game to victory!
     public static Result reset() {
+    	MatchController matchController = MatchController.getInstance();
+  		Match match = matchController.getMatchByID(Integer.parseInt(session("matchID")));
+  		
+  		if (match.has2Players()==false) {
+  			match.addGuest("NOT NAMED - HOST LEFT GAME");
+		}
+
+  		if (session("isHost").equals("true")) {
+  			match.markGameForfeited(true);
+		} else {
+			match.markGameForfeited(true);
+		}
     	return redirect("/");
     }
     
@@ -149,6 +160,11 @@ public class Application extends Controller {
     public static Result playing(){
         MatchController matchController = MatchController.getInstance();
   		Match match = matchController.getMatchByID(Integer.parseInt(session("matchID")));
+  		
+  		if (match.getWinner()!=WinnerOptions.NONE) {
+			return redirect("/result");
+		}
+  		
   		String user1;
   		String user2;
   		if (session("isHost").equals("true")) {
@@ -222,7 +238,6 @@ public class Application extends Controller {
   		jsonFields = jsonFields.substring(0, jsonFields.length() - 1);
   		String jsonEnemyMap = "\"enemyMap\":{\"fields\":["+jsonFields+"]}";  		
   		
-  		//TODO: jsonSpecialActions füllen - ist momentan noch Platzhalter
   		String jsonSpecialActions = "\"mySpecialActions\":{\"FIRE_TWICE\":"+myMap.sa_fire_twice+",\"THREE_BONUS_SHOTS\":"+myMap.sa_three_bonus_shots+",\"AUTO_ROCKET\":"+myMap.sa_auto_rocket+",\"ENEMY_PASSES\":"+myMap.sa_enemy_passes+"}";
   		
   		String json = "{"+jsonMyMap+","+jsonEnemyMap+","+jsonSpecialActions+","+"\"myShotsBase\":"+Integer.toString(myShotsBase)+"}";
@@ -291,7 +306,7 @@ public class Application extends Controller {
   		String guestName = match.getGuest().getName();
   		boolean isGameCheated = match.isGameCheated();
   		boolean isGameForfeited = match.isGameForfeited();
-    	return ok(resultPage.render(hostName, guestName, thisUserWins, isGameCheated, isGameForfeited));
+    	return ok(resultPage.render(hostName, guestName, thisUserWins, isGameCheated, isGameForfeited, match.getNumberOfRounds()));
     }
     
     public static Result createGame(String username){
