@@ -25,7 +25,7 @@ GET     /sendDecisions              controllers.Application.sendDecisions(jsonSt
 GET		/createPlayingWebSocket		controllers.Application.wsInformAboutTurnEnd()
 
 #Results
-GET		/result						controllers.Application.result()
+GET		/result						controllers.Application.resultPage()
 
 #Exit
 GET     /reset                      controllers.Application.reset()

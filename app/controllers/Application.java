@@ -268,7 +268,7 @@ public class Application extends Controller {
     	return ok(jsonString);
     }
     
-    public static Result result(){
+    public static Result resultPage(){
     	MatchController matchController = MatchController.getInstance();
   		Match match = matchController.getMatchByID(Integer.parseInt(session("matchID")));
   		boolean isHost = session("isHost").equals("true");
@@ -286,8 +286,12 @@ public class Application extends Controller {
 				thisUserWins = true;
 			}
 		}
-  		
-    	return ok(result.render(match.getHost().getName(), match.getGuest().getName()), thisUserWins, match.isGameCheated(), match.isGameForfeited());
+  		//Print page:
+  		String hostName = match.getHost().getName();
+  		String guestName = match.getGuest().getName();
+  		boolean isGameCheated = match.isGameCheated();
+  		boolean isGameForfeited = match.isGameForfeited();
+    	return ok(resultPage.render(hostName, guestName, thisUserWins, isGameCheated, isGameForfeited));
     }
     
     public static Result createGame(String username){
@@ -346,8 +350,5 @@ public class Application extends Controller {
     		}
     	};
     }
-
-
-	
 
 }
