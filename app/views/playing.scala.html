@@ -1,21 +1,6 @@
 @(user1: String)(user2: String)
 
-@header = {
-<div class=usernames>
-    <div class="avatar blue"><span class="glyphicon glyphicon-user blue"></span></div>
-    <span>@user1</span>
-</div>
-<div class=usernames>
-    <span>@user2</span>
-    <div class="avatar red"><span class="glyphicon glyphicon-user red"></span></div>
-</div>
-<div class="navbar-right">
-    <button id="help" type="button" class="btn btn-default navbar-btn">Help</button>
-    <button id="exit" type="button" class="btn btn-danger navbar-btn">Exit</button>
-</div>
-}
-
-@main("Playing game")(header){
+@javaScript = {
 <script type="text/javascript">
     var selectedSpecialAction = "NONE";
     var numberSelectedTargets = 0;
@@ -245,7 +230,25 @@
 
 
 </script>
+}
 
+
+@header = {
+<div class=usernames>
+    <div class="avatar blue"><span class="glyphicon glyphicon-user blue"></span></div>
+    <span>@user1</span>
+</div>
+<div class=usernames>
+    <span>@user2</span>
+    <div class="avatar red"><span class="glyphicon glyphicon-user red"></span></div>
+</div>
+<div class="navbar-right">
+    <button id="help" type="button" class="btn btn-default navbar-btn">Help</button>
+    <button id="exit" type="button" class="btn btn-danger navbar-btn">Exit</button>
+</div>
+}
+
+@main("Playing game")(javaScript)(header){
 <section class="maps maps_playing">
     <div class="container maps_inner">
         <div class="row">

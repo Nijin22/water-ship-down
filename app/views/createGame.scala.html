@@ -1,5 +1,27 @@
 @(username: String)
 
+@javaScript = {
+<script type="text/javascript">
+    $(function() {
+        //get websocket class, firefox has a different way to get it
+        var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
+
+        //create the actual webSocket (get its URL via routes file from play framework)
+        var socket = new WS('@routes.Application.wsToInformAboutSecondPlayer().webSocketURL(request)');
+
+        //define the function which handles messages send to this player.
+        var respondToWebSocket = function(event) {
+            var player = event.data;
+            alert("Player " + player + " joined");
+            window.location.replace("./placeShips");
+        };
+
+        //register previous function to the socket
+        socket.onmessage = respondToWebSocket;
+    });
+</script>
+}
+
 @header = {
     <div class=usernames>
     <div class="avatar blue"><span class="glyphicon glyphicon-user blue"></span></div>
@@ -11,7 +33,7 @@
     </div>
 }
 
-@main("Waiting for other player")(header){
+@main("Waiting for other player")(javaScript)(header){
 <script type="text/javascript">
     $(function() {
         //get websocket class, firefox has a different way to get it

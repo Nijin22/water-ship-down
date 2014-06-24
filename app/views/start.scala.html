@@ -1,16 +1,4 @@
-@header = {
-<ul class="nav navbar-nav">
-    <li><a href="/">Home</a></li>
-    <li><a href="#">Instructions</a></li>
-    <li><a href="#">About</a></li>
-</ul>
-<div class="navbar-right">
-    <button id="help" type="button" class="btn btn-default navbar-btn">Help</button>
-</div>
-}
-
-@main("Water Ship Down")(header){
-
+@javaScript = {
 <script type="text/javascript">
 
     $(function() {
@@ -61,8 +49,21 @@
     }
 
 </script>
+}
 
 
+@header = {
+<ul class="nav navbar-nav">
+    <li><a href="/">Home</a></li>
+    <li><a href="#">Instructions</a></li>
+    <li><a href="#">About</a></li>
+</ul>
+<div class="navbar-right">
+    <button id="help" type="button" class="btn btn-default navbar-btn">Help</button>
+</div>
+}
+
+@main("Water Ship Down")(javaScript)(header){
 <section class="startGame jumbotron">
     <div class="container">
 
