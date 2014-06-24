@@ -1,6 +1,8 @@
 package model.java;
 
 import java.util.Collection;
+
+import model.java.exceptions.ActionAlreadyUsedException;
 import model.java.exceptions.FieldAlreadyFiredUponException;
 import model.java.exceptions.MoreCoordinatesThanAllowedException;
 
@@ -8,6 +10,7 @@ public class Match extends java.util.Observable {
 	public enum WinnerOptions{
 		NONE, HOST, GUEST
 	}
+	private boolean gameCheated = false;
 	private WinnerOptions winner = WinnerOptions.NONE;
 	private int numberOfRounds = 0;
 	private Map host;
@@ -46,6 +49,10 @@ public class Match extends java.util.Observable {
 	public Map getHost() {
 		return host;
 	}
+	
+	public boolean isGameCheated() {
+		return gameCheated;
+	}
 
 	public Map getGuest() {
 		return guest;
@@ -54,9 +61,21 @@ public class Match extends java.util.Observable {
 	public int getId() {
 		return id;
 	}
+	/**
+	 * Collects the Decisions for a round and calculates the turn if decisions from both parties were submitted.
+	 * @param isHost true if these are the decisions for the host
+	 * @param action String representing the special action (or "NONE")
+	 * @param coordinates Collection of coordinates
+	 */
 	public void collectDecisions(boolean isHost, String action, Collection<Coordinate> coordinates){
 		//Save decisions
-		System.out.println("DEBUG: Data from host?" + isHost);
+		String userName;
+		if (isHost) {
+			userName = getHost().getName();
+		} else {
+			userName = getGuest().getName();
+		}
+		System.out.println("Received decisions from  " + userName);
 		if (isHost) {
 			decisionHostAction = action;
 			decisionHostCoordinates = coordinates;
@@ -68,15 +87,29 @@ public class Match extends java.util.Observable {
 		//Check if both decisions were made
 		if (decisionGuestAction != null && decisionGuestCoordinates != null && decisionHostAction != null && decisionHostCoordinates != null) {
 			//Both players made their decisions.
-			System.out.println("DEBUG: Both players made their choices!");
+			System.out.println("  Both players made their choices!");
 			
 			try {
 				calculateRound();
 			} catch (MoreCoordinatesThanAllowedException e) {
-				throw new RuntimeException("Someone tried to shoot at more targets than he is allowed to. Was it host? " + e.causedByHost);
+				//Someone tried to cheat the game by submitting more targets than he is allowed to.
+				if (e.causedByHost) {
+					winner = WinnerOptions.GUEST;
+				} else {
+					winner = WinnerOptions.HOST;
+				}
+				gameCheated = true;
+			} catch (ActionAlreadyUsedException e) {
+				//Someone tried to cheat the game by submitting an action which he alredy used earlier.
+				if (e.causedByHost) {
+					winner = WinnerOptions.GUEST;
+				} else {
+					winner = WinnerOptions.HOST;
+				}
+				gameCheated = true;
 			}
 			
-			System.out.println("DEBUG: Turn calculation finished.");
+			System.out.println("  Turn calculation finished.");
 			if (getHost().getNumberShipsAlive() < 1) {
 				winner = WinnerOptions.GUEST;
 				System.out.println("Host lost all of his ships. Guest wins!");
@@ -86,8 +119,9 @@ public class Match extends java.util.Observable {
 				System.out.println("Guest lost all of his ships. Host wins!");
 			}
 			
+			//Tell the Application that the turn is finished. (And tell it the matches id)
 			setChanged();
-			notifyObservers(id); //Tell the Application that the turn is finished. (And tell it the turns id)
+			notifyObservers(id);
 			
 			//Set choices to null because round was calculated successful.
 			decisionGuestAction = null;
@@ -96,9 +130,58 @@ public class Match extends java.util.Observable {
 			decisionHostCoordinates = null;
 		}
 	}
-	
-	private void calculateRound() throws MoreCoordinatesThanAllowedException{
+	/**
+	 * Calculates the decisions for this turn, throws exceptions should disallowed decisions been sent
+	 * @throws MoreCoordinatesThanAllowedException
+	 * @throws ActionAlreadyUsedException
+	 */
+	private void calculateRound() throws MoreCoordinatesThanAllowedException, ActionAlreadyUsedException{
 		numberOfRounds++;
+		// Check if players use actions which they already used
+		switch (decisionGuestAction) {
+		case "FIRE_TWICE":
+			if (getGuest().sa_fire_twice == false) {
+				throw new ActionAlreadyUsedException(false);
+			}
+			break;
+		case "THREE_BONUS_SHOTS":
+			if (getGuest().sa_three_bonus_shots == false) {
+				throw new ActionAlreadyUsedException(false);
+			}
+			break;
+		case "ENEMY_PASSES":
+			if (getGuest().sa_enemy_passes == false) {
+				throw new ActionAlreadyUsedException(false);
+			}
+			break;
+		case "AUTO_ROCKET":
+			if (getGuest().sa_auto_rocket == false) {
+				throw new ActionAlreadyUsedException(false);
+			}
+			break;
+		}
+		switch (decisionHostAction) {
+		case "FIRE_TWICE":
+			if (getHost().sa_fire_twice == false) {
+				throw new ActionAlreadyUsedException(true);
+			}
+			break;
+		case "THREE_BONUS_SHOTS":
+			if (getHost().sa_three_bonus_shots == false) {
+				throw new ActionAlreadyUsedException(true);
+			}
+			break;
+		case "ENEMY_PASSES":
+			if (getHost().sa_enemy_passes == false) {
+				throw new ActionAlreadyUsedException(true);
+			}
+			break;
+		case "AUTO_ROCKET":
+			if (getHost().sa_auto_rocket == false) {
+				throw new ActionAlreadyUsedException(true);
+			}
+			break;
+		}
 		
 		//calculating max shots
 		int maxShotsHost = getHost().getNumberShipsAlive();

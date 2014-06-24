@@ -1,9 +1,9 @@
 package model.java.exceptions;
 
 public class ActionAlreadyUsedException extends WSDException {
-
-	public ActionAlreadyUsedException() {
-		// TODO Auto-generated constructor stub
+	public boolean causedByHost; //false if caused by guest
+	public ActionAlreadyUsedException(boolean causedByHost) {
+		this.causedByHost = causedByHost;
 	}
 
 }
