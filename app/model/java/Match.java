@@ -79,12 +79,6 @@ public class Match extends java.util.Observable {
 	 */
 	public void collectDecisions(boolean isHost, String action, Collection<Coordinate> coordinates){
 		//Save decisions
-		String userName;
-		if (isHost) {
-			userName = getHost().getName();
-		} else {
-			userName = getGuest().getName();
-		}
 		if (isHost) {
 			decisionHostAction = action;
 			decisionHostCoordinates = coordinates;
