@@ -78,6 +78,13 @@
         var x = getPositon("X", type);
         var y = getPositon("Y", type);
 
+        if (typeof x === "undefined") {
+            alert("x is undefined");
+        }
+        if (typeof y === "undefined") {
+            alert("y is undefined");
+        }
+        
         $.ajax({
             url: "validateShipPosition?shipType=" + shipType + "&x=" + x + "&y=" + y + "&orientation=" + orientation,
             dataType: "text",
