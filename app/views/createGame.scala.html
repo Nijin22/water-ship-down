@@ -1,19 +1,12 @@
 @(username: String)
 
-@header = {
-    <div class=usernames>
-    <div class="avatar blue"><span class="glyphicon glyphicon-user blue"></span></div>
-        <span>@username</span>
-    </div>
-    <div class="navbar-right">
-        <button id="help" type="button" class="btn btn-default navbar-btn">Help</button>
-        <button id="exit" type="button" class="btn btn-danger navbar-btn">Exit</button>
-    </div>
-}
-
-@main("Waiting for other player")(header){
+@javaScript = {
 <script type="text/javascript">
     $(function() {
+        
+        //
+        $(".controlToggleContainer").hide();
+        
         //get websocket class, firefox has a different way to get it
         var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
 
@@ -31,7 +24,20 @@
         socket.onmessage = respondToWebSocket;
     });
 </script>
+}
 
+@header = {
+    <div class=usernames>
+    <div class="avatar blue"><span class="glyphicon glyphicon-user blue"></span></div>
+        <span>@username</span>
+    </div>
+    <div class="navbar-right">
+        <button id="help" type="button" class="btn btn-default navbar-btn">Help</button>
+        <button id="exit" type="button" class="btn btn-danger navbar-btn">Exit</button>
+    </div>
+}
+
+@main("Waiting for other player")(javaScript)(header){
 <section class="waiting container jumbotron text-center">
     <h1>Hey, @username!</h1>
     <p>You are currently waiting for another player. Maybe you want to test your tactical skills?</p>
