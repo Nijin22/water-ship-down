@@ -85,7 +85,6 @@ public class Match extends java.util.Observable {
 		} else {
 			userName = getGuest().getName();
 		}
-		System.out.println("Received decisions from  " + userName);
 		if (isHost) {
 			decisionHostAction = action;
 			decisionHostCoordinates = coordinates;
@@ -113,7 +112,6 @@ public class Match extends java.util.Observable {
 				calculateRound();
 			} catch (MoreCoordinatesThanAllowedException e) {
 				//Someone tried to cheat the game by submitting more targets than he is allowed to.
-				System.out.println("CHEATED (More coordinates)! Was it host? " + e.causedByHost);
 				if (e.causedByHost) {
 					winner = WinnerOptions.GUEST;
 				} else {
@@ -122,7 +120,6 @@ public class Match extends java.util.Observable {
 				gameCheated = true;
 			} catch (ActionAlreadyUsedException e) {
 				//Someone tried to cheat the game by submitting an action which he already used earlier.
-				System.out.println("CHEATED (Already used Action)! Was it host? " + e.causedByHost);
 				if (e.causedByHost) {
 					winner = WinnerOptions.GUEST;
 				} else {
