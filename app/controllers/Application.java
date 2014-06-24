@@ -141,7 +141,6 @@ public class Application extends Controller {
   		switch (string_orientation) {
 		case "h":
 			orientation = orientation.HORIZONTAL;
-			System.out.println("HORIZONTAL!!!!");
 			break;
 		default:
 			orientation = orientation.VERTICAL;
@@ -255,7 +254,6 @@ public class Application extends Controller {
 			
 			//Determine Action
 			String action = (String) jsonObject.get("action");
-	    	System.out.println("Chosen action: " + action);
 	    	
 	    	//Determine Targets
 	    	Collection<Coordinate> targets = new HashSet();
