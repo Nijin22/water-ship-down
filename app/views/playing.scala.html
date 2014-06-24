@@ -19,7 +19,7 @@
 <script type="text/javascript">
     var selectedSpecialAction = "NONE";
     var numberSelectedTargets = 0;
-    var maxShots = 55555;
+    var maxShots = 0;
 
     $(function() {
         // select targets
@@ -51,13 +51,32 @@
         // handle special actions
         $('.special_actions > button').click(function() {
 
+            $(this).toggleClass('active');
+            $(this).siblings().toggleClass('disabled');
+
             //set the selected to true
             switch ($(this).attr('id')) {
                 case 'special1':
                     selectedSpecialAction = "FIRE_TWICE";
+                    if ($(this).hasClass('active')) {
+                        maxShots = maxShots * 2;
+                        $("#maxShots").text(maxShots);
+                    } else {
+                        maxShots = maxShots / 2;
+                        $("#maxShots").text(maxShots);
+                        resetTargets();
+                    }
                     break;
                 case 'special2':
                     selectedSpecialAction = "THREE_BONUS_SHOTS";
+                    if ($(this).hasClass('active')) {
+                        maxShots = maxShots + 3;
+                        $("#maxShots").text(maxShots);
+                    } else {
+                        maxShots = maxShots - 3;
+                        $("#maxShots").text(maxShots);
+                        resetTargets();
+                    }
                     break;
                 case 'special3':
                     selectedSpecialAction = "AUTO_ROCKET";
@@ -66,31 +85,28 @@
                     selectedSpecialAction = "ENEMY_PASSES";
                     break;
             }
-            $(this).toggleClass('active');
-            $(this).siblings().toggleClass('disabled');
-
         });
 
         //load the maps for the first time
         loadMaps();
-        
+
         //Create WebSockets which tells us to refresh the page or go to the results page
-      	//get websocket class, firefox has a different way to get it
+        //get websocket class, firefox has a different way to get it
         var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
 
         //create the actual webSocket (get its URL via routes file from play framework)
         var socket = new WS('@routes.Application.wsInformAboutTurnEnd().webSocketURL(request)');
-      	//define the function which handles messages send to this player.
+        //define the function which handles messages send to this player.
         var respondToWebSocket = function(event) {
-      		alert("Received answer from web socket" + event.data);
-        	var response = event.data;
-        	if (response == "refresh"){
-        		$("#refreshMapButton").removeClass("disabled");
-        		$("#blockingBox").modal('hide');
-        	}
-        	if (response == "result"){
-        		window.location.href = "/result";
-        	}
+            var response = event.data;
+            if (response == "refresh") {
+                $("#refreshMapButton").removeClass("disabled");
+                $("#blockingBox").modal('hide');
+                loadMaps();
+            }
+            if (response == "result") {
+                window.location.href = "/result";
+            }
         };
 
         //register previous function to the socket
@@ -122,29 +138,12 @@
             success: function(result) {
             }
         })
-        blocked();
-    }
 
-    function blocked() {
-        $("#blockingBox").on("show", function() {    // wire up the OK button to dismiss the modal when shown
-            $("#blockingBox a.btn").on("click", function(e) {
-                console.log("button pressed");   // just as an example...
-                $("#blockingBox").modal('hide');     // dismiss the dialog
-            });
-        });
-
-        $("#blockingBox").on("hide", function() {    // remove the event listeners when the dialog is dismissed
-            $("#blockingBox a.btn").off("click");
-        });
-
-        $("#blockingBox").on("hidden", function() {  // remove the actual elements from the DOM when fully hidden
-            $("#blockingBox").remove();
-        });
-
-        $("#blockingBox").modal({// wire up the actual modal functionality and show the dialog
+        // shows dialog
+        $('#blockingBox').modal({
             "backdrop": "static",
             "keyboard": true,
-            "show": true                     // ensure the modal is shown immediately
+            "show": true
         });
     }
 
@@ -207,8 +206,41 @@
                 maxShots = result.myShotsBase;
                 //Reprint it
                 $("#maxShots").text(maxShots);
+                
+                // reset selected targets
+                resetTargets();
+                
+                // reset selected special actions
+                for (var i = 1; i < 5; i++) {
+                    $('#special' + i).removeClass('disabled');
+                    $('#special' + i).removeClass('active');
+                }
+                ;
+
+                // clean up messages
+                $('.messages').fadeOut(0);
+                $('.messageText').empty();
+
+
             }
         });
+    }
+
+    function resetTargets() {
+        // reprint number of available Shots
+        numberSelectedTargets = 0;
+        $('#availableShots').text(numberSelectedTargets);
+        // reset selected targets
+        var col = 1;
+        while (col <= 18) {
+            var row = 1;
+            while (row <= 18) {
+                $('#map2 > ul:nth-child(' + col + ') > li:nth-child(' + row).removeClass('target');
+                ;
+                row++;
+            }
+            col++;
+        }
     }
 
 
@@ -326,8 +358,6 @@
                     </div>
                 </div>
             </div>
-            <!-- dialog buttons -->
-            <div class="modal-footer"><button id="refreshMapButton" type="button" onclick="loadMaps();" class="btn btn-success disabled">Next turn!</button></div>
         </div>
     </div>
 </div>

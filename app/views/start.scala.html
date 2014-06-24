@@ -1,15 +1,15 @@
 @header = {
-    <ul class="nav navbar-nav">
-        <li><a href="/">Home</a></li>
-        <li><a href="#">Instructions</a></li>
-        <li><a href="#">About</a></li>
-    </ul>
-    <div class="navbar-right">
-        <button id="help" type="button" class="btn btn-default navbar-btn">Help</button>
-    </div>
+<ul class="nav navbar-nav">
+    <li><a href="/">Home</a></li>
+    <li><a href="#">Instructions</a></li>
+    <li><a href="#">About</a></li>
+</ul>
+<div class="navbar-right">
+    <button id="help" type="button" class="btn btn-default navbar-btn">Help</button>
+</div>
 }
 
-@main("Home")(header){
+@main("Water Ship Down")(header){
 
 <script type="text/javascript">
 
@@ -32,11 +32,29 @@
 
     function joinGame(key) {
         if ($('#usernameInput').val() == '') {
-            var username = "";
-            while (username == "") {
-                username = prompt("What is your username?", "John Doe");
-            }
-            window.location.href = '/joinGame?username=' + username + '&matchID=' + key.toString();
+            
+            // show dialog if no username is chosen
+            $('#missingUsername').modal();
+            
+            // check username input in dialog and enable button
+            $('#usernameInputModal').keyup(function() {
+                if ($('#usernameInputModal').val().length > 0) {
+                    $('#btn_joinGameModal').removeAttr('disabled');
+                } else {
+                    $('#btn_joinGameModal').attr('disabled', 'disabled');
+                }
+            });
+            
+            // event pressing return key
+            $('#usernameInputModal').keyup(function(event) {
+                if (event.keyCode == 13) {
+                    $('#btn_joinGameModal').click();
+                }
+            });
+
+            $('#btn_joinGameModal').click(function() {
+                window.location.href = '/joinGame?username=' + $('#usernameInputModal').val() + '&matchID=' + key.toString();
+            });
         } else {
             window.location.href = '/joinGame?username=' + $('#usernameInput').val() + '&matchID=' + key.toString();
         }
@@ -91,4 +109,30 @@
         </div>
     </div>
 </footer>
+
+
+<!-- set up the modal to start hidden and fade in and out -->
+<div id="missingUsername" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Please choose a username!</h4>
+            </div>
+            <!-- dialog body -->
+            <div class="modal-body text-center">
+                <input id="usernameInputModal" type="text" class="form-control" placeholder="Choose your username" required name="username" maxlength="25">
+            </div>
+            <!-- dialog buttons -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="btn_joinGameModal" type="button" class="btn btn-primary" disabled="disabled">join game</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 }
