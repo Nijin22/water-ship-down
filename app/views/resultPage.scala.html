@@ -1,4 +1,4 @@
-@(host: String)(guest: String)(thisUserWins: Boolean)(gameWasCheated: Boolean)(gameWasForfeited: Boolean)
+@(host: String)(guest: String)(thisUserWins: Boolean)(gameWasCheated: Boolean)(gameWasForfeited: Boolean)(numberTurns: Integer)
 
 @header = {
 <div>THIS IS THE HEADER</div>
@@ -11,4 +11,5 @@ Guest: @guest<br>
 You won? @thisUserWins<br>
 Game was Cheated? @gameWasCheated<br>
 Game was Forfeited? @gameWasForfeited<br>
+Number of turns: @numberTurns
 }
