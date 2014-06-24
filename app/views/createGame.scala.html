@@ -3,6 +3,10 @@
 @javaScript = {
 <script type="text/javascript">
     $(function() {
+        
+        //
+        $(".controlToggleContainer").hide();
+        
         //get websocket class, firefox has a different way to get it
         var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
 
@@ -34,26 +38,6 @@
 }
 
 @main("Waiting for other player")(javaScript)(header){
-<script type="text/javascript">
-    $(function() {
-        //get websocket class, firefox has a different way to get it
-        var WS = window['MozWebSocket'] ? window['MozWebSocket'] : WebSocket;
-
-        //create the actual webSocket (get its URL via routes file from play framework)
-        var socket = new WS('@routes.Application.wsToInformAboutSecondPlayer().webSocketURL(request)');
-
-        //define the function which handles messages send to this player.
-        var respondToWebSocket = function(event) {
-            var player = event.data;
-            alert("Player " + player + " joined");
-            window.location.replace("./placeShips");
-        };
-
-        //register previous function to the socket
-        socket.onmessage = respondToWebSocket;
-    });
-</script>
-
 <section class="waiting container jumbotron text-center">
     <h1>Hey, @username!</h1>
     <p>You are currently waiting for another player. Maybe you want to test your tactical skills?</p>
