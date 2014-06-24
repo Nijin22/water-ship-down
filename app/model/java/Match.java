@@ -89,12 +89,23 @@ public class Match extends java.util.Observable {
 		//Check if both decisions were made
 		if (decisionGuestAction != null && decisionGuestCoordinates != null && decisionHostAction != null && decisionHostCoordinates != null) {
 			//Both players made their decisions.
-			System.out.println("  Both players made their choices!");
 			
+			//DEBUG
+			System.out.println("---Actions Host");
+			System.out.println("-----TWICE: "+getHost().sa_fire_twice);
+			System.out.println("-----3BONUS: "+getHost().sa_three_bonus_shots);
+			System.out.println("-----AUTO: "+getHost().sa_auto_rocket);
+			System.out.println("-----SHIELD: "+getHost().sa_enemy_passes);
+			System.out.println("---Actions Guest");
+			System.out.println("-----TWICE: "+getGuest().sa_fire_twice);
+			System.out.println("-----3BONUS: "+getGuest().sa_three_bonus_shots);
+			System.out.println("-----AUTO: "+getGuest().sa_auto_rocket);
+			System.out.println("-----SHIELD: "+getGuest().sa_enemy_passes);
 			try {
 				calculateRound();
 			} catch (MoreCoordinatesThanAllowedException e) {
 				//Someone tried to cheat the game by submitting more targets than he is allowed to.
+				System.out.println("CHEATED (More coordinates)! Was it host? " + e.causedByHost);
 				if (e.causedByHost) {
 					winner = WinnerOptions.GUEST;
 				} else {
@@ -102,7 +113,8 @@ public class Match extends java.util.Observable {
 				}
 				gameCheated = true;
 			} catch (ActionAlreadyUsedException e) {
-				//Someone tried to cheat the game by submitting an action which he alredy used earlier.
+				//Someone tried to cheat the game by submitting an action which he already used earlier.
+				System.out.println("CHEATED (Already used Action)! Was it host? " + e.causedByHost);
 				if (e.causedByHost) {
 					winner = WinnerOptions.GUEST;
 				} else {
@@ -114,11 +126,9 @@ public class Match extends java.util.Observable {
 			System.out.println("  Turn calculation finished.");
 			if (getHost().getNumberShipsAlive() < 1) {
 				winner = WinnerOptions.GUEST;
-				System.out.println("Host lost all of his ships. Guest wins!");
 			}
 			if (getGuest().getNumberShipsAlive() < 1) {
 				winner = WinnerOptions.HOST;
-				System.out.println("Guest lost all of his ships. Host wins!");
 			}
 			
 			//Tell the Application that the turn is finished. (And tell it the matches id)
