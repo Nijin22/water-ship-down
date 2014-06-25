@@ -51,6 +51,63 @@
     </header>
 
     @content
+    <!-- set up the modal to start hidden and fade in and out -->
+	<div id="helpDialog" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Help</h4>
+            </div>
+            <!-- dialog body -->
+            <div class="modal-body">
+                <h5>Playing the game</h5>
+                <h6>Creating a game</h6>
+                <p>If you are the first player to arrive on the website, you can start a match by creating a game. Simply enter your desired username in the textbox and click on "create a game".</p>
+                <p>While you wait you can play the classic strategy game <a href="http://en.wikipedia.org/wiki/Tic-tac-toe">Tic-tac-toe</a>.</p>
+                <h6>Joining a game</h6>
+                <p>Assuming there is already another player waiting you can scroll down to the list of waiting players. (If your desired partner isn't there, click on the "refresh" button to reload the list.)</p>
+                <p>Simply click on the name of your desired partner to start the game.</p>
+                <h5>Game basics</h5>
+                <p><strong>Water Ship Down</strong> is a game similar to <a href="http://en.wikipedia.org/wiki/Battleship_(game)">Battleship</a> with some interesting twists which make it less of a "luck game" and adds a more tactical layer.</p>
+            	<h4>The Map</h4>
+            	<p>You will play on a 18x18 map consisting entirely of water (and ships!). Every tile can contain a part of a ship and can be shot on.</p>
+            	<h4>The Ships</h4>
+            	<p>Your fleet consists of a total of 6 ships.</p>
+            	<ul>
+            	<li><strong>1 Carrier:</strong> The largest ship of your fleet with a size of 10x2 fields marks a very strong but easily spotted target.</li>
+            	<li><strong>1 Battleship:</strong> This is the "smaller brother" of the carrier. A size of 5x2 fields is still large but it can stay hidden for a bit longer.</li>
+            	<li><strong>2 Destroyers:</strong> These are only 1 field wide (but still 5 fields tall!)</li>
+            	<li><strong>2 Submarines:</strong> With a size of 3x1 fields these ships are very hard to detect, but once they are spotted they fall quickly.</li>
+            	</ul>
+            	<h4>Playing ships</h4>
+            	<p>Once two players are connected they will be able to place their ships. Simply use Drag'n'Drop to place the ships from your dock (on the right side) into your map. Press the "change orientation" button to change the way your ship faces.</p>
+            	<h4>The turn</h4>
+            	<p>After placing the ships you will get to the actual tactical game. Here you have multiple options</p>
+            	<h5>Selecting targets</h5>
+            	<p>Depending on the amount of ships still alive you have 1-6 high-tech missiles available. Each ship provides one missile per turn.</p>
+            	<p>To select a target, click on a field on the enemy map. (right side)</p>
+            	<p>You can deselect a target by clicking it again. This will add the missile back to your stock.</p>
+            	<h5>Chosing special actions</h5>
+            	<p>Another twist of Water Ship Down is the introduction of "special actions".</p>
+            	<p>These provide a unique and powerful one-time bonus. So chose those moments wisely.</p>
+            	<p>You are able to select a single action (or none) per turn.</p>
+            	<ul>
+            	<li><strong>Rapid Fire:</strong> This action will double the amount of available missiles for one turn. Example: You have 4 ships left alive - chosing this action will allow you to select 8 targets.</li>
+            	<li><strong>Supportive Fire:</strong> Call in Support from a friendly positions. This allows 3 extra missiles this turn.</li>
+            	<li><strong>Smart Missile:</strong> This action fires a smart missile (additionally to your usual targets). The smart missile needs no active target and is guaranteed to hit an enemy ship. It can't be blocked with the preventive shield.</li>
+            	<li><strong>Preventive Shield:</strong> This action blocks all incoming (regular) missiles. Your enemy will not know whether these targets would have hit one of your ships.</li>
+            	</ul>
+            	<h4>Confirming the turn</h4>
+            	<p>Once you are happy with your selected targets and actions you can confirm your turn by clicking the "Start Attack!" buttons. If your enemy has not finished his turn you will have to wait until then.</p>
+            </div>
+            <!-- dialog buttons -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+	</div>
     
 
         

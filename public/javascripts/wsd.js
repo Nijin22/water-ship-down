@@ -42,7 +42,7 @@ $('document').ready(function() {
 
   //help button
   $('#help').click(function() {
-    bootbox.alert("<h1>Do you need some help?</h1>");
+    $("#helpDialog").modal();
   });
 
   // Every time a modal is shown, if it has an autofocus element, focus on it.
