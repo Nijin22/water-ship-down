@@ -305,13 +305,21 @@ public class Application extends Controller {
 			}
 		}
   		//Print page:
-  		String hostName = match.getHost().getName();
-  		String guestName = match.getGuest().getName();
+  		String user1;
+  		String user2;
+  		if (session("isHost").equals("true")) {
+			user1 = match.getHost().getName();
+			user2 = match.getGuest().getName();
+		} else {
+			user2 = match.getHost().getName();
+			user1 = match.getGuest().getName();
+		}
+        
   		boolean isGameCheated = match.isGameCheated();
   		boolean isGameForfeited = match.isGameForfeited();
-    	return ok(resultPage.render(hostName, guestName, thisUserWins, isGameCheated, isGameForfeited, match.getNumberOfRounds()));
+    	return ok(resultPage.render(user1, user2, thisUserWins, isGameCheated, isGameForfeited, match.getNumberOfRounds()));
     }
-    
+
     public static Result createGame(String username){
     	username = username.replaceAll("[^a-zA-Z0-9äöüßÄÖÜ_ ]", "");
         if(username.length() > 25){
