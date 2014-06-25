@@ -27,18 +27,23 @@ public class Application extends Controller {
     
     public static Result reset() {
     	MatchController matchController = MatchController.getInstance();
-  		Match match = matchController.getMatchByID(Integer.parseInt(session("matchID")));
-  		
-  		if (match.has2Players()==false) {
-  			match.addGuest("NOT NAMED - HOST LEFT GAME");
-		}
+    	try {
+    		Match match = matchController.getMatchByID(Integer.parseInt(session("matchID")));
+    		if (match.has2Players()==false) {
+      			match.addGuest("NOT NAMED - HOST LEFT GAME");
+    		}
 
-  		if (session("isHost").equals("true")) {
-  			match.markGameForfeited(true);
-		} else {
-			match.markGameForfeited(true);
-		}
-    	return redirect("/");
+      		if (session("isHost").equals("true")) {
+      			match.markGameForfeited(true);
+    		} else {
+    			match.markGameForfeited(true);
+    		}
+        	return redirect("/");
+    	} catch(NumberFormatException e){
+    		//Match not yet created
+    		return redirect("/");
+    	}
+  		
     }
     
     public static Result refreshAvailableGames() {
