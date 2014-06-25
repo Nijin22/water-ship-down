@@ -2,63 +2,59 @@
 
 @javaScript = {
 <script type="text/javascript">
-    
-    // toggle orientation of ships
-    $(function() {
-        $('#toogleOrientationCarrier').click(function() {
-            $('#carrier_h').toggleClass('hidden');
-            $('#carrier_v').toggleClass('hidden');
-            getNumberOfPlacedShips();
-        });
-        $('#toogleOrientationBattleship').click(function() {
-            $('#battleship_h').toggleClass('hidden');
-            $('#battleship_v').toggleClass('hidden');
-            getNumberOfPlacedShips();
-        });
-        $('#toogleOrientationDestroyer1').click(function() {
-            $('#destroyer1_h').toggleClass('hidden');
-            $('#destroyer1_v').toggleClass('hidden');
-            getNumberOfPlacedShips();
-        });
-        $('#toogleOrientationDestroyer2').click(function() {
-            $('#destroyer2_h').toggleClass('hidden');
-            $('#destroyer2_v').toggleClass('hidden');
-            getNumberOfPlacedShips();
-        });
-        $('#toogleOrientationSubmarine1').click(function() {
-            $('#submarine1_h').toggleClass('hidden');
-            $('#submarine1_v').toggleClass('hidden');
-            getNumberOfPlacedShips();
-        });
-        $('#toogleOrientationSubmarine2').click(function() {
-            $('#submarine2_h').toggleClass('hidden');
-            $('#submarine2_v').toggleClass('hidden');
-            getNumberOfPlacedShips();
-        });
 
+    $(function() {        
+        toggleOrientation('carrier');
+        toggleOrientation('battleship');
+        toggleOrientation('destroyer1');
+        toggleOrientation('destroyer2');
+        toggleOrientation('submarine1');
+        toggleOrientation('submarine2');      
     });
 
+    // toggle orientation of ships
+    function toggleOrientation(type){
+        $('#toogleOrientation' + type).click(function() {
+            $('#' + type + '_h').toggleClass('hidden');
+            $('#' + type + '_v').toggleClass('hidden');
+            if($('#' + type + '_v').hasClass('hidden')){
+                $('#' + type + '_v').removeClass('validPosition invalidPosition');
+                $('#' + type + '_v').clone().appendTo($('#' + type));
+                $('#' + type + '_v').remove();
+            }
+            if($('#' + type + '_h').hasClass('hidden')){
+                $('#' + type + '_h').removeClass('validPosition invalidPosition');
+                $('#' + type + '_h').clone().appendTo($('#' + type));
+                $('#' + type + '_h').remove();
+            }
+            getNumberOfPlacedShips();
+        });
+    }
 
     //load default positions
-    function loadDebugPositions(){
-    	$("#loadDefault").load("validateShipPosition?shipType=carrier&x=1&y=1&orientation=h");
-    	$("#loadDefault").load("validateShipPosition?shipType=battleship&x=2&y=5&orientation=v");
-    	$("#loadDefault").load("validateShipPosition?shipType=destroyer1&x=6&y=11&orientation=v");
-    	$("#loadDefault").load("validateShipPosition?shipType=destroyer2&x=11&y=5&orientation=h");
-    	$("#loadDefault").load("validateShipPosition?shipType=submarine1&x=7&y=4&orientation=v");
-    	$("#loadDefault").load("validateShipPosition?shipType=submarine2&x=12&y=12&orientation=h");
-    	window.location.href = 'playing';
+    function loadDebugPositions() {
+        $("#loadDefault").load("validateShipPosition?shipType=carrier&x=1&y=1&orientation=h");
+        $("#loadDefault").load("validateShipPosition?shipType=battleship&x=2&y=5&orientation=v");
+        $("#loadDefault").load("validateShipPosition?shipType=destroyer1&x=6&y=11&orientation=v");
+        $("#loadDefault").load("validateShipPosition?shipType=destroyer2&x=11&y=5&orientation=h");
+        $("#loadDefault").load("validateShipPosition?shipType=submarine1&x=7&y=4&orientation=v");
+        $("#loadDefault").load("validateShipPosition?shipType=submarine2&x=12&y=12&orientation=h");
+        window.location.href = 'playing';
     }
-    
-    // drag n drop
+
+    // drag and drop
+    var dragIcon = document.createElement('img');
+    dragIcon.src = '@routes.Assets.at("images/icons/selector.png")';
+    dragIcon.width = 100;
+
     function allowDrop(ev) {
         if (!$(ev.target).hasClass('disallowDrop')) {
             ev.preventDefault();
         }
-
     }
     function drag(ev) {
         ev.dataTransfer.setData("Type", ev.target.id);
+        ev.dataTransfer.setDragImage(dragIcon, 10, 10);
     }
     function drop(ev) {
         $(".messages").fadeOut(150);
@@ -70,6 +66,7 @@
         }
     }
 
+    // validate position via ajax
     function validateShipPosition(type) {
         // extract type and orientation from ID
         var shipType = type.substring(0, type.length - 2);
@@ -143,7 +140,6 @@
             }
             col++;
         }
-
         if (coord == "X") {
             return x;
         }
@@ -151,29 +147,29 @@
             return y;
         }
     }
-    
-    
+
+
     function go() {
-    	window.location.href = 'playing';
+        window.location.href = 'playing';
     }
-    
+
 
 </script>
 }
 
 @header = {
-    <div class=usernames>
-        <div class="avatar blue"><span class="glyphicon glyphicon-user blue"></span></div>
-        <span>@user1</span>
-    </div>
-    <div class=usernames>
-        <span>@user2</span>
-        <div class="avatar red"><span class="glyphicon glyphicon-user red"></span></div>
-    </div>
-    <div class="navbar-right">
-        <button id="help" type="button" class="btn btn-default navbar-btn">Help</button>
-        <button id="exit" type="button" class="btn btn-danger navbar-btn">Exit</button>
-    </div>
+<div class=usernames>
+    <div class="avatar blue"><span class="glyphicon glyphicon-user blue"></span></div>
+    <span>@user1</span>
+</div>
+<div class=usernames>
+    <span>@user2</span>
+    <div class="avatar red"><span class="glyphicon glyphicon-user red"></span></div>
+</div>
+<div class="navbar-right">
+    <button id="help" type="button" class="btn btn-default navbar-btn">Help</button>
+    <button id="exit" type="button" class="btn btn-danger navbar-btn">Exit</button>
+</div>
 }
 
 @main("Place your Ships")(javaScript)(header){
@@ -213,10 +209,10 @@
                                             <img class="htwg_logo img-responsive" src='@routes.Assets.at("images/icons/healthPoints_white.svg")' alt="HealthPoints"/> 20
                                         </span>
                                     </h3>
-                                    <div class="shipInnerContainer">
+                                    <div id="carrier" class="shipInnerContainer">
                                         <!-- Carrier vertical -->
                                         <div id="carrier_v" class="shipToPlace" draggable="true" ondragstart="drag(event)" >
-                                            <ul><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship1v"><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
                                             <ul class="ship2v"><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul> 
                                         </div>
                                         <!-- Carrier horizontal -->
@@ -234,7 +230,7 @@
                                         </div>
                                     </div>
                                     <!-- change orientation -->
-                                    <button id="toogleOrientationCarrier" type="button" class="btn btn-default toogleOrientation">
+                                    <button id="toogleOrientationcarrier" type="button" class="btn btn-default toogleOrientation">
                                         <span class="glyphicon glyphicon-refresh"></span> change orientation
                                     </button>
                                 </div>
@@ -246,10 +242,10 @@
                                             <img class="htwg_logo img-responsive" src='@routes.Assets.at("images/icons/healthPoints_white.svg")' alt="HealthPoints"/> 10
                                         </span>
                                     </h3>
-                                    <div class="shipInnerContainer">
+                                    <div id="battleship" class="shipInnerContainer">
                                         <!-- Battleship vertical -->
                                         <div id="battleship_v" class="shipToPlace" draggable="true" ondragstart="drag(event)" >
-                                            <ul><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
+                                            <ul class="ship1v"><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>
                                             <ul class="ship2v"><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul> 
 
                                         </div>
@@ -263,7 +259,7 @@
                                         </div>
                                     </div>
                                     <!-- change orientation -->
-                                    <button id="toogleOrientationBattleship" type="button" class="btn btn-default toogleOrientation">
+                                    <button id="toogleOrientationbattleship" type="button" class="btn btn-default toogleOrientation">
                                         <span class="glyphicon glyphicon-refresh"></span> change orientation
                                     </button>
                                 </div>
@@ -275,10 +271,10 @@
                                             <img class="htwg_logo img-responsive" src='@routes.Assets.at("images/icons/healthPoints_white.svg")' alt="HealthPoints"/> 5
                                         </span>
                                     </h3>
-                                    <div class="shipInnerContainer">
+                                    <div id="destroyer1" class="shipInnerContainer">
                                         <!-- Destroyer1 vertical -->
                                         <div id="destroyer1_v" class="shipToPlace" draggable="true" ondragstart="drag(event)" >
-                                            <ul><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>            
+                                            <ul class="ship1v"><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>            
                                         </div>
                                         <!-- Destroyer1 horizontal -->
                                         <div id="destroyer1_h" class="shipToPlace hidden" draggable="true" ondragstart="drag(event)" >
@@ -290,7 +286,7 @@
                                         </div>
                                     </div>
                                     <!-- change orientation -->
-                                    <button id="toogleOrientationDestroyer1" type="button" class="btn btn-default toogleOrientation">
+                                    <button id="toogleOrientationdestroyer1" type="button" class="btn btn-default toogleOrientation">
                                         <span class="glyphicon glyphicon-refresh"></span> change orientation
                                     </button>
                                 </div>
@@ -302,10 +298,10 @@
                                             <img class="htwg_logo img-responsive" src='@routes.Assets.at("images/icons/healthPoints_white.svg")' alt="HealthPoints"/> 5
                                         </span>
                                     </h3>
-                                    <div class="shipInnerContainer">
+                                    <div id="destroyer2" class="shipInnerContainer">
                                         <!-- Destroyer1 vertical -->
                                         <div id="destroyer2_v" class="shipToPlace" draggable="true" ondragstart="drag(event)" >
-                                            <ul><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>            
+                                            <ul class="ship1v"><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>            
                                         </div>
                                         <!-- Destroyer1 horizontal -->
                                         <div id="destroyer2_h" class="shipToPlace hidden" draggable="true" ondragstart="drag(event)" >
@@ -317,7 +313,7 @@
                                         </div>
                                     </div>
                                     <!-- change orientation -->
-                                    <button id="toogleOrientationDestroyer2" type="button" class="btn btn-default toogleOrientation">
+                                    <button id="toogleOrientationdestroyer2" type="button" class="btn btn-default toogleOrientation">
                                         <span class="glyphicon glyphicon-refresh"></span> change orientation
                                     </button>
                                 </div>
@@ -329,10 +325,10 @@
                                             <img class="htwg_logo img-responsive" src='@routes.Assets.at("images/icons/healthPoints_white.svg")' alt="HealthPoints"/> 3
                                         </span>
                                     </h3>
-                                    <div class="shipInnerContainer">
+                                    <div id="submarine1" class="shipInnerContainer">
                                         <!-- Destroyer1 vertical -->
                                         <div id="submarine1_v" class="shipToPlace" draggable="true" ondragstart="drag(event)" >
-                                            <ul><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>            
+                                            <ul class="ship1v"><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>            
                                         </div>
                                         <!-- Destroyer1 horizontal -->
                                         <div id="submarine1_h" class="shipToPlace hidden" draggable="true" ondragstart="drag(event)" >
@@ -342,7 +338,7 @@
                                         </div>
                                     </div>
                                     <!-- change orientation -->
-                                    <button id="toogleOrientationSubmarine1" type="button" class="btn btn-default toogleOrientation">
+                                    <button id="toogleOrientationsubmarine1" type="button" class="btn btn-default toogleOrientation">
                                         <span class="glyphicon glyphicon-refresh"></span> change orientation
                                     </button>
                                 </div>
@@ -354,10 +350,10 @@
                                             <img class="htwg_logo img-responsive" src='@routes.Assets.at("images/icons/healthPoints_white.svg")' alt="HealthPoints"/> 3
                                         </span>
                                     </h3>
-                                    <div class="shipInnerContainer">
+                                    <div id="submarine2" class="shipInnerContainer">
                                         <!-- Destroyer1 vertical -->
                                         <div id="submarine2_v" class="shipToPlace" draggable="true" ondragstart="drag(event)" >
-                                            <ul><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>            
+                                            <ul class="ship1v"><li class="disallowDrop"></li><li class="disallowDrop"></li><li class="disallowDrop"></li></ul>            
                                         </div>
                                         <!-- Destroyer1 horizontal -->
                                         <div id="submarine2_h" class="shipToPlace hidden" draggable="true" ondragstart="drag(event)" >
@@ -367,7 +363,7 @@
                                         </div>
                                     </div>
                                     <!-- change orientation -->
-                                    <button id="toogleOrientationSubmarine2" type="button" class="btn btn-default toogleOrientation">
+                                    <button id="toogleOrientationsubmarine2" type="button" class="btn btn-default toogleOrientation">
                                         <span class="glyphicon glyphicon-refresh"></span> change orientation
                                     </button>
                                 </div>
@@ -404,8 +400,8 @@
                     <input id="go" class="btn btn-success btn-lg disabled" type="button" onclick="go();" value="start the match">
                 </div>
                 <div class="col-md-4">
-                  <p>Load debug-default positions</p>
-                  <input id="loadDefault" class="btn btn-primary btn-lg" type="button" onclick="loadDebugPositions();" value="Load Debug Positions">
+                    <p>Load debug-default positions</p>
+                    <input id="loadDefault" class="btn btn-primary btn-lg" type="button" onclick="loadDebugPositions();" value="Load Debug Positions">
                 </div>
             </div>
         </div>
