@@ -1,19 +1,84 @@
-@(host: String)(guest: String)(thisUserWins: Boolean)(gameWasCheated: Boolean)(gameWasForfeited: Boolean)(numberTurns: Integer)
+@(user1: String)(user2: String)(thisUserWins: Boolean)(gameWasCheated: Boolean)(gameWasForfeited: Boolean)(numberTurns: Integer)
 
 @javaScript = {
-
+<script type="text/javascript">
+    function goToStart(){
+        window.location.href = '/';
+    }
+</script>
 }
 
 @header = {
-<div>THIS IS THE HEADER</div>
+<div class=usernames>
+    <div class="avatar blue"><span class="glyphicon glyphicon-user blue"></span></div>
+    <span>@user1</span>
+</div>
+<div class=usernames>
+    <span>@user2</span>
+    <div class="avatar red"><span class="glyphicon glyphicon-user red"></span></div>
+</div>
+<div class="navbar-right">
+    <button id="help" type="button" class="btn btn-default navbar-btn">Help</button>
+    <button id="exit" type="button" class="btn btn-danger navbar-btn">Exit</button>
+</div>
 }
 
-@main("Playing game")(javaScript)(header){
-<h1>Results</h1>
-Host: @host<br>
-Guest: @guest<br>
-You won? @thisUserWins<br>
-Game was Cheated? @gameWasCheated<br>
-Game was Forfeited? @gameWasForfeited<br>
-Number of turns: @numberTurns
+@main("Result")(javaScript)(header){
+
+<section class="result jumbotron">
+    <div class="container">
+        <div class="resultInner">
+            @if(thisUserWins == true) {
+                @if(gameWasCheated == false && gameWasForfeited == false ) {
+                    <h2>Well done!</h2>
+                    <h3>You've successfully destroyed all the ships of @user2!</h3>
+                }
+                @if(gameWasCheated == true){
+                    <h2>You are the winner!</h2>
+                    <h3>@user2 has cheated and was disqualified!</h3>
+                }
+                @if(gameWasForfeited == true){
+                    <h2>You are the winner!</h2>
+                    <h3>@user2 raises the white flag and has given up!</h3>
+                }
+                <br>
+                <span class="rounds">@numberTurns rounds</span>
+                <p><img class="smiley" src='@routes.Assets.at("images/icons/winner.svg")' alt="winner smiley"></p>
+            } else {
+                @if(gameWasCheated == false && gameWasForfeited == false ) {
+                    <h2>blub blub blub</h2>
+                    <h3>Sorry, @user2 has destroyed all your ships!</h3>
+                }
+                @if(gameWasCheated == true){
+                    <h2>You have been disqualified!</h2>
+                    <h3>You've been caught cheating or something went wrong!</h3>
+                }
+                @if(gameWasForfeited == true){
+                    <h2>You really want to give up?</h2>
+                    <h3>@user2 wins the battle!</h3>
+                }
+                <br>
+                <span class="rounds">@numberTurns rounds</span>
+                <p><img class="smiley" src='@routes.Assets.at("images/icons/looser.svg")' alt="winner smiley"></p>
+            }
+            
+        </div>
+    </div>
+</section>
+
+
+<section class="control">
+    <div class="toggleControl">click to hide control bar</div>
+    <div class="controlToggleContainer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>One more time?</p>
+                    <input id="go" class="btn btn-success btn-lg" type="button" onclick="goToStart();" value="start the next match">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 }
