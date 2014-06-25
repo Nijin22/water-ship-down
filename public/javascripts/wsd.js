@@ -4,7 +4,7 @@
  */
 
 $('document').ready(function() {
-  
+
   /* better GUI
    -------------------------------------------------- */
 
@@ -34,17 +34,22 @@ $('document').ready(function() {
       controlHidden = true;
     }
   });
-  
+
   //exit button
-  $('#exit').click(function(){
+  $('#exit').click(function() {
     window.location.href = 'reset';
   });
-  
+
   //help button
-  $('#help').click(function(){
+  $('#help').click(function() {
     bootbox.alert("<h1>Do you need some help?</h1>");
   });
-  
-  
-  
+
+  // Every time a modal is shown, if it has an autofocus element, focus on it.
+  $('.modal').on('shown.bs.modal', function() {
+    $(this).find('[autofocus]').focus();
+  });
+
+
+
 });

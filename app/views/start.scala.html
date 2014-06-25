@@ -20,11 +20,15 @@
 
     function joinGame(key) {
         if ($('#usernameInput').val() == '') {
-            
+
             // show dialog if no username is chosen
             $('#missingUsername').modal();
-            
+
             // check username input in dialog and enable button
+            if ($('#usernameInputModal').val() == '') {
+                $('#btn_joinGameModal').attr('disabled', 'disabled');
+            }
+
             $('#usernameInputModal').keyup(function() {
                 if ($('#usernameInputModal').val().length > 0) {
                     $('#btn_joinGameModal').removeAttr('disabled');
@@ -32,7 +36,7 @@
                     $('#btn_joinGameModal').attr('disabled', 'disabled');
                 }
             });
-            
+
             // event pressing return key
             $('#usernameInputModal').keyup(function(event) {
                 if (event.keyCode == 13) {
@@ -122,12 +126,12 @@
             </div>
             <!-- dialog body -->
             <div class="modal-body text-center">
-                <input id="usernameInputModal" type="text" class="form-control" placeholder="Choose your username" required name="username" maxlength="25">
+                <input id="usernameInputModal" type="text" class="form-control" placeholder="Choose your username" required name="username" maxlength="25" autofocus>
             </div>
             <!-- dialog buttons -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button id="btn_joinGameModal" type="button" class="btn btn-primary" disabled="disabled">join game</button>
+                <button id="btn_joinGameModal" type="button" class="btn btn-primary">join game</button>
             </div>
         </div>
     </div>
