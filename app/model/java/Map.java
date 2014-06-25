@@ -208,7 +208,6 @@ public class Map {
 			}
 			c_y++;
 		}
-		System.out.println(drawMap());
 	}
 	/**
 	 * Iterates over the map and adds 1 for every type which has one field not fired upon. Returns the sum

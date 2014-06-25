@@ -74,7 +74,7 @@
 
         var x = getPositon("X", type);
         var y = getPositon("Y", type);
-
+        
         $.ajax({
             url: "validateShipPosition?shipType=" + shipType + "&x=" + x + "&y=" + y + "&orientation=" + orientation,
             dataType: "text",
@@ -140,6 +140,17 @@
             }
             col++;
         }
+<<<<<<< HEAD
+=======
+        if (typeof x === "undefined") {
+            alert("x is undefined. Canceling.");
+            return 18;
+        }
+        if (typeof y === "undefined") {
+            alert("y is undefined. Canceling");
+            return 18;
+        }
+>>>>>>> FETCH_HEAD
         if (coord == "X") {
             return x;
         }

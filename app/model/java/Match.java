@@ -79,12 +79,6 @@ public class Match extends java.util.Observable {
 	 */
 	public void collectDecisions(boolean isHost, String action, Collection<Coordinate> coordinates){
 		//Save decisions
-		String userName;
-		if (isHost) {
-			userName = getHost().getName();
-		} else {
-			userName = getGuest().getName();
-		}
 		if (isHost) {
 			decisionHostAction = action;
 			decisionHostCoordinates = coordinates;
@@ -97,17 +91,6 @@ public class Match extends java.util.Observable {
 		if (decisionGuestAction != null && decisionGuestCoordinates != null && decisionHostAction != null && decisionHostCoordinates != null) {
 			//Both players made their decisions.
 			
-			//DEBUG
-//			System.out.println("---Actions Host");
-//			System.out.println("-----TWICE: "+getHost().sa_fire_twice);
-//			System.out.println("-----3BONUS: "+getHost().sa_three_bonus_shots);
-//			System.out.println("-----AUTO: "+getHost().sa_auto_rocket);
-//			System.out.println("-----SHIELD: "+getHost().sa_enemy_passes);
-//			System.out.println("---Actions Guest");
-//			System.out.println("-----TWICE: "+getGuest().sa_fire_twice);
-//			System.out.println("-----3BONUS: "+getGuest().sa_three_bonus_shots);
-//			System.out.println("-----AUTO: "+getGuest().sa_auto_rocket);
-//			System.out.println("-----SHIELD: "+getGuest().sa_enemy_passes);
 			try {
 				calculateRound();
 			} catch (MoreCoordinatesThanAllowedException e) {
