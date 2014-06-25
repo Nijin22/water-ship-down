@@ -50,6 +50,7 @@
                         maxShots = maxShots / 2;
                         $("#maxShots").text(maxShots);
                         resetTargets();
+                        selectedSpecialAction = "NONE";
                     }
                     break;
                 case 'special2':
@@ -61,13 +62,22 @@
                         maxShots = maxShots - 3;
                         $("#maxShots").text(maxShots);
                         resetTargets();
+                        selectedSpecialAction = "NONE";
                     }
                     break;
                 case 'special3':
-                    selectedSpecialAction = "AUTO_ROCKET";
+                    if ($(this).hasClass('active')) {
+                        selectedSpecialAction = "AUTO_ROCKET";
+                    } else {
+                        selectedSpecialAction = "NONE";
+                    }
                     break;
                 case 'special4':
-                    selectedSpecialAction = "ENEMY_PASSES";
+                    if ($(this).hasClass('active')) {
+                        selectedSpecialAction = "ENEMY_PASSES";
+                    } else {
+                        selectedSpecialAction = "NONE";
+                    }
                     break;
             }
         });
@@ -171,9 +181,8 @@
                             break;
                     }
                 })
-
+                
                 //Disable special actions which are no longer userable.
-
                 if (result.mySpecialActions.FIRE_TWICE == false) {
                     $('#special1').attr("disabled", "disabled");
                 }
@@ -191,22 +200,16 @@
                 maxShots = result.myShotsBase;
                 //Reprint it
                 $("#maxShots").text(maxShots);
-                
-                // reset selected targets
-                resetTargets();
-                
-                // reset selected special actions
-                for (var i = 1; i < 5; i++) {
-                    $('#special' + i).removeClass('disabled');
-                    $('#special' + i).removeClass('active');
-                }
-                selectedSpecialAction = "NONE";
 
+                // reset targets
+                resetTargets();
+
+                // reset selected special actions
+                resetSpecilalActions();
+                
                 // clean up messages
                 $('.messages').fadeOut(0);
-                $('.messageText').empty();
-
-
+                $('.messageText').empty();       
             }
         });
     }
@@ -220,11 +223,20 @@
         while (col <= 18) {
             var row = 1;
             while (row <= 18) {
-                $('#map2 > ul:nth-child(' + col + ') > li:nth-child(' + row).removeClass('target');
+                $('#map2 > ul:nth-child(' + col + ') > li:nth-child(' + row + ')').removeClass('target');
                 ;
                 row++;
             }
             col++;
+        }
+    }
+
+    function resetSpecilalActions() {
+        // reset selected special actions
+        selectedSpecialAction = "NONE";
+        for (var i = 1; i < 5; i++) {
+            $('#special' + i + '').removeClass('disabled');
+            $('#special' + i + '').removeClass('active');
         }
     }
 
