@@ -9,7 +9,15 @@
         toggleOrientation('destroyer1');
         toggleOrientation('destroyer2');
         toggleOrientation('submarine1');
-        toggleOrientation('submarine2');      
+        toggleOrientation('submarine2');
+        
+
+        // show introduction message
+        $('.messages').fadeIn(150);
+        $('.messages > div').addClass('alert-info');
+        $('.messageText').append("<strong>Welcome!</strong> Now place your ships tactically astute on the map (drag and drop)!")
+        
+        
     });
 
     // toggle orientation of ships
@@ -57,7 +65,9 @@
         ev.dataTransfer.setDragImage(dragIcon, 10, 10);
     }
     function drop(ev) {
+        // clean up messages
         $(".messages").fadeOut(150);
+        $('.messageText').empty();
         if (!$(ev.target).hasClass('disallowDrop')) {
             ev.preventDefault();
             var type = ev.dataTransfer.getData("Type");
@@ -85,7 +95,11 @@
                 } else {
                     $('#' + type).addClass('invalidPosition');
                     $('#' + type).removeClass('validPosition');
-                    $(".messages").fadeIn(150);
+                    // display warning message
+                    $('.messages').fadeIn(150);
+                    $('.messages > div').addClass('alert-danger');
+                    $('.messageText').append("<strong>Warning!</strong> This ship can not be placed here!")
+
                 }
                 getNumberOfPlacedShips();
             }
@@ -381,9 +395,9 @@
 <section class="control">
 
     <div class="messages">
-        <div class="alert alert-danger alert-dismissable">
+        <div class="alert alert-dismissable">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Warning!</strong> This ship can not be placed here!
+            <span class="messageText"></span>
         </div>
     </div>
 
