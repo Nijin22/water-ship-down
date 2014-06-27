@@ -642,3 +642,29 @@ footer {
 #helpDialog ul {
   padding-left: 20px;
 }
+
+/* ALL :: ABOUT
+-------------------------------------------------- */
+.about {
+  background: #fff;
+  min-height: 650px;
+  padding: 50px 0;
+}
+.about ul {
+	padding-left: 20px;
+}
+.profile {
+	text-align: center;
+	margin: 20px 0;
+}
+
+.profilePictures {
+	width: 110px;
+	hight: 110px;
+
+	margin-right: 10px;
+}
+.profileText {
+	padding: 10px 0 10px 0;
+	text-align: center;
+}

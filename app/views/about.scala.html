@@ -1,0 +1,105 @@
+@header = {
+<ul class="nav navbar-nav">
+	<li><a href="/">Home</a></li>
+	<li><a onClick="$('#help').click()" href="#">Instructions</a></li>
+	<li><a href="/about">About</a></li>
+</ul>
+<div class="navbar-right">
+	<button id="help" type="button" class="btn btn-default navbar-btn">Help</button>
+</div>
+} @javaScript = {} @main("Water Ship Down")(javaScript)(header){
+<section class=about>
+	<div class="container">
+		<h1>About us</h1>
+		<p>
+			Water Ship Down is a browser game developed by three business
+			informatics students at <a
+				href="http://www.htwg-konstanz.de/English.20.0.html">HTWG
+				Konstanz, School of Applied Science</a> as a project in "WebTechnology"
+		</p>
+		<p>We wanted to create a more interesting, less random and more
+			tactical version of the classic board game "battleship". To do so we
+			utilize multiple modern concepts of web design, including:</p>
+
+		<div class="highlight highlight-primary">
+			<ul>
+				<li><strong>HTML5</strong> - the next iteration of HTML allows
+					more specific tags like "section" and the use of drag'n'drop.</li>
+				<li><strong>JavaScript (and jQuery)</strong> - a highly
+					interactive site like ours requires a powerful scripting language.
+					JavaScript does exactly this and with the help of the jQuery
+					framework we can write simple and cross-platform code.</li>
+				<li><strong>AJAX</strong> - a part of JavaScript, allowing the
+					retrieval of additional data while the site was already loaded.</li>
+				<li><strong>WebSockets</strong> - recently introduced with
+					HTML5, webSockets allows our servers to send data back to the
+					client. This is used to inform the player when the opponent
+					finished his turn.</li>
+				<li><strong>PlayFramework</strong> - the PlayFramework
+					simplifies the creation of web projects and allows a clean
+					differentation between model, view and controller.</li>
+				<li><strong>git</strong> - working in a team causes some
+					problems but a good version control systems helps to avoid them.
+					Git does exactly that and allows us to write code at the same time
+					without conflicts.</li>
+				<li><strong>Bootstrap</strong> - this JS and CSS framework is
+					very useful for creating fast, responsive and good looking web
+					pages.</li>
+			</ul>
+		</div>
+
+		<div class="row">
+			<div class="col-md-4 profile">
+					<img data-src="holder.js/140x140"
+						class="profilePictures img-circle" alt="Artur"
+						src='@routes.Assets.at("images/about/artur.jpg")'>
+					<div class="profileText">
+						<p>
+							<strong>Artur Baur</strong><br>Testing, Documentation & Translation
+						</p>
+					</div>
+			</div>
+			<div class="col-md-4 profile">
+					<img data-src="holder.js/140x140"
+						class="profilePictures img-circle" alt="Johannes"
+						src='@routes.Assets.at("images/about/johannes.jpg")'>
+					<div class="profileText">
+						<p>
+							<strong>Johannes Dangelmaier</strong><br>Lead Front End Developer
+						</p>
+					</div>
+			</div>
+			<div class="col-md-4 profile">
+					<img data-src="holder.js/140x140"
+						class="profilePictures img-circle" alt="Dennis"
+						src='@routes.Assets.at("images/about/dennis.jpg")'>
+					<div class="profileText">
+						<p>
+							<strong>Dennis Weber</strong><br>Lead Backend Developer
+						</p>
+					</div>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<footer>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4 text-center">
+				<img class="htwg_logo img-responsive"
+					src='@routes.Assets.at("images/HTWG_Logo_negativ.png")'
+					alt="HTWG_Logo" />
+				<p class="small">A Web-Technology-Project at Hochschule Konstanz
+					Technik, Wirtschaft und Gestaltung - University of Applied Sciences</p>
+
+				<br>
+				<p class="small">&COPY; 2014 | Artur Bauer, Johannes
+					Dangelmaier, Dennis Weber</p>
+			</div>
+		</div>
+	</div>
+</footer>
+
+}

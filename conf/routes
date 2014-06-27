@@ -9,6 +9,9 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET     /                           controllers.Application.start()
 GET     /refreshAvailableGames      controllers.Application.refreshAvailableGames()
 
+#About page
+GET		/about						controllers.Application.about()
+
 # Create or join game
 GET		/createGame					controllers.Application.createGame(username)
 GET		/createGameWebSocket		controllers.Application.wsToInformAboutSecondPlayer()
