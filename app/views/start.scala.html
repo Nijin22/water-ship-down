@@ -4,6 +4,14 @@
     $(function() {
         refresh();
     });
+    
+    //GAnalytics
+    $('#btn_createGame').on('click', function() {
+    	ga('send', 'event', 'button', 'click', 'createGame');
+    });
+    $('#btn_joinGame').on('click', function() {
+    	ga('send', 'event', 'button', 'click', 'joinGame');
+    });
 
     function refresh() {
         $('.userlist > ul').empty();
