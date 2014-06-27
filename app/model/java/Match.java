@@ -259,7 +259,9 @@ public class Match extends java.util.Observable {
 		if (decisionHostAction.equals("AUTO_ROCKET")) {
 			getHost().sa_auto_rocket = false;
 			try {
-				getGuest().findFirstShipPosition().fireUpon();
+				if(getGuest().findFirstShipPosition() != null){
+					getGuest().findFirstShipPosition().fireUpon();
+				}
 			} catch (FieldAlreadyFiredUponException e) {
 				throw new RuntimeException("Due to how findFirstShipPosition() works, this case should never happen.");
 			}
@@ -268,7 +270,9 @@ public class Match extends java.util.Observable {
 		if (decisionGuestAction.equals("AUTO_ROCKET")) {
 			getGuest().sa_auto_rocket = false;
 			try {
-				getHost().findFirstShipPosition().fireUpon();
+				if(getHost().findFirstShipPosition() != null){
+					getHost().findFirstShipPosition().fireUpon();
+				}
 			} catch (FieldAlreadyFiredUponException e) {
 				throw new RuntimeException("Due to how findFirstShipPosition() works, this case should never happen.");
 			}
