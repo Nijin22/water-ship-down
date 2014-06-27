@@ -36,7 +36,7 @@ public class Application extends Controller {
       		if (session("isHost").equals("true")) {
       			match.markGameForfeited(true);
     		} else {
-    			match.markGameForfeited(true);
+    			match.markGameForfeited(false);
     		}
         	return redirect("/");
     	} catch(NumberFormatException e){
