@@ -102,16 +102,6 @@ public class Match extends java.util.Observable {
 				}
 				gameCheated = true;
 				
-				//DEBUG: Cheat output
-				System.out.println("CHEATED! By more Cooridinates");
-				System.out.println("Host:");
-				for (Coordinate coordinate : decisionHostCoordinates) {
-					System.out.println("   Y: " + coordinate.y + " X: " + coordinate.x);
-				}
-				System.out.println("Guest");
-				for (Coordinate coordinate : decisionGuestCoordinates) {
-					System.out.println("   Y: " + coordinate.y + " X: " + coordinate.x);
-				}
 			} catch (ActionAlreadyUsedException e) {
 				//Someone tried to cheat the game by submitting an action which he already used earlier.
 				if (e.causedByHost) {
@@ -121,9 +111,6 @@ public class Match extends java.util.Observable {
 				}
 				gameCheated = true;
 				
-				//DEBUG: Cheat output
-				System.out.println("CHEATED! By already used action.");
-				System.out.println("   Was it host? " + e.causedByHost);
 			}
 			
 			if (getHost().getNumberShipsAlive() < 1) {
@@ -278,18 +265,7 @@ public class Match extends java.util.Observable {
 			}
 			
 		}
-		
-		System.out.println("Actions Guest (after calculating turn)");
-		System.out.println("FIRE_TWICE" + getGuest().sa_fire_twice);
-		System.out.println("3BONUS" + getGuest().sa_three_bonus_shots);
-		System.out.println("SMARTMISSILE" + getGuest().sa_auto_rocket);
-		System.out.println("ENEMY_PASSES" + getGuest().sa_enemy_passes);
-		
-		System.out.println("Actions Host (after calculating turn)");
-		System.out.println("FIRE_TWICE" + getHost().sa_fire_twice);
-		System.out.println("3BONUS" + getHost().sa_three_bonus_shots);
-		System.out.println("SMARTMISSILE" + getHost().sa_auto_rocket);
-		System.out.println("ENEMY_PASSES" + getHost().sa_enemy_passes);
+
 	}
 	public WinnerOptions getWinner() {
 		return winner;
