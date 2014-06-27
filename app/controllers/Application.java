@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
+import play.libs.F.Callback0;
 import play.mvc.*;
 import views.html.*;
 
@@ -26,27 +27,7 @@ public class Application extends Controller {
     }
     
     public static Result reset() {
-    	MatchController matchController = MatchController.getInstance();
-    	try {
-    		Match match = matchController.getMatchByID(Integer.parseInt(session("matchID")));
-    		if (match.has2Players()==false) {
-      			match.addGuest("NOT NAMED - HOST LEFT GAME");
-    		}
-
-      		if (session("isHost").equals("true")) {
-      			match.markGameForfeited(true);
-    		} else {
-    			match.markGameForfeited(false);
-    		}
-        	return redirect("/");
-    	} catch(NumberFormatException e){
-    		//Match not yet created
-    		return redirect("/");
-    	} catch (NullPointerException e){
-    		//Match not yet created
-    		return redirect("/");
-    	}
-  		
+  		return ok("This site was deleted with the \"WebSocket Leaving\" Update. Please fill a bug report if you landed here!");
     }
     
     public static Result about(){
@@ -171,6 +152,22 @@ public class Application extends Controller {
     public static Result playing(){
         MatchController matchController = MatchController.getInstance();
   		Match match = matchController.getMatchByID(Integer.parseInt(session("matchID")));
+  		
+  		System.out.println("DEBUG: Winner is: ");
+  		switch (match.getWinner()) {
+		case GUEST:
+			System.out.println("  Guest");
+			break;
+		case HOST:
+			System.out.println("  Host");
+			break;
+		case NONE:
+			System.out.println("  None");
+			break;
+		default:
+			break;
+
+		}
   		
   		if (match.getWinner()!=WinnerOptions.NONE) {
 			return redirect("/result");
@@ -351,10 +348,39 @@ public class Application extends Controller {
     public static WebSocket<String> wsToInformAboutSecondPlayer(){
         return new WebSocket<String>(){
             private Integer matchID = new Integer(session("matchID")); //"cache" here so it's available within the onReady method.
+            private boolean isHost = new Boolean(session("isHost"));
             // called when websocket handshake is done
             public void onReady(WebSocket.In<String> in, WebSocket.Out<String> out){
             		//Add the user which created this websocket to the lists of hosts waiting
                     hostsWaitingForGuest.put(matchID, out);
+                    
+                    // Player waiting left
+                    in.onClose(new Callback0() {
+						
+						public void invoke() throws Throwable {
+							MatchController matchController = MatchController.getInstance();
+							Match match = matchController.getMatchByID(matchID);
+							if (match.has2Players()==false) {
+								
+						    	try {
+						    		
+						    		if (match.has2Players()==false) {
+						      			match.addGuest("NOT NAMED - HOST LEFT GAME");
+						    		}
+
+						      		if (isHost) {
+						      			match.markGameForfeited(true);
+						    		} else {
+						    			match.markGameForfeited(false);
+						    		}
+						    	} catch(NumberFormatException e){
+						    		//Match not there - we can ignore it
+						    	} catch (NullPointerException e){
+						    		//Match not there - we can ignore it
+						    	}
+							}	
+						}
+					});
             }
         };   
     }
@@ -380,6 +406,24 @@ public class Application extends Controller {
 				} else {
 					matchObservers.get(matchID).wsGuest = out;
 				}
+				
+				//Player in the game left
+				in.onClose(new Callback0() {
+					
+					@Override
+					public void invoke() throws Throwable {
+						if (match.getWinner() == WinnerOptions.NONE) {
+							//game wasn't already won.
+							if (isHost) {
+				      			match.markGameForfeited(true);
+				    		} else {
+				    			match.markGameForfeited(false);
+				    		}
+						}
+						
+						
+					}
+				});
     		}
     	};
     }

@@ -37,7 +37,7 @@ $('document').ready(function() {
 
   //exit button
   $('#exit').click(function() {
-    window.location.href = 'reset';
+    window.location.href = '/';
   });
 
   //help button
