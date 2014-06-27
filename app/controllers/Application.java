@@ -42,6 +42,9 @@ public class Application extends Controller {
     	} catch(NumberFormatException e){
     		//Match not yet created
     		return redirect("/");
+    	} catch (NullPointerException e){
+    		//Match not yet created
+    		return redirect("/");
     	}
   		
     }
