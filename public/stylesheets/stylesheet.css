@@ -352,7 +352,7 @@ footer {
 /* PLACESHIPS :: Map + Container
 -------------------------------------------------- */
 .maps_placeShips {
-  min-height: 1135px;  
+  min-height: 1300px;  
 }
 @media (min-width: 992px) {
   .maps_placeShips {
@@ -498,7 +498,7 @@ footer {
 /* PLAY :: MAPS
 -------------------------------------------------- */
 .maps_playing {
-  min-height: 1135px;  
+  min-height: 1300px;  
 }
 @media (min-width: 992px) {
   .maps_playing {
