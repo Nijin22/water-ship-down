@@ -1,125 +1,147 @@
 @header = {
 <ul class="nav navbar-nav">
-	<li><a href="/">Home</a></li>
-	<li><a onClick="$('#help').click()" href="#">Instructions</a></li>
-	<li><a href="/about">About</a></li>
+    <li><a href="/">Home</a></li>
+    <li><a onClick="$('#help').click()" href="#">Instructions</a></li>
+    <li><a href="/about">About</a></li>
 </ul>
 <div class="navbar-right">
-	<button id="help" type="button" class="btn btn-default navbar-btn">Help</button>
+    <button id="help" type="button" class="btn btn-default navbar-btn">Help</button>
 </div>
-} @javaScript = {} @main("Water Ship Down")(javaScript)(header){
+}
+@javaScript = {}
+
+@main("Water Ship Down")(javaScript)(header){
 <section class=about>
-	<div class="container">
-		<h1>About us</h1>
-		<p>
-			Water Ship Down is a browser game developed by three business
-			informatics students at <a
-				href="http://www.htwg-konstanz.de/English.20.0.html">HTWG
-				Konstanz, School of Applied Science</a> as a project in "WebTechnology"
-		</p>
-		<p>We wanted to create a more interesting, less random and more
-			tactical version of the classic board game "battleship". To do so we
-			utilize multiple modern concepts of web design, including:</p>
+    <div class="container">
+        <h1>About us</h1>
+        <p>
+            Water Ship Down is a browser game developed by three business
+            informatics students at <a
+                href="http://www.htwg-konstanz.de/English.20.0.html">HTWG
+                Konstanz, School of Applied Science</a> as a project in "WebTechnology"
+        </p>
+        <p>We wanted to create a more interesting, less random and more
+            tactical version of the classic board game "battleship". To do so we
+            utilize multiple modern concepts of web design, including:</p>
 
-		<div class="highlight highlight-primary">
-			<ul>
-				<li><strong>HTML5</strong> - the next iteration of HTML allows
-					more specific tags like "section" and the use of drag'n'drop.</li>
-				<li><strong>JavaScript (and jQuery)</strong> - a highly
-					interactive site like ours requires a powerful scripting language.
-					JavaScript does exactly this and with the help of the jQuery
-					framework we can write simple and cross-platform code.</li>
-				<li><strong>AJAX</strong> - a part of JavaScript, allowing the
-					retrieval of additional data while the site was already loaded.</li>
-				<li><strong>WebSockets</strong> - recently introduced with
-					HTML5, webSockets allows our servers to send data back to the
-					client. This is used to inform the player when the opponent
-					finished his turn.</li>
-				<li><strong>PlayFramework</strong> - the PlayFramework
-					simplifies the creation of web projects and allows a clean
-					differentation between model, view and controller.</li>
-				<li><strong>git</strong> - working in a team causes some
-					problems but a good version control systems helps to avoid them.
-					Git does exactly that and allows us to write code at the same time
-					without conflicts.</li>
-				<li><strong>Bootstrap</strong> - this JS and CSS framework is
-					very useful for creating fast, responsive and good looking web
-					pages.</li>
-			</ul>
-		</div>
+        <div class="highlight highlight-primary">
+            <ul>
+                <li><strong>HTML5</strong> - the next iteration of HTML allows
+                    more specific tags like "section" and the use of drag'n'drop.</li>
+                <li><strong>JavaScript (and jQuery)</strong> - a highly
+                    interactive site like ours requires a powerful scripting language.
+                    JavaScript does exactly this and with the help of the jQuery
+                    framework we can write simple and cross-platform code.</li>
+                <li><strong>AJAX</strong> - a part of JavaScript, allowing the
+                    retrieval of additional data while the site was already loaded.</li>
+                <li><strong>WebSockets</strong> - recently introduced with
+                    HTML5, webSockets allows our servers to send data back to the
+                    client. This is used to inform the player when the opponent
+                    finished his turn.</li>
+                <li><strong>PlayFramework</strong> - the PlayFramework
+                    simplifies the creation of web projects and allows a clean
+                    differentation between model, view and controller.</li>
+                <li><strong>git</strong> - working in a team causes some
+                    problems but a good version control systems helps to avoid them.
+                    Git does exactly that and allows us to write code at the same time
+                    without conflicts.</li>
+                <li><strong>Bootstrap</strong> - this JS and CSS framework is
+                    very useful for creating fast, responsive and good looking web
+                    pages.</li>
+            </ul>
+        </div>
 
-		<div class="row">
-			<div class="col-md-4 profile">
-					<img data-src="holder.js/140x140"
-						class="profilePictures img-circle" alt="Artur"
-						src='@routes.Assets.at("images/about/artur.jpg")'>
-					<div class="profileText">
-						<p>
-							<strong>Artur Bauer</strong><br>Testing, Documentation & Translation
-						</p>
-					</div>
-			</div>
-			<div class="col-md-4 profile">
-					<img data-src="holder.js/140x140"
-						class="profilePictures img-circle" alt="Johannes"
-						src='@routes.Assets.at("images/about/johannes.jpg")'>
-					<div class="profileText">
-						<p>
-							<strong>Johannes Dangelmaier</strong><br>Lead Front End Developer
-						</p>
-					</div>
-			</div>
-			<div class="col-md-4 profile">
-					<img data-src="holder.js/140x140"
-						class="profilePictures img-circle" alt="Dennis"
-						src='@routes.Assets.at("images/about/dennis.jpg")'>
-					<div class="profileText">
-						<p>
-							<strong>Dennis Weber</strong><br>Lead Backend Developer<br>
-							<a href="https://www.xing.com/profile/Dennis_Weber61">XING</a>
-						</p>
-					</div>
-			</div>
-		</div>
-		
-		<div class="row">
-<h2>Legal Disclosure</h2>Information in accordance with section 5 TMG<br/><br/>Dennis, Weber<br/>B&uuml;cklestra&szlig;e 9<br/>78467 Konstanz<br/><h3>Contact</h3>E-Mail: &#119;&#97;&#116;&#101;&#114;&#115;&#104;&#105;&#112;&#100;&#111;&#119;&#110;&#46;&#104;&#116;&#119;&#103;&#32;&#91;&#97;&#116;&#93;&#32;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;<br/>Internetadresse: <a href="http://watershipdown.herokuapp.com/" target="_blank">http://watershipdown.herokuapp.com/</a><br/><h3>Indication of source for images and graphics</h3>
+        <div class="row">
+            <div class="col-md-4 profile">
+                <img data-src="holder.js/140x140"
+                     class="profilePictures img-circle" alt="Artur"
+                     src='@routes.Assets.at("images/about/artur.jpg")'>
+                <div class="profileText">
+                    <p>
+                        <strong>Artur Bauer</strong><br>Testing, Documentation & Translation
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4 profile">
+                <img data-src="holder.js/140x140"
+                     class="profilePictures img-circle" alt="Johannes"
+                     src='@routes.Assets.at("images/about/johannes.jpg")'>
+                <div class="profileText">
+                    <p>
+                        <strong>Johannes Dangelmaier</strong><br>Lead Front End Developer
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4 profile">
+                <img data-src="holder.js/140x140"
+                     class="profilePictures img-circle" alt="Dennis"
+                     src='@routes.Assets.at("images/about/dennis.jpg")'>
+                <div class="profileText">
+                    <p>
+                        <strong>Dennis Weber</strong><br>Lead Backend Developer<br>
+                        <a href="https://www.xing.com/profile/Dennis_Weber61" target="_blank">XING</a>
+                    </p>
+                </div>
+            </div>
+        </div>
 
-<strong>Logo</strong>
-<p>Icon made by OCHA from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a></p>
-<strong>Background Image</strong>
-<p>Wallpaper made by sugarock99 from <a href="http://hdwallpapersfactory.com/high-definition-wallpaper/underwater-by-sugarock99-d36m8h9-desktop-hd-wallpaper-955955/">HDWallpapersFactory.com</a></p>
+        <div class="row">
+            <div class="col-md-4">
+                <h1>Legal Disclosure</h1>
+                <p>Information in accordance with section 5 TMG</p>
+                <p>Dennis Weber<br/>B&uuml;cklestra&szlig;e 9<br/>
+                    78467 Konstanz</p>
 
-<h3>Disclaimer</h3>Accountability for content<br/>The contents of our pages have been created with the utmost care. However, we cannot guarantee the contents' accuracy, completeness or topicality. According to statutory provisions, we are furthermore responsible for our own content on these web pages. In this context, please note that we are accordingly not obliged to monitor merely the transmitted or saved information of third parties, or investigate circumstances pointing to illegal activity. Our obligations to remove or block the use of information under generally applicable laws remain unaffected by this as per &sect;&sect; 8 to 10 of the Telemedia Act (TMG).<br/><br/>Accountability for links<br/>Responsibility for the content of external links (to web pages of third parties) lies solely with the operators of the linked pages. No violations were evident to us at the time of linking. Should any legal infringement become known to us, we will remove the respective link immediately.<br/><br/>Copyright<br/> Our web pages and their contents are subject to German copyright law. Unless expressly permitted by law (&sect; 44a et seq. of the copyright law), every form of utilizing, reproducing or processing works subject to copyright protection on our web pages requires the prior consent of the respective owner of the rights. Individual reproductions of a work are allowed only for private use, so must not serve either directly or indirectly for earnings. Unauthorized utilization of copyrighted works is punishable (&sect; 106 of the copyright law).<br/><br/><i>Quelle: </i><a href="http://www.twigg.de/haftungsausschlussimpressumenglisch.htm" target="_blank">twiggs translations Übersetzungsbüro</a><br/><br/>
-Google Analytics<br/>
-This website uses Google Analytics, a web analytics service provided by Google, Inc. (“Google”). Google Analytics uses “cookies”, which are text files placed on your computer, to help the website analyze how users use the site. The information generated by the cookie about your use of the website will be transmitted to and stored by Google on servers in the United States.<br>
+                <p>E-Mail: &#119;&#97;&#116;&#101;&#114;&#115;&#104;&#105;&#112;&#100;&#111;&#119;&#110;&#46;&#104;&#116;&#119;&#103;&#32;&#91;&#97;&#116;&#93;&#32;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</p>
+                <p>Webiste: <a href="http://watershipdown.herokuapp.com/" target="_blank">http://watershipdown.herokuapp.com/</a></p>
+            </div>
+            <div class="col-md-8">
+                <h1>Indication of source for images and graphics</h1>
+                <strong>Logo</strong>
+                <p>Icon made by OCHA from <a href="http://www.flaticon.com" target="_blank">www.flaticon.com</a></p>
+                <strong>Background Image</strong>
+                <p>Wallpaper made by sugarock99 from <a href="http://hdwallpapersfactory.com/high-definition-wallpaper/underwater-by-sugarock99-d36m8h9-desktop-hd-wallpaper-955955/" target="_blank">HDWallpapersFactory.com</a></p>
+            </div>
+        </div>
+        <br>
 
-In case IP-anonymisation is activated on this website, your IP address will be truncated within the area of Member States of the European Union or other parties to the Agreement on the European Economic Area. Only in exceptional cases the whole IP address will be first transfered to a Google server in the USA and truncated there.<br>
+        <h1>Disclaimer</h1>
 
-Google will use this information on behalf of the operator of this website for the purpose of evaluating your use of the website, compiling reports on website activity for website operators and providing them other services relating to website activity and internet usage.<br>
+        <h2>Accountability for content</h2>
+        <p>The contents of our pages have been created with the utmost care. However, we cannot guarantee the contents' accuracy, completeness or topicality. According to statutory provisions, we are furthermore responsible for our own content on these web pages. In this context, please note that we are accordingly not obliged to monitor merely the transmitted or saved information of third parties, or investigate circumstances pointing to illegal activity. Our obligations to remove or block the use of information under generally applicable laws remain unaffected by this as per &sect;&sect; 8 to 10 of the Telemedia Act (TMG).</p>
 
-The IP-address, that your Browser conveys within the scope of Google Analytics, will not be associated with any other data held by Google. You may refuse the use of cookies by selecting the appropriate settings on your browser, however please note that if you do this you may not be able to use the full functionality of this website. You can also opt-out from being tracked by Google Analytics with effect for the future by downloading and installing Google Analytics Opt-out Browser Addon for your current web browser: <a href="http://tools.google.com/dlpage/gaoptout?hl=en">http://tools.google.com/dlpage/gaoptout?hl=en</a>.<br>
+        <h2>Accountability for links</h2>
+        <p>Responsibility for the content of external links (to web pages of third parties) lies solely with the operators of the linked pages. No violations were evident to us at the time of linking. Should any legal infringement become known to us, we will remove the respective link immediately.</p>
 
-As an alternative to the browser Addon or within browsers on mobile devices, you can <a href="javascript:gaOptout()">click this link</a> in order to opt-out from being tracked by Google Analytics within this website in the future (the opt-out applies only for the browser in which you set it and within this domain). - See more at: http://rechtsanwalt-schwenke.de/google-analytics-rechtssicher-nutzen-anleitung-fuer-webmaster/#sthash.jLLgpAZg.dpuf. An opt-out cookie will be stored on your device, which means that you'll have to click this link again, if you delete your cookies.<br>
-</div>
+        <h2>Copyright</h2>
+        <p>Our web pages and their contents are subject to German copyright law. Unless expressly permitted by law (&sect; 44a et seq. of the copyright law), every form of utilizing, reproducing or processing works subject to copyright protection on our web pages requires the prior consent of the respective owner of the rights. Individual reproductions of a work are allowed only for private use, so must not serve either directly or indirectly for earnings. Unauthorized utilization of copyrighted works is punishable (&sect; 106 of the copyright law).</p>
+        <p class="small"><i>Source: </i><a href="http://www.twigg.de/haftungsausschlussimpressumenglisch.htm" target="_blank">twiggs translations Übersetzungsbüro</a><p>
+
+        <h2>Google Analytics</h2>
+        <p>This website uses Google Analytics, a web analytics service provided by Google, Inc. (“Google”). Google Analytics uses “cookies”, which are text files placed on your computer, to help the website analyze how users use the site. The information generated by the cookie about your use of the website will be transmitted to and stored by Google on servers in the United States.</p>
+        <p>In case IP-anonymisation is activated on this website, your IP address will be truncated within the area of Member States of the European Union or other parties to the Agreement on the European Economic Area. Only in exceptional cases the whole IP address will be first transfered to a Google server in the USA and truncated there.</p>
+        <p>Google will use this information on behalf of the operator of this website for the purpose of evaluating your use of the website, compiling reports on website activity for website operators and providing them other services relating to website activity and internet usage.</p>
+        <p>The IP-address, that your Browser conveys within the scope of Google Analytics, will not be associated with any other data held by Google. You may refuse the use of cookies by selecting the appropriate settings on your browser, however please note that if you do this you may not be able to use the full functionality of this website. You can also opt-out from being tracked by Google Analytics with effect for the future by downloading and installing Google Analytics Opt-out Browser Addon for your current web browser: <a href="http://tools.google.com/dlpage/gaoptout?hl=en" target="_blank">http://tools.google.com/dlpage/gaoptout?hl=en</a>.</p>
+        <p>As an alternative to the browser Addon or within browsers on mobile devices, you can <a href="javascript:gaOptout()">click this link</a> in order to opt-out from being tracked by Google Analytics within this website in the future (the opt-out applies only for the browser in which you set it and within this domain). - See more at: http://rechtsanwalt-schwenke.de/google-analytics-rechtssicher-nutzen-anleitung-fuer-webmaster/#sthash.jLLgpAZg.dpuf. An opt-out cookie will be stored on your device, which means that you'll have to click this link again, if you delete your cookies.</p>
+    </div>
 </section>
 
 <footer>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-4 col-md-offset-4 text-center">
-				<img class="htwg_logo img-responsive"
-					src='@routes.Assets.at("images/HTWG_Logo_negativ.png")'
-					alt="HTWG_Logo" />
-				<p class="small">A Web-Technology-Project at Hochschule Konstanz
-					Technik, Wirtschaft und Gestaltung - University of Applied Sciences</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4 text-center">
+                <img class="htwg_logo img-responsive"
+                     src='@routes.Assets.at("images/HTWG_Logo_negativ.png")'
+                     alt="HTWG_Logo" />
+                <p class="small">A Web-Technology-Project at Hochschule Konstanz
+                    Technik, Wirtschaft und Gestaltung - University of Applied Sciences</p>
 
-				<br>
-				<p class="small">&COPY; 2014 | Artur Bauer, Johannes
-					Dangelmaier, Dennis Weber</p>
-			</div>
-		</div>
-	</div>
+                <br>
+                <p class="small">&COPY; 2014 | Artur Bauer, Johannes
+                    Dangelmaier, Dennis Weber</p>
+            </div>
+        </div>
+    </div>
 </footer>
 
 }
